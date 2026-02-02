@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 public class InsertData {
 
-    private ArrayList<Makeitem> items = new ArrayList<>();
-    private int id = 1;
+    ArrayList<Product> items = new ArrayList<>();
 
-    public void addItem(String name, int quantity,double importPrice,double exportPrice) {
-        items.add(new Makeitem(id, name, quantity,importPrice,exportPrice));
-        id++;
+    void addItem(String category,String name,int quantity,double importPrice,int importDate,double exportPrice,int expiredDate) {
+        items.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
     }
 
-    public void deleteItem(int id){
+    void deleteItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.remove(i);
@@ -22,7 +20,7 @@ public class InsertData {
         }
     }
 
-    public void increaseItemByValue(int id,int value){
+    void increaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.get(i).quantity+=value;
@@ -30,7 +28,7 @@ public class InsertData {
             }
         }
     }
-    public void decreaseItemByValue(int id,int value){
+    void decreaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 if (items.get(i).quantity>=value){
@@ -45,7 +43,7 @@ public class InsertData {
         }
     }
 
-    public void increaseItem(int id){
+    void increaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.get(i).quantity++;
@@ -53,7 +51,7 @@ public class InsertData {
             }
         }
     }
-    public void decreaseItem(int id){
+    void decreaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 if (items.get(i).quantity>0){
@@ -67,7 +65,7 @@ public class InsertData {
         }
     }
 
-    public ArrayList<Makeitem> getItems() {
+    ArrayList<Product> getItems() {
         return items;
     }
 }

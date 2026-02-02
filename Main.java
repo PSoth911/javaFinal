@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 public class Main{
     Scanner sc = new Scanner(System.in);
-    public InsertData data = new InsertData();
-    public void demoAdd(){
-        data.addItem("Apple",10,2,3);
-        data.addItem("Banana",9,4,2);
-        data.addItem("Orange",8,3,6);
+    InsertData data = new InsertData();
+    void demoAdd(){
+        data.addItem("Fruit", "Apple", 10, 2.5, 20240101, 3.5, 20240201);
+
+        data.addItem("Drink", "Milk", 20, 1.2, 20240105, 2.0, 20240120);
+
+        data.addItem("Snack", "Biscuit", 50, 0.6, 20240110, 1.2, 20240610);
     }
     void run(){
         demoAdd();

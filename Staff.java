@@ -1,17 +1,15 @@
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Staff {
-     public void sellItem() {
+    void sellItem() {
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
-        ArrayList<Makeitem> items = data.getItems();
+        ArrayList<Product> items = data.getItems();
         boolean found = false;
 
-        for (Makeitem item : items) {
+        for (Product item : items) {
             if (item.name.equalsIgnoreCase(name)) {
                 found = true;
                 System.out.print("Enter quantity to sell: ");
@@ -34,15 +32,15 @@ public class Staff {
     }
 
     Scanner sc = new Scanner(System.in);
-    private InsertData data;
-    public Staff(InsertData data){
+    InsertData data;
+    Staff(InsertData data){
         this.data=data;
     }
-    public void viewProducts() {
-        ArrayList<Makeitem> items = data.getItems();
+    void viewProducts() {
+        ArrayList<Product> items = data.getItems();
         PrintData.printItems(items);
     }
-    public void start() {
+    void start() {
         int choice;
         do {
             System.out.println(">>>");

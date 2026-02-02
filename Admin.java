@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Admin{
 
-    public InsertData data;
+    InsertData data;
 
     public Admin(InsertData data){
         this.data=data;
@@ -15,31 +15,50 @@ public class Admin{
     Scanner sc = new Scanner(System.in);
 
 
-    public void viewProducts() {
-        ArrayList<Makeitem> items = data.getItems();
+    void viewProducts() {
+        ArrayList<Product> items = data.getItems();
         PrintData.printItems(items);
     }
 
     
 
-    private void adding(){
-        System.out.println("Please Input the name and quantity of product");
+    private void adding() {
+        System.out.println("Please input product information");
+
+        String category;
         String name;
-        int value;
-        int imp;
-        int exp;
-        System.out.print("Name >>");
+        int qty;
+        double importPrice;
+        int importDate;
+        double exportPrice;
+        int expireDate;
+
+        System.out.print("Category >> ");
+        category = sc.next();
+
+        System.out.print("Name >> ");
         name = sc.next();
-        System.out.print("Quantity >>");
-        value = sc.nextInt();
-        System.out.print("Import Price >>");
-        imp = sc.nextInt();
-        System.out.print("Export Price >>");
-        exp = sc.nextInt();
-        data.addItem(name,value,imp,exp);
+
+        System.out.print("Quantity >> ");
+        qty = sc.nextInt();
+
+        System.out.print("Import Price >> ");
+        importPrice = sc.nextDouble();
+
+        System.out.print("Import Date (YYYYMMDD) >> ");
+        importDate = sc.nextInt();
+
+        System.out.print("Export Price >> ");
+        exportPrice = sc.nextDouble();
+
+        System.out.print("Expire Date (YYYYMMDD) >> ");
+        expireDate = sc.nextInt();
+
+        data.addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
     }
 
-    private void deleting(){
+
+    void deleting(){
         System.out.println("Please Input the ID of product");
         int value;
         System.out.print("ID >>");
@@ -47,7 +66,7 @@ public class Admin{
         data.deleteItem(value);
     }
 
-    private void increasingByValue(){
+    void increasingByValue(){
         System.out.println("Please Input the ID and Increase value");
         int value;
         int inc;
@@ -58,7 +77,7 @@ public class Admin{
         data.increaseItemByValue(value,inc);
     }
 
-    private void decreasingByValue(){
+    void decreasingByValue(){
         System.out.println("Please Input the ID and Decrease value");
         int value;
         int dec;
@@ -69,7 +88,7 @@ public class Admin{
         data.decreaseItemByValue(value,dec);
     }
 
-    private void updateStock(){
+    void updateStock(){
         int choice;
         do{
             System.out.println(">>>");
@@ -108,7 +127,7 @@ public class Admin{
 
     }
 
-    public void start(){
+    void start(){
         int choice;
         System.out.println("\nWelcome Admin\n");
         do {
