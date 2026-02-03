@@ -52,10 +52,7 @@ public class Managestaff {
         String phoneNumber = sc.nextLine();
         System.out.print("Enter Email: ");
         String email= sc.nextLine();
-
-        
         StaffAccount s = new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString());
-        s.id=count++;
         Stafflist.add(s);
         System.out.println("New Staff Add Sucessfully...!"); 
     }
@@ -144,9 +141,6 @@ public class Managestaff {
 
         
     }
-    public ArrayList<StaffAccount> getStaffList() {
-    return Stafflist;  // This exposes the list so Staff can use it
-}
 
     
 

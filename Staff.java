@@ -13,7 +13,7 @@ public class Staff {
         String UserName=sc.nextLine();
         System.out.print("Enter The Password: ");
         String password=sc.nextLine();
-        for(StaffAccount s: manager.getStaffList()){
+        for(StaffAccount s: manager.Stafflist){
             if(s.username.equals(UserName)&&s.password.equals(password)){
                 return s;
             }

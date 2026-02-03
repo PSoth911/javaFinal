@@ -12,17 +12,11 @@ public class Admin{
         this.data = data;
         this.manager = manage;
     }
-    
     Scanner sc = new Scanner(System.in);
-
-
     void viewProducts() {
         ArrayList<Product> items = data.getItems();
         PrintData.printItems(items);
     }
-
-    
-
     private void adding() {
         System.out.println("Please input product information");
 
