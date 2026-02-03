@@ -57,6 +57,10 @@ public class Managestaff {
         System.out.println("New Staff Add Sucessfully...!"); 
     }
 
+    public void addStaff (String username,String password,String phoneNumber,String email){   
+        Stafflist.add(new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString()));
+    }
+
     void showStaffList() {
         System.out.println("--------------------------Staff Dashbaord------------------------");
         System.out.println("ID\tUsername\tPhone\t\tEMAIL\t\tDate Hired");

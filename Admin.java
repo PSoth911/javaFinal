@@ -8,11 +8,27 @@ public class Admin{
 
     InsertData data;
     Managestaff manager = new Managestaff();
-    Admin(InsertData data, Managestaff manage) {
+    AdminList adminList = new AdminList();
+    Admin(InsertData data, Managestaff manage,AdminList adminList) {
         this.data = data;
         this.manager = manage;
+        this.adminList=adminList;
     }
     Scanner sc = new Scanner(System.in);
+
+    AdminAccount adminLogin(){
+        System.out.print("Enter The Phone Number to Login : ");
+        String phoneNum=sc.nextLine();
+        System.out.print("Enter The Password : ");
+        String password=sc.nextLine();
+        for(AdminAccount adm: adminList.adminList){
+            if(adm.phoneNumber.equals(phoneNum)&&adm.password.equals(password)){
+                return adm;
+            }
+        }
+        return null;   
+    }
+
     void viewProducts() {  
         PrintData.printItems(data.items);
     }
@@ -123,34 +139,41 @@ public class Admin{
 
     void start(){
         int choice;
-        System.out.println("\nWelcome Admin\n");
-        do {
-            System.out.println(">>>");
-            System.out.println("1. Check Current Stock");
-            System.out.println("2. Update stock");
-            System.out.println("3. Manage Staff");
-            System.out.println("0. Back");
-            System.out.print("Enter option: ");
-            choice = sc.nextInt();
-            switch(choice) {
-                case 1:
-                    System.out.println("\n--- Check Current Stock ---");
-                    viewProducts();
-                    break;  
-                case 2:
-                    System.out.println("\nUpdate stock");
-                    updateStock();
-                    break;
-                case 3:
-                    manager.manageStaffMenu();
-                    break;
-                case 0:
-                    break;
-             default:
-                    System.out.println("Invalid option! Please choose 0-3.");
-            }
-            System.out.println();
-        
-        } while (choice!=0);
+        AdminAccount loggedIn = adminLogin();
+        if (loggedIn == null) {
+            System.out.println("Invalid username or password!");
+            return;
+        }else{
+            System.out.println("Login success!");
+            System.out.println("Welcome " + loggedIn.username);
+            do {
+                System.out.println(">>>");
+                System.out.println("1. Check Current Stock");
+                System.out.println("2. Update stock");
+                System.out.println("3. Manage Staff");
+                System.out.println("0. Back");
+                System.out.print("Enter option: ");
+                choice = sc.nextInt();
+                switch(choice) {
+                    case 1:
+                        System.out.println("\n--- Check Current Stock ---");
+                        viewProducts();
+                        break;  
+                    case 2:
+                        System.out.println("\nUpdate stock");
+                        updateStock();
+                        break;
+                    case 3:
+                        manager.manageStaffMenu();
+                        break;
+                    case 0:
+                        break;
+                default:
+                        System.out.println("Invalid option! Please choose 0-3.");
+                }
+                System.out.println();
+            
+            } while (choice!=0);
+        }
     }
 }
