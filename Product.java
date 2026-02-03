@@ -1,16 +1,17 @@
 public class Product{
+    static int count=1;
     int id;
     String category;
     String name;
     int quantity;
     double importPrice;
-    int importDate;
+    String importDate;
     double exportPrice;
-    int expiredDate;
+    String expiredDate;
 
 
-    public Product(String category,String name,int quantity,double importPrice,int importDate,double exportPrice,int expiredDate){
-        this.id=id++;
+    public Product(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate){
+        this.id=count++;
         this.category=category;
         this.name=name;
         this.quantity=quantity;

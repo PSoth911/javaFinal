@@ -6,11 +6,9 @@ public class Main{
     Scanner sc = new Scanner(System.in);
     InsertData data = new InsertData();
     void demoAdd(){
-        data.addItem("Fruit", "Apple", 10, 2.5, 20240101, 3.5, 20240201);
-
-        data.addItem("Drink", "Milk", 20, 1.2, 20240105, 2.0, 20240120);
-
-        data.addItem("Snack", "Biscuit", 50, 0.6, 20240110, 1.2, 20240610);
+        data.addItem("Fruit", "Apple", 10, 2.5, "01/02/2022", 3.5, "01/02/2022");
+        data.addItem("Drink", "Milk", 20, 1.2, "01/02/2022", 2.0, "01/02/2022");
+        data.addItem("Snack", "Biscuit", 50, 0.6, "01/02/2022", 1.2, "01/02/2022");
     }
     void run(){
         demoAdd();

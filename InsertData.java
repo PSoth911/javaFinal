@@ -6,7 +6,7 @@ public class InsertData {
 
     ArrayList<Product> items = new ArrayList<>();
 
-    void addItem(String category,String name,int quantity,double importPrice,int importDate,double exportPrice,int expiredDate) {
+    void addItem(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate) {
         items.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
     }
 
@@ -14,7 +14,7 @@ public class InsertData {
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.remove(i);
-                id--;
+                Product.count--;
                 break;
             }
         }

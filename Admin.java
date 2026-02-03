@@ -29,9 +29,9 @@ public class Admin{
         String name;
         int qty;
         double importPrice;
-        int importDate;
+        String importDate;
         double exportPrice;
-        int expireDate;
+        String expireDate;
 
         System.out.print("Category >> ");
         category = sc.next();
@@ -45,14 +45,14 @@ public class Admin{
         System.out.print("Import Price >> ");
         importPrice = sc.nextDouble();
 
-        System.out.print("Import Date (YYYYMMDD) >> ");
-        importDate = sc.nextInt();
+        System.out.print("Import Date (D/M/Y) >> ");
+        importDate = sc.next();
 
         System.out.print("Export Price >> ");
         exportPrice = sc.nextDouble();
 
-        System.out.print("Expire Date (YYYYMMDD) >> ");
-        expireDate = sc.nextInt();
+        System.out.print("Expire Date (D/M/Y) >> ");
+        expireDate = sc.next();
 
         data.addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
     }
