@@ -24,7 +24,7 @@ public class Staff {
     void sellItem() {
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
-        ArrayList<Product> items = data.getItems();
+        ArrayList<Product> items = data.items;
         boolean found = false;
         for (Product item : items) {
             if (item.name.equalsIgnoreCase(name)) {
@@ -50,7 +50,7 @@ public class Staff {
     Scanner sc = new Scanner(System.in);
     InsertData data;
     void viewProducts() {
-        ArrayList<Product> items = data.getItems();
+        ArrayList<Product> items = data.items;
         PrintData.printItems(items);
     }
     void start() {

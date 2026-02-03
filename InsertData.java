@@ -64,8 +64,4 @@ public class InsertData {
             }
         }
     }
-
-    ArrayList<Product> getItems() {
-        return items;
-    }
 }
