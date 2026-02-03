@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main{
     Scanner sc = new Scanner(System.in);
+    Managestaff manage = new Managestaff();
     InsertData data = new InsertData();
     void demoAdd(){
         data.addItem("Fruit", "Apple", 10, 2.5, "01/02/2022", 3.5, "01/02/2022");
@@ -22,10 +23,10 @@ public class Main{
             System.out.print("Please Enter an option To continue (0-2): ");
             choice = sc.nextInt();
             if (choice==1){
-                Admin admin = new Admin(data);
+                Admin admin = new Admin(data,manage);
                 admin.start();
             }else if(choice==2){
-                Staff staff = new Staff(data);
+                Staff staff = new Staff(manage,data);
                 staff.start();
             }else{
                 System.out.println("Exit");

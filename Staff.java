@@ -1,14 +1,31 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
 public class Staff {
+    ArrayList<StaffAccount> stafflist; 
+    Managestaff manager;
+    Staff(Managestaff manager, InsertData data) {
+        this.manager = manager;
+        this.data = data;
+    }
+    StaffAccount StaffLogin(){
+        System.out.print("Enter The user name to Login: ");
+        String UserName=sc.nextLine();
+        System.out.print("Enter The Password: ");
+        String password=sc.nextLine();
+        for(StaffAccount s: manager.getStaffList()){
+            if(s.username.equals(UserName)&&s.password.equals(password)){
+                return s;
+            }
+        }
+        return null;   
+    }
+
     void sellItem() {
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
         ArrayList<Product> items = data.getItems();
         boolean found = false;
-
         for (Product item : items) {
             if (item.name.equalsIgnoreCase(name)) {
                 found = true;
@@ -25,7 +42,6 @@ public class Staff {
                 break;
             }
         }
-
         if (!found) {
             System.out.println("Item not found!");
         }
@@ -33,15 +49,19 @@ public class Staff {
 
     Scanner sc = new Scanner(System.in);
     InsertData data;
-    Staff(InsertData data){
-        this.data=data;
-    }
     void viewProducts() {
         ArrayList<Product> items = data.getItems();
         PrintData.printItems(items);
     }
     void start() {
         int choice;
+        StaffAccount loggedIn = StaffLogin();
+        if (loggedIn == null) {
+            System.out.println("Invalid username or password!");
+            return;
+        }
+        System.out.println("Login success!");
+        System.out.println("Welcome " + loggedIn.username);
         do {
             System.out.println(">>>");
             System.out.println("1. View Items");
@@ -59,9 +79,6 @@ public class Staff {
                     break;
                 case 2:
                     sellItem();
-                    
-                    
-                    
                     break;
                 default:
                     System.out.println("Invalid option! Please choose 0-4.");

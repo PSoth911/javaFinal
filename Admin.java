@@ -7,9 +7,10 @@ import java.util.ArrayList;
 public class Admin{
 
     InsertData data;
-
-    public Admin(InsertData data){
-        this.data=data;
+    Managestaff manager = new Managestaff();
+    Admin(InsertData data, Managestaff manage) {
+        this.data = data;
+        this.manager = manage;
     }
     
     Scanner sc = new Scanner(System.in);
@@ -134,6 +135,7 @@ public class Admin{
             System.out.println(">>>");
             System.out.println("1. Check Current Stock");
             System.out.println("2. Update stock");
+            System.out.println("3. Manage Staff");
             System.out.println("0. Back");
             System.out.print("Enter option: ");
             choice = sc.nextInt();
@@ -145,6 +147,9 @@ public class Admin{
                 case 2:
                     System.out.println("\nUpdate stock");
                     updateStock();
+                    break;
+                case 3:
+                    manager.manageStaffMenu();
                     break;
                 case 0:
                     break;

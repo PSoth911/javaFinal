@@ -1,9 +1,5 @@
 
-
-
 import java.util.ArrayList;
-
-
 public class PrintData{
     static void printItems(ArrayList<Product> items){
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
