@@ -2,10 +2,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
-
 public class Admin{
-
     InsertData data;
     Managestaff manager = new Managestaff();
     AdminList adminList = new AdminList();

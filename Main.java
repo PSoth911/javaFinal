@@ -27,6 +27,7 @@ public class Main{
     void run(){
         demoAdd();
         demoAddAdmin();
+        demoAddStaff();
         int choice;
         do {
             System.out.println("=============Welcome To Stock Management System==============");
