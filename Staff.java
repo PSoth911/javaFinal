@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Staff {
     ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
     Managestaff manager=new Managestaff();
+    Order currentOrder = new Order();
     Staff(Managestaff manager, ManageProduct data) {
         this.manager = manager;
         this.data = data;
@@ -43,6 +44,7 @@ public class Staff {
                     item.quantity -= qty;
                     double totalPrice = qty * item.exportPrice;
                     System.out.println("Sold " + qty + " " + item.name + "(s). Total: $" + totalPrice);
+                    currentOrder.addItem(new OrderProduct(item.name, qty, item.exportPrice));
                 } else {
                     System.out.println("Not enough stock! Current stock: " + item.quantity);
                 }
@@ -86,6 +88,12 @@ public class Staff {
                     break;
                 case 2:
                     sellItem();
+                    break;
+                case 3:
+                    System.out.println("Update stock feature not implemented yet.");
+                    break;
+                case 4:
+                    currentOrder.printReceipt();
                     break;
                 default:
                     System.out.println("Invalid option! Please choose 0-4.");
