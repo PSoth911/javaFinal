@@ -1,12 +1,12 @@
 
 import java.util.Scanner;
-import java.util.ArrayList;
+
 
 public class Admin{
-    InsertData data;
+    ManageProduct data;
     Managestaff manager = new Managestaff();
     AdminList adminList = new AdminList();
-    Admin(InsertData data, Managestaff manage,AdminList adminList) {
+    Admin(ManageProduct data, Managestaff manage,AdminList adminList) {
         this.data = data;
         this.manager = manage;
         this.adminList=adminList;
@@ -27,7 +27,7 @@ public class Admin{
     }
 
     void viewProducts() {  
-        PrintData.printItems(data.items);
+        PrintProduct.printItems(data.items);
     }
     private void adding() {
         System.out.println("Please input product information");

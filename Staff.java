@@ -2,9 +2,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Staff {
-    ArrayList<StaffAccount> stafflist; 
-    Managestaff manager;
-    Staff(Managestaff manager, InsertData data) {
+    ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
+    Managestaff manager=new Managestaff();
+    Staff(Managestaff manager, ManageProduct data) {
         this.manager = manager;
         this.data = data;
     }
@@ -19,6 +19,13 @@ public class Staff {
             }
         }
         return null;   
+    }
+
+    void takeOrder(){
+        System.out.print("Enter item name to sell: ");
+        String name = sc.next();
+        System.out.print("Enter quantity to sell: ");
+        int qty = sc.nextInt();
     }
 
     void sellItem() {
@@ -48,10 +55,10 @@ public class Staff {
     }
 
     Scanner sc = new Scanner(System.in);
-    InsertData data;
+    ManageProduct data;
     void viewProducts() {
         ArrayList<Product> items = data.items;
-        PrintData.printItems(items);
+        PrintProduct.printItems(items);
     }
     void start() {
         int choice;

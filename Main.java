@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main{
     Scanner sc = new Scanner(System.in);
     Managestaff manage = new Managestaff();
-    InsertData data = new InsertData();
+    ManageProduct data = new ManageProduct();
     AdminList adminList = new AdminList();
 
     void demoAdd(){
@@ -51,7 +51,7 @@ public class Main{
         } while (choice!=0);
 
     }
-    public void main(String[] args){
+    public void main(String[] args){ 
         run();
     }
 }

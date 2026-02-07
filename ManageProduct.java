@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class InsertData {
+public class ManageProduct {
 
     ArrayList<Product> items = new ArrayList<>();
 

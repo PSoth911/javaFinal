@@ -1,6 +1,6 @@
 
 import java.util.ArrayList;
-public class PrintData{
+public class PrintProduct{
     static void printItems(ArrayList<Product> items){
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
         for (Product item : items){
