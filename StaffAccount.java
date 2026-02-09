@@ -1,18 +1,70 @@
 public class StaffAccount {
-    int id;        
-    static int count=1;      
-    String username;     
-    String password;     
-    String phoneNumber;
-    String email;  
-    String dateHired;     
+    private int id;        
+    private static int count=1;      
+    private String username;     
+    private String password;     
+    private String phoneNumber;
+    private String email;  
+    private String dateHired;     
 
     StaffAccount(String username, String password, String phoneNumber,String email, String dateHired) {
         this.id=count++;
-        this.username = username;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email=email;
+        this.setUsername(username);
+        this.setpassword(password);
+        this.setPhoneNumber(phoneNumber);
+        this.setEmail(email);
         this.dateHired = dateHired;
+    }
+    public int getId(){
+        return id;
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDateHired() {
+        return dateHired;
+    }
+    //user name at last 5 char include letter and numbers only
+    public void setUsername(String username) {
+        if (username.matches("^[A-Za-z0-9]{5,}$")) {
+            this.username = username;
+        }
+    }
+    //real email include @,gmail.com
+    public void setEmail(String email){
+        if (email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+            this.email = email;
+        }
+    }
+    public boolean checkPassword(String inputPassword) {
+        return password.equals(inputPassword);
+    }
+    public void setpassword(String oldpassword,String newpassword){
+        if(password.equals(oldpassword)){
+            this.password=newpassword;
+        }else{
+            System.out.println("Wrong Oldpassword..!");
+        }
+    }
+    // password must has 8 char include letter and number
+    private void setpassword(String password){
+        if(password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$"))
+            this.password=password;
+
+    }
+    //phoneNumebr has at least 8 digits
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber.matches("^\\d{8,}$")) {
+            this.phoneNumber=phoneNumber;
+        }
     }
 }

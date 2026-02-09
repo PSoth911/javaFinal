@@ -2,34 +2,34 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Staff {
-    ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
-    Managestaff manager=new Managestaff();
-    Order currentOrder = new Order();
-    Staff(Managestaff manager, ManageProduct data) {
+    public ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
+    private Managestaff manager=new Managestaff();
+    private Order currentOrder = new Order();
+    public Staff(Managestaff manager, ManageProduct data) {
         this.manager = manager;
         this.data = data;
     }
-    StaffAccount StaffLogin(){
+    public StaffAccount StaffLogin(){
         System.out.print("Enter The user name to Login: ");
         String UserName=sc.nextLine();
         System.out.print("Enter The Password: ");
         String password=sc.nextLine();
         for(StaffAccount s: manager.Stafflist){
-            if(s.username.equals(UserName)&&s.password.equals(password)){
+            if(s.getUsername().equals(UserName)&&s.checkPassword(password)){
                 return s;
             }
         }
         return null;   
     }
 
-    void takeOrder(){
+    public void takeOrder(){
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
         System.out.print("Enter quantity to sell: ");
         int qty = sc.nextInt();
     }
 
-    void sellItem() {
+    public void sellItem() {
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
         ArrayList<Product> items = data.items;
@@ -57,12 +57,12 @@ public class Staff {
     }
 
     Scanner sc = new Scanner(System.in);
-    ManageProduct data;
+    private ManageProduct data=new ManageProduct();
     void viewProducts() {
         ArrayList<Product> items = data.items;
         PrintProduct.printItems(items);
     }
-    void start() {
+    public void start() {
         int choice;
         StaffAccount loggedIn = StaffLogin();
         if (loggedIn == null) {
@@ -70,7 +70,7 @@ public class Staff {
             return;
         }
         System.out.println("Login success!");
-        System.out.println("Welcome " + loggedIn.username);
+        System.out.println("Welcome " + loggedIn.getUsername());
         do {
             System.out.println(">>>");
             System.out.println("1. View Items");

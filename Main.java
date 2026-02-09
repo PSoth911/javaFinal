@@ -19,9 +19,9 @@ public class Main{
     }
 
     void demoAddStaff(){
-        manage.addStaff("aaa","123","123","123@gmail.com");
-        manage.addStaff("bbb","456","456","456@gmail.com");
-        manage.addStaff("ccc","789","789","789@gmail.com");
+        manage.addStaff("RathhDaro","Pass1234","038273644","123@gmail.com");
+        manage.addStaff("Meassokpisey","Abcdef12","083293728","456@gmail.com");
+        manage.addStaff("Chanvatanaka","XyZ98765","028327327","789@gmail.com");
     }
 
     void run(){

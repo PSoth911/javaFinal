@@ -43,6 +43,25 @@ public class Managestaff {
             }
         } while (choice != 0);
     }
+    private boolean validstaffinput(String username, String password,String phoneNumber ,String email){
+        if (!username.matches("^[A-Za-z0-9]{5,}$")) {
+            System.out.println("ERROR: Username must be at least 5 characters (letters and numbers only).");
+            return false;
+        }
+        if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$")) {
+            System.out.println("ERROR: Password must be at least 8 characters and include letters and numbers.");
+            return false;
+        }
+        if (!phoneNumber.matches("^\\d{8,}$")) {
+            System.out.println("ERROR: Phone number must be at least 8 digits.");
+            return false;
+        }
+        if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+            System.out.println("ERROR: Email must be a valid Gmail address.");
+            return false;
+        }
+        return true;
+    }
     public void addStaff (){
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
@@ -52,6 +71,10 @@ public class Managestaff {
         String phoneNumber = sc.nextLine();
         System.out.print("Enter Email: ");
         String email= sc.nextLine();
+        if (!validstaffinput(username, password, phoneNumber, email)) {
+            System.out.println("Staff NOT added.");
+            return;
+        }
         StaffAccount s = new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString());
         Stafflist.add(s);
         System.out.println("New Staff Add Sucessfully...!"); 
@@ -61,48 +84,51 @@ public class Managestaff {
         Stafflist.add(new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString()));
     }
 
-    void showStaffList() {
-        System.out.println("--------------------------Staff Dashbaord------------------------");
-        System.out.println("ID\tUsername\tPhone\t\tEMAIL\t\tDate Hired");
-        System.out.println("-----------------------------------------------------------------");
+    private void showStaffList() {
+        System.out.println("------------------------------------Staff Dashbaord-------------------------------");
+        System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tDate Hired");
+        System.out.println("----------------------------------------------------------------------------------");
         for (StaffAccount s : Stafflist) {
-            System.out.println(s.id + "\t" 
-                               + s.username + "\t\t" 
-                               + s.phoneNumber + "\t\t" 
-                               +s.email+"\t\t"
-                               + s.dateHired);
+            System.out.println(s.getId() + "\t" 
+                               + s.getUsername() + "\t\t" 
+                               + s.getPhoneNumber() + "\t\t" 
+                               +s.getEmail()+"\t\t"
+                               + s.getDateHired());
         }
     }
-    StaffAccount findStaffbyID(int id){
+    private StaffAccount findStaffbyID(int id){
         for( StaffAccount s:Stafflist){
-            if(s.id==id){
+            if(s.getId()==id){
                 return s;
             }
         }
         return null;
     }
 
-    void SearchStaff(){
+    private void SearchStaff(){
+        boolean check=false;
         System.out.println("Enter UserName Staff That you Want to search:");
         String name=sc.nextLine();
         System.out.println("Enter Phone Number Staff That you Want to search:");
         String phone=sc.nextLine();
         for(StaffAccount s:Stafflist){
-            if(s.username.equals(name)&&s.phoneNumber.equals(phone)){
-                System.out.println("-----------------------------------------------------------------");
-                System.out.println("ID\tUsername\tPhone\t\tEMAIL\t\tDate Hired");
-                System.out.println(s.id + "\t" 
-                               + s.username + "\t\t" 
-                               + s.phoneNumber + "\t\t" 
-                               +s.email+"\t\t"
-                               + s.dateHired);
-            }else{
+            if(s.getUsername().equals(name)&&s.getPhoneNumber().equals(phone)){
+                System.out.println("----------------------------------------------------------------------------------");
+                System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tDate Hired");
+                System.out.println(s.getId() + "\t" 
+                               + s.getUsername() + "\t\t" 
+                               + s.getPhoneNumber() + "\t\t" 
+                               +s.getEmail()+"\t\t"
+                               + s.getDateHired());
+                               check=true;
+            }
+            if(check!=true){
                 System.out.println("Staff not found...!");
             }
         }
         
     }
-    void updateStaff(){
+    private void updateStaff(){
         showStaffList();
         System.out.println("Enter THe StaffID to Update:");
         int id=sc.nextInt();
@@ -110,28 +136,45 @@ public class Managestaff {
         StaffAccount staff = findStaffbyID(id);
 
         if (staff != null) {
-            System.out.print("Enter new Username: ");
-            staff.username=sc.nextLine();
-            System.out.print("Enter new Password: ");
-            staff.password=sc.nextLine();
-            System.out.print("Enter new phone number: ");
-            staff.phoneNumber=sc.nextLine();
-            System.out.println("Enter New Email:");
-            staff.email=sc.nextLine();
-            System.out.println("Staff updated....!");
+            System.out.print("New username: ");
+            String username = sc.nextLine();
+
+            System.out.print("New phone number: ");
+            String phone = sc.nextLine();
+
+            System.out.print("New email: ");
+            String email = sc.nextLine();
+            if (!validstaffinput(username, "Temp1234", phone, email)) {
+                System.out.println("Update failed due to invalid input.");
+                return;
+             }
+
+            staff.setUsername(username);
+            staff.setPhoneNumber(phone);
+            staff.setEmail(email);
+            
+            System.out.print("Enter old password: ");
+            String oldPass = sc.nextLine();
+
+            System.out.print("Enter new password: ");
+            String newPass = sc.nextLine();
+
+            staff.setpassword(oldPass, newPass);
+            System.out.println("Staff updated successfully!");
         } else {
-            System.out.println("Staff not found!");
+        System.out.println("Staff not found!");
         }
     }
 
-    void removeStaff(){
+    private void removeStaff(){
         showStaffList();
         System.out.println("Enter THe StaffID to Update:");
         int id=sc.nextInt();
         sc.nextLine();
         StaffAccount staff = findStaffbyID(id);
          if (staff != null) {
-            System.out.println("Are you sure you want to remove " + staff.username + "? (Y/N)");
+            System.out.println("Are you sure you want to remove " + staff.getUsername()
+             + "? (Y/N)");
             String confirm = sc.nextLine();
                 if (confirm.equalsIgnoreCase("Y")) {
                     Stafflist.remove(staff);
