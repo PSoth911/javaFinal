@@ -35,18 +35,18 @@ public class Staff {
         ArrayList<Product> items = data.items;
         boolean found = false;
         for (Product item : items) {
-            if (item.name.equalsIgnoreCase(name)) {
+            if (item.getName().equalsIgnoreCase(name)) {
                 found = true;
                 System.out.print("Enter quantity to sell: ");
                 int qty = sc.nextInt();
 
-                if (qty <= item.quantity) {
-                    item.quantity -= qty;
-                    double totalPrice = qty * item.exportPrice;
-                    System.out.println("Sold " + qty + " " + item.name + "(s). Total: $" + totalPrice);
-                    currentOrder.addItem(new OrderProduct(item.name, qty, item.exportPrice));
+                if (qty <= item.getQuantity()) {
+                    item.setQuantity(item.getQuantity() - qty);
+                    double totalPrice = qty * item.getExportPrice();
+                    System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
+                    currentOrder.addItem(new OrderProduct(item.getName(), qty, item.getExportPrice()));
                 } else {
-                    System.out.println("Not enough stock! Current stock: " + item.quantity);
+                    System.out.println("Not enough stock! Current stock: " + item.getQuantity());
                 }
                 break;
             }

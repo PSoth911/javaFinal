@@ -10,7 +10,7 @@ public class ManageProduct {
 
     public void deleteItem(int id){
        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id== id) {
+            if (items.get(i).getId()== id) {
                 items.remove(i);
                 Product.count--;
                 break;
@@ -20,19 +20,19 @@ public class ManageProduct {
 
     public void increaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id== id) {
-                items.get(i).quantity+=value;
+            if (items.get(i).getId()== id) {
+                items.get(i).setQuantity(items.get(i).getQuantity() + value);
                 break;
             }
         }
     }
     public void decreaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id== id) {
-                if (items.get(i).quantity>=value){
-                    items.get(i).quantity-=value;
+            if (items.get(i).getId()== id) {
+                if (items.get(i).getQuantity()>=value){
+                    items.get(i).setQuantity(items.get(i).getQuantity() - value);
                     break;
-                }else if(items.get(i).quantity==0){
+                }else if(items.get(i).getQuantity()==0){
                     System.out.println("Item is zero");
                 }else{
                     System.out.println("Item's quantity < Decrease");
@@ -43,17 +43,17 @@ public class ManageProduct {
 
     public void increaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id== id) {
-                items.get(i).quantity++;
+            if (items.get(i).getId()== id) {
+                items.get(i).setQuantity(items.get(i).getQuantity() + 1);
                 break;
             }
         }
     }
     public void decreaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id== id) {
-                if (items.get(i).quantity>0){
-                    items.get(i).quantity--;
+            if (items.get(i).getId()== id) {
+                if (items.get(i).getQuantity()>0){
+                    items.get(i).setQuantity(items.get(i).getQuantity() - 1);
                     break;
                 }else{
                     System.out.println("Item's quantity is 0");
@@ -66,7 +66,7 @@ public class ManageProduct {
     public static void printItems(ArrayList<Product> items){
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
         for (Product item : items){
-            System.out.println(item.id + "\t" +item.category + "\t\t" + item.name + "\t" + item.quantity+ "\t\t" + item.importPrice+ "\t\t" +item.importDate+ "\t\t" + item.exportPrice + "\t\t" + item.expiredDate);
+            System.out.println(item.getId() + "\t" +item.getCategory() + "\t\t" + item.getName() + "\t" + item.getQuantity()+ "\t\t" + item.getImportPrice()+ "\t\t" +item.getImportDate()+ "\t\t" + item.getExportPrice() + "\t\t" + item.getExpiredDate());
         }
     }
 }
