@@ -60,7 +60,7 @@ public class Staff {
     private ManageProduct data=new ManageProduct();
     void viewProducts() {
         ArrayList<Product> items = data.items;
-        PrintProduct.printItems(items);
+        ManageProduct.printItems(items);
     }
     public void start() {
         int choice;

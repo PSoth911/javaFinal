@@ -1,13 +1,55 @@
 public class AdminAccount {     
     String username;     
-    String password;     
-    String phoneNumber;
-    String email;    
+    private String password;     
+    private String phoneNumber;
+    private String email;    
 
     AdminAccount(String username, String password, String phoneNumber,String email) {
-        this.username = username;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email=email;
+        this.setUsername(username);
+        this.setpassword(password);
+        this.setPhoneNumber(phoneNumber);
+        this.setEmail(email);
     }
+    
+    public String getUsername() {
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+
+    public void setUsername(String username) {
+        if (username.matches("^[A-Za-z0-9]{5,}$")) {
+            this.username = username;
+        }
+    }
+    public boolean checkPassword(String inputPassword) {
+        return password.equals(inputPassword);
+    }
+    public void resetPassword(String oldpassword,String newpassword){
+        if(password.equals(oldpassword)){
+            this.password=newpassword;
+        }else{
+            System.out.println("Wrong Oldpassword..!");
+        }
+    }
+    private void setpassword(String password){
+        if(password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$"))
+            this.password=password;
+
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 }

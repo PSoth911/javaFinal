@@ -3,31 +3,31 @@ import java.util.Scanner;
 
 
 public class Admin{
-    ManageProduct data;
-    Managestaff manager = new Managestaff();
-    AdminList adminList = new AdminList();
-    Admin(ManageProduct data, Managestaff manage,AdminList adminList) {
+    public ManageProduct data;
+    private Managestaff manager = new Managestaff();
+    private AdminList adminList = new AdminList();
+    public Admin(ManageProduct data, Managestaff manage,AdminList adminList) {
         this.data = data;
         this.manager = manage;
         this.adminList=adminList;
     }
     Scanner sc = new Scanner(System.in);
 
-    AdminAccount adminLogin(){
+    public AdminAccount adminLogin(){
         System.out.print("Enter The Phone Number to Login : ");
         String phoneNum=sc.nextLine();
         System.out.print("Enter The Password : ");
         String password=sc.nextLine();
         for(AdminAccount adm: adminList.adminList){
-            if(adm.phoneNumber.equals(phoneNum)&&adm.password.equals(password)){
+            if(adm.getPhoneNumber().equals(phoneNum)&&adm.getPassword().equals(password)){
                 return adm;
             }
         }
         return null;   
     }
 
-    void viewProducts() {  
-        PrintProduct.printItems(data.items);
+    public void viewProducts() {  
+        ManageProduct.printItems(data.items);
     }
     private void adding() {
         System.out.println("Please input product information");
@@ -65,7 +65,7 @@ public class Admin{
     }
 
 
-    void deleting(){
+    private void deleting(){
         System.out.println("Please Input the ID of product");
         int value;
         System.out.print("ID >>");
@@ -73,7 +73,7 @@ public class Admin{
         data.deleteItem(value);
     }
 
-    void increasingByValue(){
+    private void increasingByValue(){
         System.out.println("Please Input the ID and Increase value");
         int value;
         int inc;
@@ -84,7 +84,7 @@ public class Admin{
         data.increaseItemByValue(value,inc);
     }
 
-    void decreasingByValue(){
+    private void decreasingByValue(){
         System.out.println("Please Input the ID and Decrease value");
         int value;
         int dec;
@@ -95,7 +95,7 @@ public class Admin{
         data.decreaseItemByValue(value,dec);
     }
 
-    void updateStock(){
+    private void updateStock(){
         int choice;
         do{
             System.out.println(">>>");
@@ -134,7 +134,7 @@ public class Admin{
 
     }
 
-    void start(){
+    public void start(){
         int choice;
         AdminAccount loggedIn = adminLogin();
         if (loggedIn == null) {
@@ -142,7 +142,7 @@ public class Admin{
             return;
         }else{
             System.out.println("Login success!");
-            System.out.println("Welcome " + loggedIn.username);
+            System.out.println("Welcome " + loggedIn.getUsername());
             do {
                 System.out.println(">>>");
                 System.out.println("1. Check Current Stock");

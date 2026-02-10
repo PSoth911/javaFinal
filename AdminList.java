@@ -9,7 +9,7 @@ public class AdminList{
 
     void printAdmin(){
         for (AdminAccount a : adminList){
-            System.out.print(a.username+"\t"+a.password+"\t"+a.phoneNumber+"\t"+a.email);
+            System.out.print(a.getUsername()+"\t"+a.getPassword()+"\t"+a.getPhoneNumber()+"\t"+a.getEmail());
         }
     }
     

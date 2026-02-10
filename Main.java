@@ -15,7 +15,7 @@ public class Main{
     }
 
     void demoAddAdmin(){
-        adminList.addAdminAcc("admin","123","123","123");
+        adminList.addAdminAcc("Admin1", "Pass1234", "0123456789", "admin1@gmail.com");
     }
 
     void demoAddStaff(){

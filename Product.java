@@ -1,13 +1,13 @@
 public class Product{
     static int count=1;
-    int id;
-    String category;
-    String name;
-    int quantity;
-    double importPrice;
-    String importDate;
-    double exportPrice;
-    String expiredDate;
+    public int id;
+    public String category;
+    public String name;
+    public int quantity;
+    public double importPrice;
+    public String importDate;
+    public double exportPrice;
+    public String expiredDate;
 
 
     public Product(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate){
