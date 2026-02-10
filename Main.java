@@ -62,7 +62,7 @@ public class Main{
         } while (choice!=0);
 
     }
-    public void main(String[] args){ 
-        run();
+    public static void main(String[] args){ 
+        new Main().run();
     }
 }
