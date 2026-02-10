@@ -1,12 +1,13 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Admin{
     public ManageProduct data;
     private Managestaff manager = new Managestaff();
-    private AdminList adminList = new AdminList();
-    public Admin(ManageProduct data, Managestaff manage,AdminList adminList) {
+    private ArrayList<AdminAccount> adminList = new ArrayList<>();
+    public Admin(ManageProduct data, Managestaff manage,ArrayList<AdminAccount> adminList) {
         this.data = data;
         this.manager = manage;
         this.adminList=adminList;
@@ -18,7 +19,7 @@ public class Admin{
         String phoneNum=sc.nextLine();
         System.out.print("Enter The Password : ");
         String password=sc.nextLine();
-        for(AdminAccount adm: adminList.adminList){
+        for(AdminAccount adm: adminList){
             if(adm.getPhoneNumber().equals(phoneNum)&&adm.getPassword().equals(password)){
                 return adm;
             }

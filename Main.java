@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -6,7 +7,17 @@ public class Main{
     Scanner sc = new Scanner(System.in);
     Managestaff manage = new Managestaff();
     ManageProduct data = new ManageProduct();
-    AdminList adminList = new AdminList();
+    ArrayList<AdminAccount> adminList = new ArrayList<>();
+
+    void addAdminAcc(String username, String password, String phoneNumber,String email){
+        adminList.add(new AdminAccount(username,password,phoneNumber,email));
+    }
+
+    void printAdmin(){
+        for (AdminAccount a : adminList){
+            System.out.print(a.getUsername()+"\t"+a.getPassword()+"\t"+a.getPhoneNumber()+"\t"+a.getEmail());
+        }
+    }
 
     void demoAdd(){
         data.addItem("Fruit", "Apple", 10, 2.5, "01/02/2022", 3.5, "01/02/2022");
@@ -15,7 +26,7 @@ public class Main{
     }
 
     void demoAddAdmin(){
-        adminList.addAdminAcc("Admin1", "Pass1234", "0123456789", "admin1@gmail.com");
+        addAdminAcc("Admin1", "Pass1234", "0123456789", "admin1@gmail.com");
     }
 
     void demoAddStaff(){
