@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class ManageProduct {
 
-    ArrayList<Product> items = new ArrayList<>();
+    public ArrayList<Product> items = new ArrayList<>();
 
-    void addItem(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate) {
+    public void addItem(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate) {
         items.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
     }
 
-    void deleteItem(int id){
+    public void deleteItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.remove(i);
@@ -18,7 +18,7 @@ public class ManageProduct {
         }
     }
 
-    void increaseItemByValue(int id,int value){
+    public void increaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.get(i).quantity+=value;
@@ -26,7 +26,7 @@ public class ManageProduct {
             }
         }
     }
-    void decreaseItemByValue(int id,int value){
+    public void decreaseItemByValue(int id,int value){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 if (items.get(i).quantity>=value){
@@ -41,7 +41,7 @@ public class ManageProduct {
         }
     }
 
-    void increaseItem(int id){
+    public void increaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 items.get(i).quantity++;
@@ -49,7 +49,7 @@ public class ManageProduct {
             }
         }
     }
-    void decreaseItem(int id){
+    public void decreaseItem(int id){
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).id== id) {
                 if (items.get(i).quantity>0){
@@ -63,7 +63,7 @@ public class ManageProduct {
         }
     }
 
-    static void printItems(ArrayList<Product> items){
+    public static void printItems(ArrayList<Product> items){
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
         for (Product item : items){
             System.out.println(item.id + "\t" +item.category + "\t\t" + item.name + "\t" + item.quantity+ "\t\t" + item.importPrice+ "\t\t" +item.importDate+ "\t\t" + item.exportPrice + "\t\t" + item.expiredDate);
