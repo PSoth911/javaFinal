@@ -1,3 +1,4 @@
+package order;
 public class OrderProduct {
 
     private String productName;

@@ -1,6 +1,10 @@
+package admin;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import staff.Managestaff;
+import product.ManageProduct;
 
 
 public class Admin{
@@ -20,7 +24,7 @@ public class Admin{
         System.out.print("Enter The Password : ");
         String password=sc.nextLine();
         for(AdminAccount adm: adminList){
-            if(adm.getPhoneNumber().equals(phoneNum)&&adm.getPassword().equals(password)){
+            if(adm.checkPhonenumber(phoneNum)&&adm.checkPassword(password)){
                 return adm;
             }
         }

@@ -1,3 +1,4 @@
+package staff;
 public class StaffAccount {
     private int id;        
     private static int count=1;      

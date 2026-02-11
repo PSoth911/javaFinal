@@ -1,3 +1,4 @@
+package staff;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,7 +7,7 @@ public class Managestaff {
     ArrayList<StaffAccount> Stafflist= new  ArrayList<>();
     Scanner sc = new Scanner(System.in);
     int count=1;
-    void manageStaffMenu() {
+    public void manageStaffMenu() {
         int choice;
         do {
             System.out.println("\n=== Manage Staff Menu ===");

@@ -1,9 +1,14 @@
-
+package main;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import admin.Admin;
+import admin.AdminAccount;
+import product.ManageProduct;
+import staff.Managestaff;
+import staff.Staff;
 
-public class Main{
+public class StockManagement {
     Scanner sc = new Scanner(System.in);
     Managestaff manage = new Managestaff();
     ManageProduct data = new ManageProduct();
@@ -11,12 +16,6 @@ public class Main{
 
     void addAdminAcc(String username, String password, String phoneNumber,String email){
         adminList.add(new AdminAccount(username,password,phoneNumber,email));
-    }
-
-    void printAdmin(){
-        for (AdminAccount a : adminList){
-            System.out.print(a.getUsername()+"\t"+a.getPassword()+"\t"+a.getPhoneNumber()+"\t"+a.getEmail());
-        }
     }
 
     void demoAdd(){
@@ -62,7 +61,6 @@ public class Main{
         } while (choice!=0);
 
     }
-    public static void main(String[] args){ 
-        new Main().run();
-    }
+
+    
 }

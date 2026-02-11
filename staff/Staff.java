@@ -1,6 +1,12 @@
+package staff;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import order.Order;
+import order.OrderProduct;
+import product.ManageProduct;
+import product.Product;
 public class Staff {
     public ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
     private Managestaff manager=new Managestaff();
@@ -20,13 +26,6 @@ public class Staff {
             }
         }
         return null;   
-    }
-
-    public void takeOrder(){
-        System.out.print("Enter item name to sell: ");
-        String name = sc.next();
-        System.out.print("Enter quantity to sell: ");
-        int qty = sc.nextInt();
     }
 
     public void sellItem() {
