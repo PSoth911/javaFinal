@@ -12,7 +12,6 @@ public class ManageProduct {
        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getId()== id) {
                 items.remove(i);
-                Product.count--;
                 break;
             }
         }

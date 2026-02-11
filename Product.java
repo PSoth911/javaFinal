@@ -1,5 +1,5 @@
 public class Product{
-    public static int count=1;
+    private static int count=1;
     private int id;
     private String category;
     private String name;
@@ -21,7 +21,6 @@ public class Product{
        this.setExpiredDate(expiredDate);
     }
 
-    
     
     public void setId() {
         this.id = count++;
@@ -48,7 +47,6 @@ public class Product{
         this.expiredDate = expiredDate;
     }
 
-    
     public int getId() {
         return id;
     }
