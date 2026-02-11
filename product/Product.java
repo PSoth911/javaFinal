@@ -33,16 +33,22 @@ public class Product{
         this.name = name;
     }
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        if (quantity >= 0) {
+            this.quantity = quantity;
+        }
     }
     public void setImportPrice(double importPrice) {
-        this.importPrice = importPrice;
+        if (importPrice > 0) {
+            this.importPrice = importPrice;
+        }
     }
     public void setImportDate(String importDate) {
         this.importDate = importDate;
     }
     public void setExportPrice(double exportPrice) {
-        this.exportPrice = exportPrice;
+        if (exportPrice > 0) {
+            this.exportPrice = exportPrice;
+        }
     }
     public void setExpiredDate(String expiredDate) {
         this.expiredDate = expiredDate;
