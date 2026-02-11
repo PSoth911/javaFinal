@@ -15,6 +15,9 @@ public class AdminAccount {
     public String getUsername() {
         return username;
     }
+    public String getEmail() {
+        return email;
+    }
     
 
     public void setUsername(String username) {
@@ -37,7 +40,7 @@ public class AdminAccount {
             System.out.println("Wrong Oldpassword..!");
         }
     }
-    
+
     private void setpassword(String password){
         if(password.matches("^(?=.*[A-Za-z])(?=.*\\d).{8,}$"))
             this.password=password;
