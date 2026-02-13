@@ -1,11 +1,16 @@
 package product;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ManageProduct {
 
     public ArrayList<Product> items = new ArrayList<>();
 
-    public void addItem(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate) {
+    public void addItem(String category,String name,int quantity,double importPrice,String importDateStr,double exportPrice,String expiredDateStr) {
+        DateTimeFormatter convert = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate importDate = LocalDate.parse(importDateStr,convert);
+        LocalDate expiredDate = LocalDate.parse(expiredDateStr,convert);
         items.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
     }
 

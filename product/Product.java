@@ -1,4 +1,7 @@
 package product;
+
+import java.time.LocalDate;
+
 public class Product{
     private static int count=1;
     private int id;
@@ -6,12 +9,12 @@ public class Product{
     private String name;
     private int quantity;
     private double importPrice;
-    private String importDate;
+    private LocalDate importDate;
     private double exportPrice;
-    private String expiredDate;
+    private LocalDate expiredDate;
 
 
-    public Product(String category,String name,int quantity,double importPrice,String importDate,double exportPrice,String expiredDate){
+    public Product(String category,String name,int quantity,double importPrice,LocalDate importDate,double exportPrice,LocalDate expiredDate){
        this.setId();
        this.setCategory(category);
        this.setName(name);
@@ -42,7 +45,7 @@ public class Product{
             this.importPrice = importPrice;
         }
     }
-    public void setImportDate(String importDate) {
+    public void setImportDate(LocalDate importDate) {
         this.importDate = importDate;
     }
     public void setExportPrice(double exportPrice) {
@@ -50,7 +53,7 @@ public class Product{
             this.exportPrice = exportPrice;
         }
     }
-    public void setExpiredDate(String expiredDate) {
+    public void setExpiredDate(LocalDate expiredDate) {
         this.expiredDate = expiredDate;
     }
 
@@ -69,13 +72,13 @@ public class Product{
     public double getImportPrice() {
         return importPrice;
     }
-    public String getImportDate() {
+    public LocalDate getImportDate() {
         return importDate;
     }
     public double getExportPrice() {
         return exportPrice;
     }
-    public String getExpiredDate() {
+    public LocalDate getExpiredDate() {
         return expiredDate;
     }
 
