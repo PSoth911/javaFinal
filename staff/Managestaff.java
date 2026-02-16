@@ -140,27 +140,29 @@ public class Managestaff {
             System.out.print("New username: ");
             String username = sc.nextLine();
 
+            System.out.println("Enter oldUsername");
+            String oldusername=sc.nextLine();
+
+            System.out.println("Enter password of this Staff");
+            String password= sc.nextLine();
+
+
             System.out.print("New phone number: ");
             String phone = sc.nextLine();
 
             System.out.print("New email: ");
             String email = sc.nextLine();
-            if (!validstaffinput(username, "Temp1234", phone, email)) {
+            if (!validstaffinput(username,password, phone, email)) {
                 System.out.println("Update failed due to invalid input.");
                 return;
              }
-
-            staff.setUsername(username);
-            staff.setPhoneNumber(phone);
-            staff.setEmail(email);
-            
-            System.out.print("Enter old password: ");
-            String oldPass = sc.nextLine();
-
+            staff.setUsername(username,oldusername,password);
+            staff.setPhoneNumber(phone,password);
+            staff.setEmail(email,password);
             System.out.print("Enter new password: ");
             String newPass = sc.nextLine();
 
-            staff.setpassword(oldPass, newPass);
+            staff.setpassword(password, newPass);
             System.out.println("Staff updated successfully!");
         } else {
         System.out.println("Staff not found!");

@@ -55,6 +55,70 @@ public class Staff {
         }
     }
 
+    private void ManageAccount(StaffAccount account){
+        int choice=0;
+        do {
+            System.out.println(">>>");
+            System.out.println("1. Change Username");
+            System.out.println("2. Change password");
+            System.out.println("3. Change PhoneNUmber");
+            System.out.println("4. Change Email");
+            System.out.println("0. Exit ...! ");
+            System.out.print("Enter Option to continuse:");
+            choice=sc.nextInt();
+            sc.nextLine();
+        switch (choice) {
+            case 0:
+                System.out.println("Exit......!");
+                break;
+             case 1:
+                System.out.println("Enter your Old username:");
+                String username= sc.nextLine();
+                System.out.println("Enter Password:");
+                String password=sc.nextLine();
+                System.out.print("Enter new username: ");
+                String newUsername = sc.nextLine();
+                account.setUsername(newUsername,username,password);
+                break;
+
+            case 2:
+                System.out.print("Enter old password: ");
+                String oldPass = sc.nextLine();
+
+                System.out.print("Enter new password: ");
+                String newPass = sc.nextLine();
+                account.setpassword(oldPass, newPass);
+                break;
+
+            case 3:
+                System.out.print("Enter new phone number: ");
+                String newPhone = sc.nextLine();
+
+                System.out.println("Enter password:");
+                String Ppassword=sc.nextLine();
+                account.setPhoneNumber(newPhone,Ppassword);
+                System.out.println("Phone updated.");
+                break;
+
+            case 4:
+                System.out.print("Enter new email: ");
+                String newEmail = sc.nextLine();
+
+                System.out.println("Enter password:");
+                String Epassword=sc.nextLine();
+                account.setEmail(newEmail,Epassword);
+                System.out.println("Email updated.");
+                break;   
+            default:
+                System.out.println("Invalid Option>>...!");
+                break;
+        }
+
+            
+
+        } while (choice!=0);
+    }
+
     Scanner sc = new Scanner(System.in);
     private ManageProduct data=new ManageProduct();
     void viewProducts() {
@@ -76,6 +140,7 @@ public class Staff {
             System.out.println("2. Sell Items");
             System.out.println("3. Update Stock");
             System.out.println("4. View Receipt");
+            System.out.println("5. Manage account");
             System.out.println("0. Back");
             System.out.print("Enter option: ");
             choice = sc.nextInt();
@@ -93,6 +158,9 @@ public class Staff {
                     break;
                 case 4:
                     currentOrder.printReceipt();
+                    break;
+                case 5: 
+                    ManageAccount(loggedIn);
                     break;
                 default:
                     System.out.println("Invalid option! Please choose 0-4.");
