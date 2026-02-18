@@ -20,9 +20,9 @@ public class StockManagement {
     }
 
     void demoAdd(){
-        data.addItem("Fruit", "Apple", 10, 2.5, "01/02/2022", 3.5, "01/02/2022");
-        data.addItem("Drink", "Milk", 20, 1.2, "01/02/2022", 2.0, "01/02/2022");
-        data.addItem("Snack", "Biscuit", 50, 0.6, "01/02/2022", 1.2, "01/02/2022");
+        data.addItem("Fruit", "Apple", 10, 2.5, "01/02/2022", 3.5, "18/02/2026");
+        data.addItem("Drink", "Milk", 20, 1.2, "01/02/2022", 2.0, "19/02/2026");
+        data.addItem("Snack", "Biscuit", 50, 0.6, "01/02/2022", 1.2, "20/02/2026");
     }
 
     void demoAddAdmin(){

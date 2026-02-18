@@ -12,6 +12,7 @@ public class Product{
     private LocalDate importDate;
     private double exportPrice;
     private LocalDate expiredDate;
+    private double discount;
 
 
     public Product(String category,String name,int quantity,double importPrice,LocalDate importDate,double exportPrice,LocalDate expiredDate){
@@ -23,6 +24,7 @@ public class Product{
        this.setImportDate(importDate);
        this.setExportPrice(exportPrice);
        this.setExpiredDate(expiredDate);
+       this.setDiscount();
     }
 
     
@@ -56,6 +58,17 @@ public class Product{
     public void setExpiredDate(LocalDate expiredDate) {
         this.expiredDate = expiredDate;
     }
+    public void setDiscount() {
+        if (this.expiredDate.isEqual(LocalDate.now().plusDays(5))||this.expiredDate.isEqual(LocalDate.now().plusDays(4))){
+            this.discount = 0.2;
+        }else if (this.expiredDate.isEqual(LocalDate.now().plusDays(3))||this.expiredDate.isEqual(LocalDate.now().plusDays(2))||this.expiredDate.isEqual(LocalDate.now().plusDays(1))){
+            this.discount = 0.5;
+        }else if (this.expiredDate.isEqual(LocalDate.now())){
+            this.discount = 0.7;
+        }else {
+            this.discount = 0.0;
+        }
+    }
 
     public int getId() {
         return id;
@@ -81,30 +94,7 @@ public class Product{
     public LocalDate getExpiredDate() {
         return expiredDate;
     }
-
-
-
-
-
-
-    
-
-
-
-
-    
-
-
-
-    
-    
-    
-    
-   
-
-
-
-
-
-
+    public double getDiscount(){
+        return discount;
+    }
 }

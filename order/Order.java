@@ -29,10 +29,10 @@ public class Order {
         System.out.println("\n=========== RECEIPT ==========");
         System.out.println("Order ID: " + orderId);
         System.out.println("--------------------------------");
-        System.out.println("Product\tQty\tPrice\tTotal");
+        System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
 
         for (OrderProduct item : items) {
-            System.out.println(item.getProductName() + "\t" +item.getQuantity() + "\t" +item.getPrice() + "\t" +item.getTotal()
+            System.out.println(item.getProductName() + "\t" +item.getQuantity() + "\t" +item.getPrice()+ "\t" +item.getDiscount() + "\t\t" +item.getTotal()
             );
         }
 

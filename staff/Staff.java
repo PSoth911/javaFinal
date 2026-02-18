@@ -41,9 +41,11 @@ public class Staff {
 
                 if (qty <= item.getQuantity()) {
                     item.setQuantity(item.getQuantity() - qty);
-                    double totalPrice = qty * item.getExportPrice();
+                    double afterDiscount = item.getExportPrice() - (item.getDiscount()*item.getExportPrice());
+                    double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
+                    System.out.println("Discount : " + item.getDiscount()*100 +"%");
                     System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
-                    currentOrder.addItem(new OrderProduct(item.getName(), qty, item.getExportPrice()));
+                    currentOrder.addItem(new OrderProduct(item.getName(), qty, item.getExportPrice(),item.getDiscount()));
                 } else {
                     System.out.println("Not enough stock! Current stock: " + item.getQuantity());
                 }
