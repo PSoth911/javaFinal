@@ -10,7 +10,8 @@ import product.Product;
 public class Staff {
     public ArrayList<StaffAccount> stafflist =new ArrayList<>(); 
     private Managestaff manager=new Managestaff();
-    private Order currentOrder = new Order();
+    private ArrayList<Order> allOrders = new ArrayList<>();
+    private Order currentOrder = null;
     public Staff(Managestaff manager, ManageProduct data) {
         this.manager = manager;
         this.data = data;
@@ -29,6 +30,9 @@ public class Staff {
     }
 
     public void sellItem() {
+        if (currentOrder == null) {
+        currentOrder = new Order(); 
+    }
         System.out.print("Enter item name to sell: ");
         String name = sc.next();
         ArrayList<Product> items = data.items;
@@ -45,6 +49,9 @@ public class Staff {
                     double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
                     System.out.println("Discount : " + item.getDiscount()*100 +"%");
                     System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
+                    if (currentOrder == null) {
+                    currentOrder = new Order();
+                    }
                     currentOrder.addItem(new OrderProduct(item.getName(), qty, item.getExportPrice(),item.getDiscount()));
                 } else {
                     System.out.println("Not enough stock! Current stock: " + item.getQuantity());
@@ -56,6 +63,28 @@ public class Staff {
             System.out.println("Item not found!");
         }
     }
+    public void completeOrder() {
+        if (currentOrder != null && currentOrder.getGrandTotal() > 0) {
+            allOrders.add(currentOrder);
+            System.out.println("\nOrder completed! Receipt:");
+            currentOrder.printReceipt();
+            currentOrder = null;
+        } else {
+            System.out.println("No items sold in this order.");
+        }
+    }
+    public void printAllReceipts() {
+        if (allOrders.isEmpty()) {
+            System.out.println("No orders have been sold yet.");
+            return;
+        }
+
+        System.out.println("\n========== ALL SOLD ORDERS ==========");
+        for (Order order : allOrders) {
+            order.printReceipt();
+        }
+    }
+
 
     private void ManageAccount(StaffAccount account){
         int choice=0;
@@ -141,8 +170,9 @@ public class Staff {
             System.out.println("1. View Items");
             System.out.println("2. Sell Items");
             System.out.println("3. Update Stock");
-            System.out.println("4. View Receipt");
-            System.out.println("5. Manage account");
+            System.out.println("4. Complete order");
+            System.out.println("5. View all Receipt");
+            System.out.println("6. Manage account");
             System.out.println("0. Back");
             System.out.print("Enter option: ");
             choice = sc.nextInt();
@@ -159,9 +189,12 @@ public class Staff {
                     System.out.println("Update stock feature not implemented yet.");
                     break;
                 case 4:
-                    currentOrder.printReceipt();
+                    completeOrder();
                     break;
-                case 5: 
+                case 5:
+                    printAllReceipts();
+                    break;
+                case 6: 
                     ManageAccount(loggedIn);
                     break;
                 default:
