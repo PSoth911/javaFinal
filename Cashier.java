@@ -1,5 +1,4 @@
-package staff;
-public class StaffAccount {
+public class Cashier implements IsStaff {
     private int id;        
     private static int count=1;      
     private String username;     
@@ -7,14 +6,16 @@ public class StaffAccount {
     private String phoneNumber;
     private String email;  
     private String dateHired;     
+    private String position;
 
-    StaffAccount(String username, String password, String phoneNumber,String email, String dateHired) {
+    Cashier(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
         this.dateHired = dateHired;
+        this.setPosition(position);
     }
     public int getId(){
         return id;
@@ -34,6 +35,11 @@ public class StaffAccount {
     public String getDateHired() {
         return dateHired;
     }
+
+    public String getPosition() {
+        return position;
+    }
+
     private void setEmail(String email){
         if (email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
             this.email = email;
@@ -55,6 +61,9 @@ public class StaffAccount {
         if (phoneNumber.matches("^\\d{8,}$")) {
             this.phoneNumber=phoneNumber;
         }
+    }
+    private void setPosition(String position) {
+        this.position = position;
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {

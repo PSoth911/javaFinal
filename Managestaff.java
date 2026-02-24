@@ -1,4 +1,4 @@
-package staff;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -72,29 +72,31 @@ public class Managestaff {
         String phoneNumber = sc.nextLine();
         System.out.print("Enter Email: ");
         String email= sc.nextLine();
+        System.out.print("Enter Position: ");
+        String position = sc.nextLine();
         if (!validstaffinput(username, password, phoneNumber, email)) {
             System.out.println("Staff NOT added.");
             return;
         }
-        StaffAccount s = new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString());
+        StaffAccount s = new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString(),position);
         Stafflist.add(s);
         System.out.println("New Staff Add Sucessfully...!"); 
     }
 
-    public void addStaff (String username,String password,String phoneNumber,String email){   
-        Stafflist.add(new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString()));
+    public void addStaff (String username,String password,String phoneNumber,String email,String position){   
+        Stafflist.add(new StaffAccount(username, password, phoneNumber,email,LocalDate.now().toString(),position));
     }
 
     private void showStaffList() {
         System.out.println("------------------------------------Staff Dashbaord-------------------------------");
-        System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tDate Hired");
+        System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tDate Hired\t\tPosition");
         System.out.println("----------------------------------------------------------------------------------");
         for (StaffAccount s : Stafflist) {
             System.out.println(s.getId() + "\t" 
                                + s.getUsername() + "\t\t" 
                                + s.getPhoneNumber() + "\t\t" 
                                +s.getEmail()+"\t\t"
-                               + s.getDateHired());
+                               + s.getDateHired()+"\t\t"+s.getPosition());
         }
     }
     private StaffAccount findStaffbyID(int id){

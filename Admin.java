@@ -1,10 +1,7 @@
-package admin;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import staff.Managestaff;
-import product.ManageProduct;
 
 
 public class Admin{

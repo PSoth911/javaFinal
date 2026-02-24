@@ -1,4 +1,4 @@
-package admin;
+
 public class AdminAccount {     
     String username;     
     private String password;     
