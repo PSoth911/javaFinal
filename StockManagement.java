@@ -9,6 +9,13 @@ public class StockManagement {
     ManageProduct data = new ManageProduct();
     ArrayList<AdminAccount> adminList = new ArrayList<>();
 
+    public static final String VIEW_PRODUCTS = "View Products";
+    public static final String SELL_PRODUCT = "Sell Product";
+    public static final String UPDATE_STOCK = "Update Stock";
+    public static final String VIEW_RECIPT = "View Receipt";
+    public static final String MANAGE_ACCOUNT = "Manage account";
+    public static final String COMPLETE_ORDER = "Complete order";
+
     void addAdminAcc(String username, String password, String phoneNumber,String email){
         adminList.add(new AdminAccount(username,password,phoneNumber,email));
     }

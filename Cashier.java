@@ -8,6 +8,17 @@ public class Cashier implements IsStaff {
     private String dateHired;     
     private String position;
 
+    
+
+    @Override
+    public boolean can(String action) {
+        // TODO Auto-generated method stub
+        if (action.equals(StockManagement.SELL_PRODUCT) || action.equals(StockManagement.COMPLETE_ORDER)|| action.equals(StockManagement.VIEW_RECIPT)) {
+            return true;
+        }
+        return false;
+    }
+
     Cashier(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
         this.id=count++;
         this.setUsername(username);

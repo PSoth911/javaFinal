@@ -8,6 +8,13 @@ public class Manager implements IsStaff {
     private String dateHired;     
     private String position;
 
+    
+
+    @Override
+    public boolean can(String action) {
+        // TODO Auto-generated method stub
+        return true;
+    }
     Manager(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
         this.id=count++;
         this.setUsername(username);

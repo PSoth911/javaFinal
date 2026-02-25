@@ -8,6 +8,15 @@ public class Stocker implements IsStaff {
     private String dateHired;     
     private String position;
 
+    @Override
+    public boolean can(String action) {
+        // TODO Auto-generated method stub
+        if (action.equals(StockManagement.VIEW_PRODUCTS) || action.equals(StockManagement.UPDATE_STOCK)) {
+            return true;
+        }
+        return false;
+    }
+
     Stocker(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
         this.id=count++;
         this.setUsername(username);

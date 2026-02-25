@@ -4,5 +4,5 @@ public interface IsStaff {
    int getId();
    String getPosition();
 
-   // boolean can(String action);
+   boolean can(String action);
 }
