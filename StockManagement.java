@@ -17,9 +17,6 @@ public class StockManagement {
 
     private String shopName;
     private String address;
-    ArrayList<Manager> Managerlist= new  ArrayList<>();
-    ArrayList<Cashier> Cashierlist= new  ArrayList<>();
-    ArrayList<Stocker> Stocker= new  ArrayList<>();
     ArrayList<Product> products;
     ArrayList<IStaff> staffs;
     ArrayList<Order> orders;
