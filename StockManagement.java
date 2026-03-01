@@ -20,9 +20,8 @@ public class StockManagement {
     ArrayList<Product> products;
     ArrayList<IStaff> staffs;
     ArrayList<Order> orders;
-    private IStaff Stafflogin; 
     private Order currentOrder = null;
-    
+    private IStaff currentUser;
 
     public StockManagement(String shopName, String address) {
         this.setShopName(shopName);
@@ -141,29 +140,30 @@ public class StockManagement {
     }
 
     // Staff Management
-        private void removeStaff(){
-        ShowStaffList();
-        System.out.println("Enter THe StaffID to Update:");
-        int id=sc.nextInt();
-        sc.nextLine();
-        IStaff s = findStaffById(id);
-        if (s == Stafflogin) {
-            System.out.println("You cannot remove your own account!");
-            return;
-        }
-         if (s != null) {
-            System.out.println("Are you sure you want to remove " + s.getUsername()
-             + "? (Y/N)");
-            String confirm = sc.nextLine();
-                if (confirm.equalsIgnoreCase("Y")) {
-                    staffs.remove(s);
-                    System.out.println("Staff removed successfully!");
-                } else {
-                    System.out.println("Remove cancelled.");
-                }
-         }else{
-            System.out.println("Staff is not FOund....!");
-         }
+    private void removeStaff(){
+            currentUser = login();
+            ShowStaffList();
+            System.out.println("Enter THe StaffID to Update:");
+            int id=sc.nextInt();
+            sc.nextLine();
+            IStaff s = findStaffById(id);
+            if (s == currentUser) {
+                System.out.println("You cannot remove your own account!");
+                return;
+            }
+            if (s != null) {
+                System.out.println("Are you sure you want to remove " + s.getUsername()
+                + "? (Y/N)");
+                String confirm = sc.nextLine();
+                    if (confirm.equalsIgnoreCase("Y")) {
+                        staffs.remove(s);
+                        System.out.println("Staff removed successfully!");
+                    } else {
+                        System.out.println("Remove cancelled.");
+                    }
+            }else{
+                System.out.println("Staff is not FOund....!");
+            }
 
         
     }
@@ -307,37 +307,15 @@ public class StockManagement {
             staffs.add(new Manager(username, password, phoneNumber, email, position));
             System.out.println("New Manager Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Cashier")){
-            staffs.add(new Cashier(username, password, phoneNumber, email, email, position));
+            staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),position));
             System.out.println("New Cashier Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Stocker")){
-            staffs.add(new Stocker(username, password, phoneNumber, email, email, position));
+            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), position));
             System.out.println("New Stocker Add Sucessfully...!"); 
         }
         
     }
 
-
-    public void StaffLogin(){
-        System.out.print("Enter The user name to Login: ");
-        String UserName=sc.nextLine();
-        System.out.print("Enter The Password: ");
-        String password=sc.nextLine();
-        for(int i=0;i<staffs.size();i++){
-            IStaff s=staffs.get(i);
-            if(staffs.get(i).getUsername().equalsIgnoreCase(UserName)&&s.checkPassword(password)){
-                Stafflogin =s;
-                System.out.println("Login success"+ s.getUsername()+ "....!");
-                return;
-
-            }
-        }
-        System.out.println("Login failed.....!");
-    }
-    public void StaffLogout(){
-        Stafflogin=null;
-        System.out.println("Logout .....!");
-    }
-    
 
     // Order Management
 
@@ -387,6 +365,10 @@ public class StockManagement {
     }
     
     public void printReceipt(Order order) {
+        if (order == null) {
+            System.out.println("No active order.");
+        return;
+        }
 
     System.out.println("\n=========== RECEIPT ==========");
     System.out.println("Order ID: " + order.getOrderId());
