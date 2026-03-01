@@ -15,9 +15,8 @@ public class Cashier implements IStaff {
         // TODO Auto-generated method stub
         if (action.equals(StockManagement.SELL_PRODUCT)
         || action.equals(StockManagement.COMPLETE_ORDER)
-        || action.equals(StockManagement.VIEW_RECIPT)
-        || action.equals(StockManagement.VIEW_PRODUCTS)) {
-            return true;
+        || action.equals(StockManagement.VIEW_RECIPT)) {
+        return true;
         }
         return false;
     }

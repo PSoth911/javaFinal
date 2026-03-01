@@ -17,15 +17,12 @@ public class StockManagement {
 
     private String shopName;
     private String address;
-    ArrayList<Manager> Managerlist= new  ArrayList<>();
-    ArrayList<Cashier> Cashierlist= new  ArrayList<>();
-    ArrayList<Stocker> Stocker= new  ArrayList<>();
     ArrayList<Product> products;
     ArrayList<IStaff> staffs;
     ArrayList<Order> orders;
     private IStaff Stafflogin; 
     private Order currentOrder = null;
-
+    
 
     public StockManagement(String shopName, String address) {
         this.setShopName(shopName);
@@ -429,7 +426,20 @@ public class StockManagement {
     }
 
     System.out.println("Order not found.");
-}
+    }
+    public void viewallrecipts(){
+        if (orders.isEmpty()) {
+            System.out.println("No completed orders yet.");
+            return;
+        }
+        System.out.println("\n=========== ALL RECEIPTS ===========");
+        for (Order order : orders) {
+            printReceipt(order);
+        }
+
+
+    }
+
 
 
 
@@ -549,6 +559,7 @@ public class StockManagement {
                             break;
                         case 3:
                             System.out.println("This is View Receipt");
+                            viewReceiptById();
                             break;
                         case 4:
                             System.out.println("This is Manage account");
@@ -594,6 +605,7 @@ public class StockManagement {
                     System.out.println("1. Complete Order");             
                     System.out.println("2. Sell Product");
                     System.out.println("3. view Receipt By ID");
+                    System.out.println("4. view all Receipt");
                     System.out.println("0. Logout");
                     System.out.print("Your choice : ");
                     choice = sc.nextInt();
@@ -610,6 +622,10 @@ public class StockManagement {
                         case 3:
                             System.out.println("This is View Receipt");
                             viewReceiptById();
+                            break;
+                        case 4:
+                            System.out.println("This is view all Receipt");
+                            viewallrecipts();
                             break;
                         case 0:
                             System.out.println("Logging out...");
