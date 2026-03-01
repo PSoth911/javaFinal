@@ -19,7 +19,7 @@ public class Cashier implements IStaff {
         return false;
     }
 
-    Cashier(String username, String password, String phoneNumber,String email, String dateHired){ 
+    Cashier(String username, String password, String phoneNumber,String email, String dateHired ,String position){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);

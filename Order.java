@@ -1,10 +1,16 @@
+import java.util.ArrayList;
+
 public class Order {
+    private static int counter = 1;
+    private int orderId;
+    private double grandTotal;
 
     private String productName;
     private int quantity;
     private double price;
     private double discount;
     private double totalPrice;
+    private ArrayList<Order> items;
 
     public Order(String productName, int quantity, double price,double discount) {
         this.productName = productName;
@@ -14,6 +20,18 @@ public class Order {
         this.setTotalPrice(quantity, price, discount);
     }
 
+    public Order() {
+        this.orderId = counter++;
+        items = new ArrayList<>();
+        grandTotal = 0;
+    }
+    public void addItem(Order item) {
+        items.add(item);
+        grandTotal += item.getTotal();
+    }
+    public ArrayList<Order> getItems() {
+        return items;
+    }
     public String getProductName() {
         return productName;
     }
@@ -49,7 +67,12 @@ public class Order {
             this.price = price;
         }
     }
-
+    public double getGrandTotal(){
+        return grandTotal;
+    }
+    public int getOrderId(){
+        return orderId;
+    }
     public void setTotalPrice(int quantity,double price,double discount){
         double afterDiscount = price - price*discount;
         double totalPrice=this.quantity*afterDiscount;

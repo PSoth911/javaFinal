@@ -14,7 +14,7 @@ public class Manager implements IStaff {
         // TODO Auto-generated method stub
         return true;
     }
-    Manager(String username, String password, String phoneNumber,String email){ 
+    Manager(String username, String password, String phoneNumber,String email,String position){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);

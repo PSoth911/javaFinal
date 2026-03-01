@@ -17,7 +17,7 @@ public class Stocker implements IStaff {
         return false;
     }
 
-    Stocker(String username, String password, String phoneNumber,String email, String dateHired){ 
+    Stocker(String username, String password, String phoneNumber,String email, String dateHired,String position){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
