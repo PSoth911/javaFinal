@@ -1,4 +1,4 @@
-public class Cashier implements IsStaff {
+public class Cashier implements IStaff {
     private int id;        
     private static int count=1;      
     private String username;     
@@ -19,14 +19,14 @@ public class Cashier implements IsStaff {
         return false;
     }
 
-    Cashier(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
+    Cashier(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
         this.dateHired = dateHired;
-        this.setPosition(position);
+        this.setPosition();
     }
     public int getId(){
         return id;
@@ -49,6 +49,9 @@ public class Cashier implements IsStaff {
 
     public String getPosition() {
         return position;
+    }
+    public String getPassword() {
+        return password;
     }
 
     private void setEmail(String email){
@@ -73,8 +76,8 @@ public class Cashier implements IsStaff {
             this.phoneNumber=phoneNumber;
         }
     }
-    private void setPosition(String position) {
-        this.position = position;
+    private void setPosition() {
+        this.position = "Cashier";
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {

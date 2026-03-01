@@ -1,4 +1,4 @@
-public class Stocker implements IsStaff {
+public class Stocker implements IStaff {
     private int id;        
     private static int count=1;      
     private String username;     
@@ -17,14 +17,14 @@ public class Stocker implements IsStaff {
         return false;
     }
 
-    Stocker(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
+    Stocker(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
         this.dateHired = dateHired;
-        this.setPosition(position);
+        this.setPosition();
     }
     public int getId(){
         return id;
@@ -49,6 +49,10 @@ public class Stocker implements IsStaff {
         return position;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     private void setEmail(String email){
         if (email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
             this.email = email;
@@ -71,8 +75,8 @@ public class Stocker implements IsStaff {
             this.phoneNumber=phoneNumber;
         }
     }
-    private void setPosition(String position) {
-        this.position = position;
+    private void setPosition() {
+        this.position = "Stocker";
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {

@@ -1,11 +1,10 @@
-public class Manager implements IsStaff {
+public class Manager implements IStaff {
     private int id;        
     private static int count=1;      
     private String username;     
     private String password;     
     private String phoneNumber;
-    private String email;  
-    private String dateHired;     
+    private String email;      
     private String position;
 
     
@@ -15,14 +14,14 @@ public class Manager implements IsStaff {
         // TODO Auto-generated method stub
         return true;
     }
-    Manager(String username, String password, String phoneNumber,String email, String dateHired, String position){ 
+    Manager(String username, String password, String phoneNumber,String email){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
-        this.dateHired = dateHired;
-        this.setPosition(position);
+       
+        this.setPosition();
     }
     public int getId(){
         return id;
@@ -39,8 +38,8 @@ public class Manager implements IsStaff {
         return email;
     }
 
-    public String getDateHired() {
-        return dateHired;
+    public String getPassword() {
+        return password;
     }
 
     public String getPosition() {
@@ -69,8 +68,8 @@ public class Manager implements IsStaff {
             this.phoneNumber=phoneNumber;
         }
     }
-    private void setPosition(String position) {
-        this.position = position;
+    private void setPosition() {
+        this.position = "Manager";
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {

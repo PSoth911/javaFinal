@@ -1,46 +1,61 @@
-
-import java.util.ArrayList;
-
 public class Order {
 
-    private static int count = 1;
-    private int orderId;
-    private double grandTotal;
-    private ArrayList<OrderProduct> items;
+    private String productName;
+    private int quantity;
+    private double price;
+    private double discount;
+    private double totalPrice;
 
-    public Order() {
-        this.orderId = count++;
-        this.items = new ArrayList<>();
-        this.grandTotal = 0;
+    public Order(String productName, int quantity, double price,double discount) {
+        this.productName = productName;
+        this.setQuantity(quantity);
+        this.setPrice(price);
+        this.setDiscount(discount);
+        this.setTotalPrice(quantity, price, discount);
     }
 
-    public static int getTotalOrders() {
-        return count - 1;
+    public String getProductName() {
+        return productName;
     }
 
-    public void addItem(OrderProduct item) {
-        if (item != null) {
-            items.add(item);
-            grandTotal += item.getTotal();
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getTotal() {
+        return totalPrice;
+    }
+    public double getDiscount(){
+        return discount;
+    }
+
+
+    public void setDiscount(double discount){
+        this.discount=discount;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity > 0) {
+            this.quantity = quantity;
         }
     }
 
-    public void printReceipt() {
-        System.out.println("\n=========== RECEIPT ==========");
-        System.out.println("Order ID: " + orderId);
-        System.out.println("--------------------------------");
-        System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
-
-        for (OrderProduct item : items) {
-            System.out.println(item.getProductName() + "\t" +item.getQuantity() + "\t" +item.getPrice()+ "\t" +item.getDiscount() + "\t\t" +item.getTotal()
-            );
+    public void setPrice(double price) {
+        if (price > 0) {
+            this.price = price;
         }
-
-        System.out.println("--------------------------------");
-        System.out.println("Grand Total: $" + grandTotal);
     }
 
-    public double getGrandTotal() {
-        return grandTotal;
+    public void setTotalPrice(int quantity,double price,double discount){
+        double afterDiscount = price - price*discount;
+        double totalPrice=this.quantity*afterDiscount;
+
+        totalPrice=Math.round(totalPrice*100.0)/100.0;
+
+        this.totalPrice=totalPrice;
     }
 }
