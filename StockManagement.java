@@ -17,11 +17,14 @@ public class StockManagement {
 
     private String shopName;
     private String address;
+    ArrayList<Manager> Managerlist= new  ArrayList<>();
+    ArrayList<Cashier> Cashierlist= new  ArrayList<>();
+    ArrayList<Stocker> Stocker= new  ArrayList<>();
     ArrayList<Product> products;
     ArrayList<IStaff> staffs;
     ArrayList<Order> orders;
+    private IStaff Stafflogin; 
     private Order currentOrder = null;
-    private IStaff currentUser;
 
 
     public StockManagement(String shopName, String address) {
@@ -142,29 +145,28 @@ public class StockManagement {
 
     // Staff Management
         private void removeStaff(){
-            currentUser = login();
-            ShowStaffList();
-            System.out.println("Enter THe StaffID to Update:");
-            int id=sc.nextInt();
-            sc.nextLine();
-            IStaff s = findStaffById(id);
-            if (s == currentUser) {
-                System.out.println("You cannot remove your own account!");
-                return;
-            }
-            if (s != null) {
-                System.out.println("Are you sure you want to remove " + s.getUsername()
-                + "? (Y/N)");
-                String confirm = sc.nextLine();
-                    if (confirm.equalsIgnoreCase("Y")) {
-                        staffs.remove(s);
-                        System.out.println("Staff removed successfully!");
-                    } else {
-                        System.out.println("Remove cancelled.");
-                    }
-            }else{
-                System.out.println("Staff is not FOund....!");
-            }
+        ShowStaffList();
+        System.out.println("Enter THe StaffID to Update:");
+        int id=sc.nextInt();
+        sc.nextLine();
+        IStaff s = findStaffById(id);
+        if (s == Stafflogin) {
+            System.out.println("You cannot remove your own account!");
+            return;
+        }
+         if (s != null) {
+            System.out.println("Are you sure you want to remove " + s.getUsername()
+             + "? (Y/N)");
+            String confirm = sc.nextLine();
+                if (confirm.equalsIgnoreCase("Y")) {
+                    staffs.remove(s);
+                    System.out.println("Staff removed successfully!");
+                } else {
+                    System.out.println("Remove cancelled.");
+                }
+         }else{
+            System.out.println("Staff is not FOund....!");
+         }
 
         
     }
@@ -308,15 +310,36 @@ public class StockManagement {
             staffs.add(new Manager(username, password, phoneNumber, email, position));
             System.out.println("New Manager Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Cashier")){
-            staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),position));
+            staffs.add(new Cashier(username, password, phoneNumber, email, email, position));
             System.out.println("New Cashier Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Stocker")){
-            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), position));
+            staffs.add(new Stocker(username, password, phoneNumber, email, email, position));
             System.out.println("New Stocker Add Sucessfully...!"); 
         }
         
     }
 
+
+    public void StaffLogin(){
+        System.out.print("Enter The user name to Login: ");
+        String UserName=sc.nextLine();
+        System.out.print("Enter The Password: ");
+        String password=sc.nextLine();
+        for(int i=0;i<staffs.size();i++){
+            IStaff s=staffs.get(i);
+            if(staffs.get(i).getUsername().equalsIgnoreCase(UserName)&&s.checkPassword(password)){
+                Stafflogin =s;
+                System.out.println("Login success"+ s.getUsername()+ "....!");
+                return;
+
+            }
+        }
+        System.out.println("Login failed.....!");
+    }
+    public void StaffLogout(){
+        Stafflogin=null;
+        System.out.println("Logout .....!");
+    }
     
 
     // Order Management
@@ -337,7 +360,7 @@ public class StockManagement {
                     double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
                     System.out.println("Discount : " + item.getDiscount()*100 +"%");
                     System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
-                    Order orderitem = new Product(item.getName(), qty, item.getExportPrice(), item.getDiscount());
+                    Order orderitem = new Order(item.getName(), qty, item.getExportPrice(), item.getDiscount());
                     if (currentOrder == null) {
                     currentOrder = new Order();
                     }
@@ -367,35 +390,46 @@ public class StockManagement {
     }
     
     public void printReceipt(Order order) {
-        if (order == null) {
-        System.out.println("No active order.");
-        return;
-    }
-        System.out.println("\n=========== RECEIPT ==========");
-        System.out.println("Order ID: " + order.getOrderId());
-        System.out.println("--------------------------------");
-        System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
-        for (Order item : order.getItems()) {
-            System.out.println(item.getProductName() + "\t" +item.getQuantity() + "\t" +item.getPrice()+ "\t" +item.getDiscount() + "\t\t" +item.getTotal()
-            );
-        }
 
-        System.out.println("--------------------------------");
-        System.out.println("Grand Total: $" + order.getGrandTotal());
+    System.out.println("\n=========== RECEIPT ==========");
+    System.out.println("Order ID: " + order.getOrderId());
+    System.out.println("--------------------------------");
+    System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
+
+    for (Order item : order.getItems()) {
+        System.out.println(
+            item.getProductName() + "\t" +
+            item.getQuantity() + "\t" +
+            item.getPrice() + "\t" +
+            item.getDiscount() + "\t\t" +
+            item.getTotal()
+        );
     }
 
-    public void viewallrecipts(){
+    System.out.println("|==============================|");
+    System.out.println("Grand Total: $" + order.getGrandTotal());
+    System.out.println("|==============================|");}
+
+    public void viewReceiptById() {
+
         if (orders.isEmpty()) {
-            System.out.println("No completed orders yet.");
+            System.out.println("No completed orders.");
             return;
         }
-        System.out.println("\n=========== ALL RECEIPTS ===========");
+
+        System.out.print("Enter Order ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
         for (Order order : orders) {
+        if (order.getOrderId() == id) {
             printReceipt(order);
+            return;
         }
-
-
     }
+
+    System.out.println("Order not found.");
+}
 
 
 
@@ -559,7 +593,7 @@ public class StockManagement {
                     System.out.println("Please select your action : ");
                     System.out.println("1. Complete Order");             
                     System.out.println("2. Sell Product");
-                    System.out.println("3. View Receipt");
+                    System.out.println("3. view Receipt By ID");
                     System.out.println("0. Logout");
                     System.out.print("Your choice : ");
                     choice = sc.nextInt();
@@ -575,7 +609,7 @@ public class StockManagement {
                             break;
                         case 3:
                             System.out.println("This is View Receipt");
-                            viewallrecipts();
+                            viewReceiptById();
                             break;
                         case 0:
                             System.out.println("Logging out...");

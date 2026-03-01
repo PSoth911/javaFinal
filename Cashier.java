@@ -13,7 +13,10 @@ public class Cashier implements IStaff {
     @Override
     public boolean can(String action) {
         // TODO Auto-generated method stub
-        if (action.equals(StockManagement.SELL_PRODUCT) || action.equals(StockManagement.COMPLETE_ORDER)|| action.equals(StockManagement.VIEW_RECIPT)) {
+        if (action.equals(StockManagement.SELL_PRODUCT)
+        || action.equals(StockManagement.COMPLETE_ORDER)
+        || action.equals(StockManagement.VIEW_RECIPT)
+        || action.equals(StockManagement.VIEW_PRODUCTS)) {
             return true;
         }
         return false;
