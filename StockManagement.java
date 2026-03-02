@@ -537,7 +537,7 @@ public class StockManagement {
                             break;
                         case 2:
                             System.out.print("This is Update Stock");
-
+                            updateStock();
                             break;
                         case 3:
                             System.out.println("This is View Receipt");
