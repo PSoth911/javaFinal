@@ -533,19 +533,35 @@ public class StockManagement {
                    
                     switch (choice) {
                         case 1:
-                            printItems(products);
+                            if(staff.can(VIEW_PRODUCTS)){
+                                printItems(products);
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }
                             break;
                         case 2:
-                            System.out.print("This is Update Stock");
-                            updateStock();
+                            if(staff.can(UPDATE_STOCK)){
+                                System.out.print("This is Update Stock");
+                                updateStock();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                           
                             break;
                         case 3:
-                            System.out.println("This is View Receipt");
-                            viewReceiptById();
+                            if(staff.can(VIEW_RECIPT)){
+                                System.out.println("This is View Receipt");
+                                viewReceiptById();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                            
                             break;
                         case 4:
-                            System.out.println("This is Manage account");
-                            manageStaffMenu();
+                            if(staff.can(MANAGE_ACCOUNT)){
+                                System.out.println("This is Manage account");
+                                manageStaffMenu();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }
                             break;
                         case 0:
                             System.out.println("Logging out...");
@@ -567,11 +583,19 @@ public class StockManagement {
                    
                     switch (choice) {
                         case 1:
-                            printItems(products);
+                            if(staff.can(VIEW_PRODUCTS)){
+                                printItems(products);
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }
                             break;
                         case 2:
-                            System.out.print("This is Update Stock");
-                            updateStock();
+                            if(staff.can(UPDATE_STOCK)){
+                                System.out.print("This is Update Stock");
+                                updateStock();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                         
                             break;
                         case 0:
                             System.out.println("Logging out...");
@@ -594,20 +618,36 @@ public class StockManagement {
                    
                     switch (choice) {
                         case 1:
-                            System.out.print("This is Complete Order");
-                            completeOrder();
+                            if(staff.can(COMPLETE_ORDER)){
+                                System.out.print("This is Complete Order");
+                                completeOrder();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                        
                             break;
                         case 2:
-                            System.out.print("This is Sell Product");
-                            sellItem();
+                            if(staff.can(SELL_PRODUCT)){
+                                System.out.print("This is Sell Product");
+                                sellItem();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                           
                             break;
                         case 3:
-                            System.out.println("This is View Receipt");
-                            viewReceiptById();
+                            if(staff.can(VIEW_RECIPT)){
+                                System.out.println("This is View Receipt by ID");
+                                viewReceiptById();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                          
                             break;
                         case 4:
-                            System.out.println("This is view all Receipt");
-                            viewallrecipts();
+                            if(staff.can(VIEW_RECIPT)){
+                                System.out.println("This is view all Receipt");
+                                viewallrecipts();
+                            }else {
+                                System.out.println("cannot do!! no permission");
+                            }                           
                             break;
                         case 0:
                             System.out.println("Logging out...");

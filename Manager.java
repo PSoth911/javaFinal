@@ -12,6 +12,10 @@ public class Manager implements IStaff {
     @Override
     public boolean can(String action) {
         // TODO Auto-generated method stub
+        // just test code
+        // if (action.equals(StockManagement.VIEW_PRODUCTS)) {
+        //     return false;
+        // }
         return true;
     }
     Manager(String username, String password, String phoneNumber,String email,String position){ 
