@@ -1,3 +1,4 @@
+package model;
 public class Customer {
     private int id;        
     private static int count=1;      
@@ -8,7 +9,7 @@ public class Customer {
     private String dateHired;     
     private String position;
 
-    Customer(String username, String password, String phoneNumber,String email, String dateHired){ 
+    public Customer(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);

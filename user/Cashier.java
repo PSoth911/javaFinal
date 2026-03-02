@@ -16,7 +16,7 @@ public class Cashier extends Staff {
         }
         return false;
     }
-    Cashier(Staff s ,float salary){ 
+    public Cashier(Staff s ,float salary){ 
         this.id=count++;
         super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString());
         this.salary=salary;

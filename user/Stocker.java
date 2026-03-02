@@ -18,7 +18,7 @@ public class Stocker extends Staff {
         return false;
     }
 
-Stocker(Staff s ,float salary){ 
+    public Stocker(Staff s ,float salary){ 
         this.id=count++;
         super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString());
         this.salary=salary;

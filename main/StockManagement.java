@@ -3,11 +3,12 @@ package main;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Order;
-import Product;
+import model.Order;
+import model.Product;
 import user.Cashier;
 import user.IStaff;
 import user.Manager;
+import user.Staff;
 import user.Stocker;
 
 import java.time.LocalDate;
@@ -46,13 +47,13 @@ public class StockManagement {
 
 
     private void setDefaultData(){
-        Manager defaultAdmin = new Manager("admin123", "Admin@123", "0123456789","admin@gmail.com","Manager");
+        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 1500);
         staffs.add(defaultAdmin);
 
-        Cashier defaultCashier = new Cashier("cashier123", "Cashier@123", "0987654321","cashier@gmail.com", LocalDate.now().toString(),"Cashier");
+        Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
         staffs.add(defaultCashier);
 
-        Stocker defaultStocker = new Stocker("stocker123", "Stocker@123", "0112233445","stocker@gmail.com", LocalDate.now().toString(),"Stocker");
+        Stocker defaultStocker = new Stocker(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
         staffs.add(defaultStocker);
 
         products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
@@ -286,8 +287,7 @@ public class StockManagement {
             System.out.println(staffs.get(i).getId() + "\t" 
                                +staffs.get(i).getUsername() + "\t\t" 
                                +staffs.get(i).getPhoneNumber() + "\t\t" 
-                               +staffs.get(i).getEmail()+"\t\t"
-                               +staffs.get(i).getPosition());
+                               +staffs.get(i).getEmail());
         }
     }
 

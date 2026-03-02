@@ -21,7 +21,7 @@ public class Staff implements IStaff {
         return false;
     }
 
-    Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
+    public Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
