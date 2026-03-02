@@ -1,31 +1,33 @@
-public class Manager implements IStaff {
+package user;
+import main.StockManagement;
+
+public class Staff implements IStaff {
     private int id;        
     private static int count=1;      
     private String username;     
     private String password;     
     private String phoneNumber;
-    private String email;      
-    private String position;
-
-    
+    private String email;  
+    private String dateHired;     
 
     @Override
     public boolean can(String action) {
         // TODO Auto-generated method stub
-        // just test code
-        // if (action.equals(StockManagement.VIEW_PRODUCTS)) {
-        //     return false;
-        // }
+        if (action.equals(StockManagement.SELL_PRODUCT)
+        || action.equals(StockManagement.COMPLETE_ORDER)
+        || action.equals(StockManagement.VIEW_RECIPT)) {
         return true;
+        }
+        return false;
     }
-    Manager(String username, String password, String phoneNumber,String email,String position){ 
+
+    Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
-       
-        this.setPosition();
+        this.dateHired = dateHired;
     }
     public int getId(){
         return id;
@@ -42,12 +44,11 @@ public class Manager implements IStaff {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDateHired() {
+        return dateHired;
     }
-
-    public String getPosition() {
-        return position;
+    protected String getPassword(){
+        return password;
     }
 
     private void setEmail(String email){
@@ -71,9 +72,6 @@ public class Manager implements IStaff {
         if (phoneNumber.matches("^\\d{8,}$")) {
             this.phoneNumber=phoneNumber;
         }
-    }
-    private void setPosition() {
-        this.position = "Manager";
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {

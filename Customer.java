@@ -1,4 +1,4 @@
-public class Stocker implements IStaff {
+public class Customer {
     private int id;        
     private static int count=1;      
     private String username;     
@@ -8,23 +8,13 @@ public class Stocker implements IStaff {
     private String dateHired;     
     private String position;
 
-    @Override
-    public boolean can(String action) {
-        // TODO Auto-generated method stub
-        if (action.equals(StockManagement.VIEW_PRODUCTS) || action.equals(StockManagement.UPDATE_STOCK)) {
-            return true;
-        }
-        return false;
-    }
-
-    Stocker(String username, String password, String phoneNumber,String email, String dateHired,String position){ 
+    Customer(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.id=count++;
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
         this.dateHired = dateHired;
-        this.setPosition();
     }
     public int getId(){
         return id;
@@ -44,15 +34,6 @@ public class Stocker implements IStaff {
     public String getDateHired() {
         return dateHired;
     }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     private void setEmail(String email){
         if (email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
             this.email = email;
@@ -74,9 +55,6 @@ public class Stocker implements IStaff {
         if (phoneNumber.matches("^\\d{8,}$")) {
             this.phoneNumber=phoneNumber;
         }
-    }
-    private void setPosition() {
-        this.position = "Stocker";
     }
     //user name at last 5 char include letter and numbers only
     public void setUsername(String username,String oldusername,String password) {
@@ -112,5 +90,10 @@ public class Stocker implements IStaff {
         }else{
             System.out.println("fail....!");
         }
+    }
+    @Override
+    public String toString() {
+        return "Customer [id=" + id + ", username=" + username + ", password=" + password + ", phoneNumber="
+                + phoneNumber + ", email=" + email + ", dateHired=" + dateHired + ", position=" + position + "]";
     }
 }

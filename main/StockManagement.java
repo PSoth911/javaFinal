@@ -1,6 +1,15 @@
+package main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Order;
+import Product;
+import user.Cashier;
+import user.IStaff;
+import user.Manager;
+import user.Stocker;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
