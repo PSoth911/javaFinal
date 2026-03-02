@@ -299,9 +299,9 @@ public class StockManagement {
         System.out.print("Enter Phone Number: ");
         String phoneNumber = sc.nextLine();
         System.out.print("Enter Email: ");
-        String email= sc.nextLine();
-        System.out.print("Enter Position: ");
-        String position = sc.nextLine();    
+        String email= sc.nextLine();    
+        System.out.print("Enter Salary");
+        float salary=sc.nextFloat();
         if (!validstaffinput(username, password, phoneNumber, email)) {
             System.out.println("Staff NOT added because invalid input.");
             return;
@@ -312,14 +312,14 @@ public class StockManagement {
                 return;
             }
         }
-        if (position.equalsIgnoreCase("Manager")) {
-            staffs.add(new Manager(username, password, phoneNumber, email, position));
+        if (PostionChoice().equalsIgnoreCase("Manager")) {
+            staffs.add(new Manager(new Staff(username, password, phoneNumber, email,LocalDate.now().toString()),salary));
             System.out.println("New Manager Add Sucessfully...!"); 
-        }else if(position.equalsIgnoreCase("Cashier")){
-            staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),position));
+        }else if(PostionChoice().equalsIgnoreCase("Cashier")){
+            staffs.add(new Cashier(new Staff(username, password, phoneNumber,email,LocalDate.now().toString()),salary));
             System.out.println("New Cashier Add Sucessfully...!"); 
-        }else if(position.equalsIgnoreCase("Stocker")){
-            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), position));
+        }else if(PostionChoice().equalsIgnoreCase("Stocker")){
+            staffs.add(new Stocker(new Staff(username, password, phoneNumber, email, LocalDate.now().toString()),salary));
             System.out.println("New Stocker Add Sucessfully...!"); 
         }
         
@@ -518,8 +518,30 @@ public class StockManagement {
         } while (choice!=0);
 
     }
+    public String getRole(IStaff staff) {
+        if (staff instanceof Manager) return "Manager";
+        else if (staff instanceof Cashier) return "Cashier";
+        else if (staff instanceof Stocker) return "Stocker";
+        return "Unknown";
+    }
 
-
+    public String PostionChoice(){
+        int choice;
+        System.out.print("Enter position that you want to create ");
+        choice=sc.nextInt();
+        System.out.println("1. Manager");
+        System.out.println("2. Cashier");
+        System.out.println("3. Stocker");
+        if(choice==1){
+            return "Manager";
+        }else if(choice==2){
+            return "Cashier";
+        }else if(choice==3){
+            return "Stocker";
+        }else{
+            return "UNKNOW";
+        }
+    }
     void run(){
         IStaff staff = login();
         if (staff == null) {
@@ -527,8 +549,9 @@ public class StockManagement {
             return;
         }else{
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
+            PostionChoice();
             int choice;
-            if(staff.getPosition().equalsIgnoreCase("Manager")){
+            if(getRole(staff).equalsIgnoreCase("Manager")){
                 System.out.println(" This is Manager");
                 do{
                     System.out.println("Please select your action : ");
@@ -580,7 +603,7 @@ public class StockManagement {
                     }
                 }while (choice!=0);
                     
-            }else if(staff.getPosition().equalsIgnoreCase("Stocker")){
+            }else if(PostionChoice().equalsIgnoreCase("Stocker")){
                 System.out.println(" This is Stocker");
                 do{
                     System.out.println("Please select your action : ");
@@ -613,7 +636,7 @@ public class StockManagement {
                             System.out.println("Invalid choice. Please try again.");
                     }
                 }while (choice!=0);
-            }else if(staff.getPosition().equalsIgnoreCase("Cashier")){
+            }else if(PostionChoice().equalsIgnoreCase("Cashier")){
                 System.out.println(" This is Cashier");
                 do{
                     System.out.println("Please select your action : ");
