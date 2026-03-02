@@ -518,12 +518,6 @@ public class StockManagement {
         } while (choice!=0);
 
     }
-    public String getRole(IStaff staff) {
-        if (staff instanceof Manager) return "Manager";
-        else if (staff instanceof Cashier) return "Cashier";
-        else if (staff instanceof Stocker) return "Stocker";
-        return "Unknown";
-    }
 
     public String PostionChoice(){
         int choice;
@@ -551,7 +545,7 @@ public class StockManagement {
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             PostionChoice();
             int choice;
-            if(getRole(staff).equalsIgnoreCase("Manager")){
+            if(PostionChoice().equalsIgnoreCase("Manager")){
                 System.out.println(" This is Manager");
                 do{
                     System.out.println("Please select your action : ");
