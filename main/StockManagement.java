@@ -44,25 +44,6 @@ public class StockManagement {
         
         setDefaultData();
     }
-
-
-    private void setDefaultData(){
-        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 1500);
-        staffs.add(defaultAdmin);
-
-        Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
-        staffs.add(defaultCashier);
-
-        Stocker defaultStocker = new Stocker(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
-        staffs.add(defaultStocker);
-
-        products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
-        products.add(new Product("Drink","Water",200,0.2,LocalDate.now(),0.5,LocalDate.now().plusDays(30)));
-        products.add(new Product("Food","Cake",50,1.0,LocalDate.now(),2.0,LocalDate.now().plusDays(3)));
-        products.add(new Product("Food","Milk",80,0.8,LocalDate.now(),1.5,LocalDate.now().plusDays(5)));
-        products.add(new Product("Drink","Juice",120,0.3,LocalDate.now(),0.8,LocalDate.now().plusDays(20)));
-    }
-
     
 
     public String getShopName() {
@@ -291,6 +272,25 @@ public class StockManagement {
         }
     }
 
+    
+    public String PostionChoice(){
+        int choice;
+        System.out.println("1. Manager");
+        System.out.println("2. Cashier");
+        System.out.println("3. Stocker");
+        System.out.print("Enter position that you want to create ");
+        choice=sc.nextInt();
+        if(choice==1){
+            return "Manager";
+        }else if(choice==2){
+            return "Cashier";
+        }else if(choice==3){
+            return "Stocker";
+        }else{
+            return "UNKNOW";
+        }
+    }
+
     public void createStaff (){
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
@@ -302,6 +302,8 @@ public class StockManagement {
         String email= sc.nextLine();    
         System.out.print("Enter Salary");
         float salary=sc.nextFloat();
+        String position = PostionChoice();
+
         if (!validstaffinput(username, password, phoneNumber, email)) {
             System.out.println("Staff NOT added because invalid input.");
             return;
@@ -312,15 +314,17 @@ public class StockManagement {
                 return;
             }
         }
-        if (PostionChoice().equalsIgnoreCase("Manager")) {
+        if (position.equalsIgnoreCase("Manager")) {
             staffs.add(new Manager(new Staff(username, password, phoneNumber, email,LocalDate.now().toString()),salary));
             System.out.println("New Manager Add Sucessfully...!"); 
-        }else if(PostionChoice().equalsIgnoreCase("Cashier")){
+        }else if(position.equalsIgnoreCase("Cashier")){
             staffs.add(new Cashier(new Staff(username, password, phoneNumber,email,LocalDate.now().toString()),salary));
             System.out.println("New Cashier Add Sucessfully...!"); 
-        }else if(PostionChoice().equalsIgnoreCase("Stocker")){
+        }else if(position.equalsIgnoreCase("Stocker")){
             staffs.add(new Stocker(new Staff(username, password, phoneNumber, email, LocalDate.now().toString()),salary));
             System.out.println("New Stocker Add Sucessfully...!"); 
+        }else {
+            System.out.println("Invalid input.");
         }
         
     }
@@ -573,173 +577,194 @@ public class StockManagement {
 
     }
 
-    public String PostionChoice(){
-        int choice;
-        System.out.println("1. Manager");
-        System.out.println("2. Cashier");
-        System.out.println("3. Stocker");
-        System.out.print("Enter position that you want to create ");
-        choice=sc.nextInt();
-        if(choice==1){
-            return "Manager";
-        }else if(choice==2){
-            return "Cashier";
-        }else if(choice==3){
-            return "Stocker";
-        }else{
-            return "UNKNOW";
-        }
-    }
-    void run(){
-        IStaff staff = login();
-        if (staff == null) {
-            System.out.println("Login failed.");
-            return;
-        }else{
-            System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
-            PostionChoice();
-            int choice;
-            if(PostionChoice().equalsIgnoreCase("Manager")){
-                System.out.println(" This is Manager");
-                do{
-                    System.out.println("Please select your action : ");
-                    System.out.println("1. View Products");             
-                    System.out.println("2. Update Stock");
-                    System.out.println("3. View Receipt");
-                    System.out.println("4. Manage account");                   
-                    System.out.println("0. Logout");
-                    System.out.print("Your choice : ");
-                    choice = sc.nextInt();
-                   
-                    switch (choice) {
-                        case 1:
-                            if(staff.can(VIEW_PRODUCTS)){
-                                printItems(products);
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }
-                            break;
-                        case 2:
-                            if(staff.can(UPDATE_STOCK)){
-                                System.out.print("This is Update Stock");
-                                updateStock();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                           
-                            break;
-                        case 3:
-                            if(staff.can(VIEW_RECIPT)){
-                                System.out.println("This is View Receipt");
-                                viewReceiptById();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                            
-                            break;
-                        case 4:
-                            if(staff.can(MANAGE_ACCOUNT)){
-                                System.out.println("This is Manage account");
-                                manageStaffMenu();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }
-                            break;
-                        case 0:
-                            System.out.println("Logging out...");
-                            return;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
-                    }
-                }while (choice!=0);
-                    
-            }else if(PostionChoice().equalsIgnoreCase("Stocker")){
-                System.out.println(" This is Stocker");
-                do{
-                    System.out.println("Please select your action : ");
-                    System.out.println("1. View Products");             
-                    System.out.println("2. Update Stock");
-                    System.out.println("0. Logout");
-                    System.out.print("Your choice : ");
-                    choice = sc.nextInt();
-                   
-                    switch (choice) {
-                        case 1:
-                            if(staff.can(VIEW_PRODUCTS)){
-                                printItems(products);
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }
-                            break;
-                        case 2:
-                            if(staff.can(UPDATE_STOCK)){
-                                System.out.print("This is Update Stock");
-                                updateStock();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                         
-                            break;
-                        case 0:
-                            System.out.println("Logging out...");
-                            return;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
-                    }
-                }while (choice!=0);
-            }else if(PostionChoice().equalsIgnoreCase("Cashier")){
-                System.out.println(" This is Cashier");
-                do{
-                    System.out.println("Please select your action : ");
-                    System.out.println("1. Complete Order");             
-                    System.out.println("2. Sell Product");
-                    System.out.println("3. view Receipt By ID");
-                    System.out.println("4. view all Receipt");
-                    System.out.println("0. Logout");
-                    System.out.print("Your choice : ");
-                    choice = sc.nextInt();
-                   
-                    switch (choice) {
-                        case 1:
-                            if(staff.can(COMPLETE_ORDER)){
-                                System.out.print("This is Complete Order");
-                                completeOrder();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                        
-                            break;
-                        case 2:
-                            if(staff.can(SELL_PRODUCT)){
-                                System.out.print("This is Sell Product");
-                                sellItem();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                           
-                            break;
-                        case 3:
-                            if(staff.can(VIEW_RECIPT)){
-                                System.out.println("This is View Receipt by ID");
-                                viewReceiptById();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                          
-                            break;
-                        case 4:
-                            if(staff.can(VIEW_RECIPT)){
-                                System.out.println("This is view all Receipt");
-                                viewallrecipts();
-                            }else {
-                                System.out.println("cannot do!! no permission");
-                            }                           
-                            break;
-                        case 0:
-                            System.out.println("Logging out...");
-                            return;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
-                    }
+    private void setDefaultData(){
+        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 1500);
+        staffs.add(defaultAdmin);
 
-                }while (choice!=0);
+        Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
+        staffs.add(defaultCashier);
+
+        Stocker defaultStocker = new Stocker(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
+        staffs.add(defaultStocker);
+
+        products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
+        products.add(new Product("Drink","Water",200,0.2,LocalDate.now(),0.5,LocalDate.now().plusDays(30)));
+        products.add(new Product("Food","Cake",50,1.0,LocalDate.now(),2.0,LocalDate.now().plusDays(3)));
+        products.add(new Product("Food","Milk",80,0.8,LocalDate.now(),1.5,LocalDate.now().plusDays(5)));
+        products.add(new Product("Drink","Juice",120,0.3,LocalDate.now(),0.8,LocalDate.now().plusDays(20)));
+    }
+
+
+
+    void run(){
+        int choice=1;
+        do{
+            IStaff staff = login();
+            if (staff == null) {
+                System.out.println("Login failed.");
+                return;
+            }else{
+                System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
+                boolean isLogin = true;
+                if(staff instanceof Manager){
+                    System.out.println(" This is Manager");
+                    do{
+                        System.out.println("Please select your action : ");
+                        System.out.println("1. View Products");             
+                        System.out.println("2. Update Stock");
+                        System.out.println("3. View Receipt");
+                        System.out.println("4. Manage account");                   
+                        System.out.println("5. Logout");
+                        System.out.println("0. Exit");
+                        System.out.print("Your choice : ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+                        switch (choice) {
+                            case 1:
+                                if(staff.can(VIEW_PRODUCTS)){
+                                    printItems(products);
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }
+                                break;
+                            case 2:
+                                if(staff.can(UPDATE_STOCK)){
+                                    System.out.print("This is Update Stock");
+                                    updateStock();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                           
+                                break;
+                            case 3:
+                                if(staff.can(VIEW_RECIPT)){
+                                    System.out.println("This is View Receipt");
+                                    viewReceiptById();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                            
+                                break;
+                            case 4:
+                                if(staff.can(MANAGE_ACCOUNT)){
+                                    System.out.println("This is Manage account");
+                                    manageStaffMenu();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }
+                                break;
+                            case 5:
+                                System.out.println("Logging out...");
+                                isLogin = false;
+                                break;
+                            case 0:
+                                System.out.println("Exit");
+                                return;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+                    }while (choice!=0 && isLogin);
+                        
+                }else if(staff instanceof Stocker){
+                    System.out.println(" This is Stocker");
+                    do{
+                        System.out.println("Please select your action : ");
+                        System.out.println("1. View Products");             
+                        System.out.println("2. Update Stock");
+                        System.out.println("5. Logout");
+                        System.out.println("0. Exit");
+                        System.out.print("Your choice : ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+                        switch (choice) {
+                            case 1:
+                                if(staff.can(VIEW_PRODUCTS)){
+                                    printItems(products);
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }
+                                break;
+                            case 2:
+                                if(staff.can(UPDATE_STOCK)){
+                                    System.out.print("This is Update Stock");
+                                    updateStock();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                         
+                                break;
+                            case 5:
+                                System.out.println("Logging out...");
+                                isLogin = false;
+                                break;
+                            case 0:
+                                System.out.println("Exit");
+                                return;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+                    }while (choice!=0 && isLogin);
+                }else if(staff instanceof Cashier){
+                    System.out.println(" This is Cashier");
+                    do{
+                        System.out.println("Please select your action : ");
+                        System.out.println("1. Complete Order");             
+                        System.out.println("2. Sell Product");
+                        System.out.println("3. view Receipt By ID");
+                        System.out.println("4. view all Receipt");
+                        System.out.println("5. Logout");
+                        System.out.println("0. Exit");
+                        System.out.print("Your choice : ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+                        switch (choice) {
+                            case 1:
+                                if(staff.can(COMPLETE_ORDER)){
+                                    System.out.print("This is Complete Order");
+                                    completeOrder();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                        
+                                break;
+                            case 2:
+                                if(staff.can(SELL_PRODUCT)){
+                                    System.out.print("This is Sell Product");
+                                    sellItem();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                           
+                                break;
+                            case 3:
+                                if(staff.can(VIEW_RECIPT)){
+                                    System.out.println("This is View Receipt by ID");
+                                    viewReceiptById();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                          
+                                break;
+                            case 4:
+                                if(staff.can(VIEW_RECIPT)){
+                                    System.out.println("This is view all Receipt");
+                                    viewallrecipts();
+                                }else {
+                                    System.out.println("cannot do!! no permission");
+                                }                           
+                                break;
+                            case 5:
+                                System.out.println("Logging out...");
+                                isLogin = false;
+                                break;
+                            case 0:
+                                System.out.println("Exit");
+                                return;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+
+                    }while (choice!=0 && isLogin);
+                }
             }
-        }
+        }while (choice!=0);
     } 
+
+    
 }
 
 
