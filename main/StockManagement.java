@@ -502,15 +502,69 @@ public class StockManagement {
             switch(choice){
                 case 1:
                     System.out.println("\n Add New Item");
+                    System.out.println("Please input product information");
+
+                    String category;
+                    String name;
+                    int qty;
+                    double importPrice;
+                    String importDate;
+                    double exportPrice;
+                    String expireDate;
+
+                    System.out.print("Category >> ");
+                    category = sc.next();
+
+                    System.out.print("Name >> ");
+                    name = sc.next();
+
+                    System.out.print("Quantity >> ");
+                    qty = sc.nextInt();
+
+                    System.out.print("Import Price $ >> ");
+                    importPrice = sc.nextDouble();
+
+                    System.out.print("Export Price $ >> ");
+                    exportPrice = sc.nextDouble();
+                    
+                    System.out.print("Import Date as (D/M/YYYY) >> ");
+                    importDate = sc.next();
+
+                    System.out.print("Expire Date as (D/M/YYYY) >> ");
+                    expireDate = sc.next();
+
+                    addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
+                    printItems(products);
                     break;  
                 case 2:
                     System.out.println("\n Increase Item's Quantity");
+                    System.out.println("Please Input the ID and Increase value");
+                    int id;
+                    int inc;
+                    System.out.print("ID >>");
+                    id = sc.nextInt();
+                    System.out.print("Increase value >>");
+                    inc = sc.nextInt();
+                    increaseItemByValue(inc, id);
                     break;  
                 case 3:    
                     System.out.println("\n Decrease Item's Quantity");
+                    System.out.println("Please Input the ID and Decrease value");
+                    int id2;
+                    int dec;
+                    System.out.print("ID >>");
+                    id2 = sc.nextInt();
+                    System.out.print("Decrease value >>");
+                    dec = sc.nextInt();
+                    decreaseItemByValue(id2, dec);
                     break; 
                 case 4:
                     System.out.println("\n Delete Item");
+                    System.out.println("Please Input the ID of product");
+                    int id3;
+                    System.out.print("ID >>");
+                    id3 = sc.nextInt();
+                    deleteItem(id3);
                     break; 
                 default:
                     System.out.println("Invalid option!");
