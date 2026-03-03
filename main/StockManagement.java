@@ -521,11 +521,11 @@ public class StockManagement {
 
     public String PostionChoice(){
         int choice;
-        System.out.print("Enter position that you want to create ");
-        choice=sc.nextInt();
         System.out.println("1. Manager");
         System.out.println("2. Cashier");
         System.out.println("3. Stocker");
+        System.out.print("Enter position that you want to create ");
+        choice=sc.nextInt();
         if(choice==1){
             return "Manager";
         }else if(choice==2){
