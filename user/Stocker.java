@@ -20,30 +20,30 @@ public class Stocker extends Cashier {
     }
   
 
-    // @Override
+    @Override
 
-    // public String toString() {
-    //     return super.toString() +
-    //        " Stocker [position: Stocker, id=" + id +
-    //        ", salary=" + getSalary() + "]";
-    // }
+    public String toString() {
+        return super.toString() +
+           " Stocker [position: Stocker" +
+           ", salary=" + getSalary() + "]";
+    }
 
 
-    // @Override
+    @Override
 
-    // public boolean equals(Object obj) {   
-    // Stocker other = (Stocker) obj;
-    //  if (!super.equals(obj))
-    //     {
-    //         return false;
-    //     } else {
+    public boolean equals(Object obj) {   
+    Stocker other = (Stocker) obj;
+     if (!super.equals(obj))
+        {
+            return false;
+        } else {
 
-    //         if (Float.floatToIntBits(salary) 
-    //             != Float.floatToIntBits(other.salary))
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+            if (Float.floatToIntBits(getSalary()) 
+                != Float.floatToIntBits(other.getSalary()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

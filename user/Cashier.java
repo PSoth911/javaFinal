@@ -1,10 +1,8 @@
 
 package user;
-import java.time.LocalDate;
+
 import main.StockManagement;
-public class Cashier extends Staff {
-    private int id;        
-    private static int count=1;      
+public class Cashier extends Manager {
     private float salary;
     @Override
     public boolean can(String action) {
@@ -17,13 +15,10 @@ public class Cashier extends Staff {
         return false;
     }
     public Cashier(Staff s ,float salary){ 
-        super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString());
-        this.id=count++;
-        this.salary=salary;
+        super(s);
+        this.setSalary(salary);
     }
-    public int getId(){
-        return id;
-    }
+
     public float getSalary() {
         return salary;
     }
@@ -40,7 +35,7 @@ public class Cashier extends Staff {
 
     public String toString() {
         return super.toString() +
-           " Cashier [position: Cashier, id=" + id +
+           " Cashier [position: Cashier" +
            ", salary=" + getSalary() + "]";
     }
 

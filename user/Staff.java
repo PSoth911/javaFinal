@@ -3,7 +3,7 @@ import main.StockManagement;
 
 public class Staff implements IStaff {
     private int id;        
-    private static int count=1;      
+    private static int count=0;      
     private String username;     
     private String password;     
     private String phoneNumber;
@@ -22,13 +22,24 @@ public class Staff implements IStaff {
     }
 
     public Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
-        this.id=count++;
+        this.setId();
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
-        this.dateHired = dateHired;
+        this.setHiredDate(dateHired);
     }
+
+    // New constructor for promotion
+    protected Staff(String username, String password, String phoneNumber, String email, String dateHired, int existingId) {
+        this.id = existingId;  // <- Use the old id, do NOT increment count
+        this.setUsername(username);
+        this.setpassword(password);
+        this.setPhoneNumber(phoneNumber);
+        this.setEmail(email);
+        this.setHiredDate(dateHired);
+    }
+
     public int getId(){
         return id;
     }
@@ -49,6 +60,14 @@ public class Staff implements IStaff {
     }
     protected String getPassword(){
         return password;
+    }
+
+    private void setId(){
+         this.id = ++count;
+    }
+
+    private void setHiredDate(String dateHired){
+        this.dateHired = dateHired;
     }
 
     private void setEmail(String email){

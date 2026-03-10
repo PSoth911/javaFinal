@@ -3,8 +3,6 @@ package user;
 import java.time.LocalDate;
 
 public class Manager extends Staff{
-    private int id;        
-    private static int count=1;  
 
     @Override
     public boolean can(String action) {
@@ -16,12 +14,9 @@ public class Manager extends Staff{
         return true;
     }
     public Manager(Staff s){ 
-        this.id=count++;
-        super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString());
+        super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString(),s.getId());
     }
-    public int getId(){
-        return id;
-    }
+
 
 
     
@@ -30,7 +25,7 @@ public class Manager extends Staff{
 
     public String toString() {
         return super.toString() +
-           " Manager [position: Manager, id=" + id +
+           " Manager [position: Manager" +
              "]";
     }
 

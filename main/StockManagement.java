@@ -578,8 +578,12 @@ public class StockManagement {
     }
 
     private void setDefaultData(){
-        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
+        Manager defaultAdmin = new Manager( new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
         staffs.add(defaultAdmin);
+        Manager defaultAdmin2 = new Manager( new Staff("admin456", "Admin@456", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
+        staffs.add(defaultAdmin2);
+        Manager defaultAdmin3 = new Manager( new Staff("admin789", "Admin@789", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
+        staffs.add(defaultAdmin3);
 
         Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
         staffs.add(defaultCashier);
