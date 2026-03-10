@@ -315,7 +315,7 @@ public class StockManagement {
             }
         }
         if (position.equalsIgnoreCase("Manager")) {
-            staffs.add(new Manager(new Staff(username, password, phoneNumber, email,LocalDate.now().toString()),salary));
+            staffs.add(new Manager(new Staff(username, password, phoneNumber, email,LocalDate.now().toString())));
             System.out.println("New Manager Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Cashier")){
             staffs.add(new Cashier(new Staff(username, password, phoneNumber,email,LocalDate.now().toString()),salary));
@@ -578,7 +578,7 @@ public class StockManagement {
     }
 
     private void setDefaultData(){
-        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 1500);
+        Manager defaultAdmin = new Manager(new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
         staffs.add(defaultAdmin);
 
         Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);

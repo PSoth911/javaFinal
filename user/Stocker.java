@@ -3,10 +3,7 @@ import java.time.LocalDate;
 
 import main.StockManagement;
 
-public class Stocker extends Staff {
-    private int id;        
-    private static int count=1;   
-    private float salary;   
+public class Stocker extends Cashier { 
 
 
     @Override
@@ -19,49 +16,35 @@ public class Stocker extends Staff {
     }
 
     public Stocker(Staff s ,float salary){ 
-        this.id=count++;
-        super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString());
-        this.salary=salary;
+        
+       super(s, salary);
     }
-    public int getId(){
-        return id;
-    }
-       public float getSalary() {
-        return salary;
-    }
+  
 
-    public void setSalary(float salary) {
-        if (salary < 0) {
-            System.out.println("Salary cannot be negative.");
-        } else {
-            this.salary = salary;
-        }
-    }
+    // @Override
 
-    @Override
-
-    public String toString() {
-        return super.toString() +
-           " Stocker [position: Stocker, id=" + id +
-           ", salary=" + getSalary() + "]";
-    }
+    // public String toString() {
+    //     return super.toString() +
+    //        " Stocker [position: Stocker, id=" + id +
+    //        ", salary=" + getSalary() + "]";
+    // }
 
 
-    @Override
+    // @Override
 
-    public boolean equals(Object obj) {   
-    Stocker other = (Stocker) obj;
-     if (!super.equals(obj))
-        {
-            return false;
-        } else {
+    // public boolean equals(Object obj) {   
+    // Stocker other = (Stocker) obj;
+    //  if (!super.equals(obj))
+    //     {
+    //         return false;
+    //     } else {
 
-            if (Float.floatToIntBits(salary) 
-                != Float.floatToIntBits(other.salary))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+    //         if (Float.floatToIntBits(salary) 
+    //             != Float.floatToIntBits(other.salary))
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 }
