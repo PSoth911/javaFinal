@@ -30,7 +30,7 @@ public class StockManagement {
     private String shopName;
     private String address;
     ArrayList<Product> products;
-    ArrayList<IStaff> staffs;
+    ArrayList<Staff> staffs;
     ArrayList<Order> orders;
     private Order currentOrder = null;
     private IStaff currentUser;
@@ -167,7 +167,7 @@ public class StockManagement {
         System.out.println("Enter THe StaffID to Update:");
         int id=sc.nextInt();
         sc.nextLine();
-        IStaff s = findStaffById(id);
+        Staff s = findStaffById(id);
 
         if (s != null) {
             System.out.print("New username: ");
@@ -205,7 +205,7 @@ public class StockManagement {
 
 
 
-    private IStaff findStaffById(int id){
+    private Staff findStaffById(int id){
         for(int i=0; i<staffs.size(); i++){
         if(staffs.get(i).getId() == id){
             return staffs.get(i);
@@ -624,9 +624,9 @@ public class StockManagement {
             }
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;
-            int options=1;
-            Map <Integer, String> actionMap = new HashMap<>();
             do{
+                int options=1;
+                Map <Integer, String> actionMap = new HashMap<>();
                 if(staff.can(VIEW_PRODUCTS)){
                     System.out.println(options + ". View Products");
                     actionMap.put(options++, VIEW_PRODUCTS);
