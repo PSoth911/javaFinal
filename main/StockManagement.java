@@ -461,12 +461,12 @@ public class StockManagement {
 
     // Login
     private IStaff login(){
-        System.out.println("Please input your \"User Name\" \"Phone Number\" and \"Password\"");
-        System.out.print("User Name : ");
+        System.out.println("==================Login To System========================");
+        System.out.print("Enter your User Name : ");
         String name = sc.nextLine();
-        System.out.print("Phone Number : ");
+        System.out.print("Enter your Phone Number : ");
         String pnum = sc.nextLine();
-        System.out.print("Password : ");
+        System.out.print("Enter your Password : ");
         String pwnum = sc.nextLine();
         for (IStaff staff : staffs){
             if(staff.getUsername().equals(name) && staff.getPhoneNumber().equals(pnum) && staff.checkPassword(pwnum)){
@@ -625,7 +625,7 @@ public class StockManagement {
             IStaff staff = login();
             if (staff == null) {
                 System.out.println("Login failed.");
-                return;
+                continue;
             }
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;

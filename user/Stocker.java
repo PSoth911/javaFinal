@@ -1,10 +1,7 @@
 package user;
 
 import main.StockManagement;
-
 public class Stocker extends Cashier { 
-
-
     @Override
     public boolean can(String action) {
         // TODO Auto-generated method stub
@@ -18,32 +15,14 @@ public class Stocker extends Cashier {
         
        super(s, salary);
     }
-  
-
     @Override
-
     public String toString() {
-        return super.toString() +
-           " Stocker [position: Stocker" +
-           ", salary=" + getSalary() + "]";
+        return super.toString() + " Stocker";
     }
-
-
     @Override
-
-    public boolean equals(Object obj) {   
-    Stocker other = (Stocker) obj;
-     if (!super.equals(obj))
-        {
-            return false;
-        } else {
-
-            if (Float.floatToIntBits(getSalary()) 
-                != Float.floatToIntBits(other.getSalary()))
-            {
-                return false;
-            }
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return super.equals(obj);
         }
-        return true;
     }
-}

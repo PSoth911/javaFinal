@@ -30,33 +30,18 @@ public class Cashier extends Manager {
             this.salary = salary;
         }
     }
-
     @Override
-
     public String toString() {
         return super.toString() +
-           " Cashier [position: Cashier" +
-           ", salary=" + getSalary() + "]";
+                " Cashier{salary=" + salary + "}";
     }
-
 
     @Override
-
-    public boolean equals(Object obj) {   
-    Cashier other = (Cashier) obj;
-     if (!super.equals(obj))
-        {
-            return false;
-        } else {
-
-            if (Float.floatToIntBits(salary) 
-                != Float.floatToIntBits(other.salary))
-            {
-                return false;
-            }
-        }
-        return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
+        Cashier other = (Cashier) obj;
+        return Float.floatToIntBits(salary)== Float.floatToIntBits(other.salary);
+        }    
     }
-
-        
-}

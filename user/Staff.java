@@ -1,6 +1,4 @@
 package user;
-import main.StockManagement;
-
 public class Staff implements IStaff {
     private int id;        
     private static int count=0;      
@@ -125,21 +123,15 @@ public class Staff implements IStaff {
 
     @Override
     public String toString() {
-        return "S{" +
-                ", fullName='" + username + '\'' +
-                ", phone='" + phoneNumber + '\'' +
-             
-               
-                '}';
+    return "Staff{" +"id=" + id +", username='" + username + '\'' +", phoneNumber='" + phoneNumber + '\'' +
+            ", email='" + email + '\'' +", dateHired='" + dateHired + '\'' +'}';
     }
 
     @Override
     public boolean equals(Object obj) {
-        Staff s1 = (Staff) obj;
-        if(s1.phoneNumber.equals(phoneNumber))
-        {
-            return true;
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Staff s = (Staff) obj;
+        return this.phoneNumber.equals(s.phoneNumber);
         }
-        return false;
     }
-}

@@ -17,31 +17,16 @@ public class Manager extends Staff{
         super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString(),s.getId());
     }
 
-
-
-    
-
     @Override
-
     public String toString() {
-        return super.toString() +
-           " Manager [position: Manager" +
-             "]";
+        return super.toString() + " Manager{position=Manager}";
     }
-
 
     @Override
-
-    public boolean equals(Object obj) {   
-    Manager other = (Manager) obj;
-     if (!super.equals(obj))
-        {
-            return false;
-        } else {
-
-           
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
         return true;
-    }
-
     }
 }
