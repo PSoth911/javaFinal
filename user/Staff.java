@@ -1,5 +1,5 @@
 package user;
-public class Staff implements IStaff {
+public abstract class Staff implements IStaff {
     private int id;        
     private static int count=0;      
     private String username;     
@@ -8,11 +8,8 @@ public class Staff implements IStaff {
     private String email;  
     private String dateHired;     
 
-    @Override
-    public boolean can(String action) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+  
+    public abstract boolean can(String action);
 
     public Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
         this.setId();
@@ -23,15 +20,15 @@ public class Staff implements IStaff {
         this.setHiredDate(dateHired);
     }
 
-    // New constructor for promotion
-    protected Staff(String username, String password, String phoneNumber, String email, String dateHired, int existingId) {
-        this.id = existingId;  // <- Use the old id, do NOT increment count
-        this.setUsername(username);
-        this.setpassword(password);
-        this.setPhoneNumber(phoneNumber);
-        this.setEmail(email);
-        this.setHiredDate(dateHired);
-    }
+    // // New constructor for promotion
+    // protected Staff(String username, String password, String phoneNumber, String email, String dateHired, int existingId) {
+    //     this.id = existingId;  // <- Use the old id, do NOT increment count
+    //     this.setUsername(username);
+    //     this.setpassword(password);
+    //     this.setPhoneNumber(phoneNumber);
+    //     this.setEmail(email);
+    //     this.setHiredDate(dateHired);
+    // }
 
     public int getId(){
         return id;

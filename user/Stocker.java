@@ -11,9 +11,8 @@ public class Stocker extends Cashier {
         return false;
     }
 
-    public Stocker(Staff s ,float salary){ 
-        
-       super(s, salary);
+    public Stocker(String username, String password, String phoneNumber, String email, String dateHired, float salary){      
+       super(username, password, phoneNumber, email, dateHired, salary);
     }
     @Override
     public String toString() {

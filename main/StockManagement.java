@@ -317,13 +317,13 @@ public class StockManagement {
             }
         }
         if (position.equalsIgnoreCase("Manager")) {
-            staffs.add(new Manager(new Staff(username, password, phoneNumber, email,LocalDate.now().toString())));
+            staffs.add(new Manager(username, password, phoneNumber, email,LocalDate.now().toString()));
             System.out.println("New Manager Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Cashier")){
-            staffs.add(new Cashier(new Staff(username, password, phoneNumber,email,LocalDate.now().toString()),salary));
+            staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),salary));
             System.out.println("New Cashier Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Stocker")){
-            staffs.add(new Stocker(new Staff(username, password, phoneNumber, email, LocalDate.now().toString()),salary));
+            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), salary));
             System.out.println("New Stocker Add Sucessfully...!"); 
         }else {
             System.out.println("Invalid input.");
@@ -461,12 +461,12 @@ public class StockManagement {
 
     // Login
     private IStaff login(){
-        System.out.println("==================Login To System========================");
-        System.out.print("Enter your User Name : ");
+        System.out.println("Please input your \"User Name\" \"Phone Number\" and \"Password\"");
+        System.out.print("User Name : ");
         String name = sc.nextLine();
-        System.out.print("Enter your Phone Number : ");
+        System.out.print("Phone Number : ");
         String pnum = sc.nextLine();
-        System.out.print("Enter your Password : ");
+        System.out.print("Password : ");
         String pwnum = sc.nextLine();
         for (IStaff staff : staffs){
             if(staff.getUsername().equals(name) && staff.getPhoneNumber().equals(pnum) && staff.checkPassword(pwnum)){
@@ -599,18 +599,13 @@ public class StockManagement {
     }
 
     private void setDefaultData(){
-        Manager defaultAdmin = new Manager( new Staff("admin123", "Admin@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
-        staffs.add(defaultAdmin);
-        Manager defaultAdmin2 = new Manager( new Staff("admin456", "Admin@456", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
-        staffs.add(defaultAdmin2);
-        Manager defaultAdmin3 = new Manager( new Staff("admin789", "Admin@789", "0123456789", "admin@gmail.com", LocalDate.now().toString()));
-        staffs.add(defaultAdmin3);
+        Staff manager1 = new Manager("admin", "admin123", "0123456789", "admin@gmail.com", LocalDate.now().toString());
+        staffs.add(manager1);
+        Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500);
+        staffs.add(stocker1);
+        Staff cashier1 = new Cashier("cashier1", "cash123", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
+        staffs.add(cashier1);
 
-        Cashier defaultCashier = new Cashier(new Staff("Cashier123", "Cashier@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
-        staffs.add(defaultCashier);
-
-        Stocker defaultStocker = new Stocker(new Staff("Stocker123", "Stocker@123", "0123456789", "admin@gmail.com", LocalDate.now().toString()), 500);
-        staffs.add(defaultStocker);
 
         products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
         products.add(new Product("Drink","Water",200,0.2,LocalDate.now(),0.5,LocalDate.now().plusDays(30)));
@@ -625,7 +620,7 @@ public class StockManagement {
             IStaff staff = login();
             if (staff == null) {
                 System.out.println("Login failed.");
-                continue;
+                return;
             }
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;

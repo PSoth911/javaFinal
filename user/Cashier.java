@@ -14,8 +14,8 @@ public class Cashier extends Manager {
         }
         return false;
     }
-    public Cashier(Staff s ,float salary){ 
-        super(s);
+    public Cashier(String username, String password, String phoneNumber, String email, String dateHired, float salary){ 
+        super(username, password, phoneNumber, email, dateHired);
         this.setSalary(salary);
     }
 

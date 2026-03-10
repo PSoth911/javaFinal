@@ -1,6 +1,5 @@
 package user;
 
-import java.time.LocalDate;
 
 public class Manager extends Staff{
 
@@ -13,8 +12,8 @@ public class Manager extends Staff{
         // }
         return true;
     }
-    public Manager(Staff s){ 
-        super(s.getUsername(),s.getPassword(),s.getPhoneNumber(), s.getEmail(),LocalDate.now().toString(),s.getId());
+    public Manager(String username, String password, String phoneNumber,String email, String dateHired){ 
+        super(username, password, phoneNumber, email, dateHired);
     }
 
     @Override
