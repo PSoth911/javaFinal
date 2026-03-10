@@ -13,11 +13,6 @@ public class Staff implements IStaff {
     @Override
     public boolean can(String action) {
         // TODO Auto-generated method stub
-        if (action.equals(StockManagement.SELL_PRODUCT)
-        || action.equals(StockManagement.COMPLETE_ORDER)
-        || action.equals(StockManagement.VIEW_RECIPT)) {
-        return true;
-        }
         return false;
     }
 
@@ -126,5 +121,25 @@ public class Staff implements IStaff {
         }else{
             System.out.println("fail....!");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "S{" +
+                ", fullName='" + username + '\'' +
+                ", phone='" + phoneNumber + '\'' +
+             
+               
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Staff s1 = (Staff) obj;
+        if(s1.phoneNumber.equals(phoneNumber))
+        {
+            return true;
+        }
+        return false;
     }
 }
