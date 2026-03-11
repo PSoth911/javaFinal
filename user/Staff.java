@@ -8,6 +8,7 @@ public abstract class Staff implements IStaff {
     private String email;  
     private String dateHired;     
     private float salary;
+    boolean isActive;
 
   
     public abstract boolean can(String action);
@@ -20,6 +21,7 @@ public abstract class Staff implements IStaff {
         this.setEmail(email);
         this.setHiredDate(dateHired);
         this.setSalary(salary);
+        this.setActive(true);
     }
 
     // // New constructor for promotion
@@ -56,6 +58,14 @@ public abstract class Staff implements IStaff {
 
     public float getSalary() {
         return salary;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void setSalary(float salary) {

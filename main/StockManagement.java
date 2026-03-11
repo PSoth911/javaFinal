@@ -139,7 +139,7 @@ public class StockManagement {
             System.out.println("Enter THe StaffID to Update:");
             int id=sc.nextInt();
             sc.nextLine();
-            IStaff s = findStaffById(id);
+            Staff s = findStaffById(id);
             if (s == currentUser) {
                 System.out.println("You cannot remove your own account!");
                 return;
@@ -149,7 +149,7 @@ public class StockManagement {
                 + "? (Y/N)");
                 String confirm = sc.nextLine();
                     if (confirm.equalsIgnoreCase("Y")) {
-                        staffs.remove(s);
+                        s.setActive(false);
                         System.out.println("Staff removed successfully!");
                     } else {
                         System.out.println("Remove cancelled.");
