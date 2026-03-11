@@ -7,17 +7,19 @@ public abstract class Staff implements IStaff {
     private String phoneNumber;
     private String email;  
     private String dateHired;     
+    private float salary;
 
   
     public abstract boolean can(String action);
 
-    public Staff(String username, String password, String phoneNumber,String email, String dateHired){ 
+    public Staff(String username, String password, String phoneNumber,String email, String dateHired, float salary){ 
         this.setId();
         this.setUsername(username);
         this.setpassword(password);
         this.setPhoneNumber(phoneNumber);
         this.setEmail(email);
         this.setHiredDate(dateHired);
+        this.setSalary(salary);
     }
 
     // // New constructor for promotion
@@ -52,6 +54,17 @@ public abstract class Staff implements IStaff {
         return password;
     }
 
+    public float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(float salary) {
+        if (salary < 0) {
+            System.out.println("Salary cannot be negative.");
+        } else {
+            this.salary = salary;
+        }
+    }
     private void setId(){
          this.id = ++count;
     }
@@ -121,7 +134,7 @@ public abstract class Staff implements IStaff {
     @Override
     public String toString() {
     return "Staff{" +"id=" + id +", username='" + username + '\'' +", phoneNumber='" + phoneNumber + '\'' +
-            ", email='" + email + '\'' +", dateHired='" + dateHired + '\'' +'}';
+            ", email='" + email + '\'' +", dateHired='" + dateHired + '\''+ ", salary=" + salary + '}';
     }
 
     @Override

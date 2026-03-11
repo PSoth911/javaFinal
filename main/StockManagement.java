@@ -317,13 +317,17 @@ public class StockManagement {
             }
         }
         if (position.equalsIgnoreCase("Manager")) {
-            staffs.add(new Manager(username, password, phoneNumber, email,LocalDate.now().toString()));
+            System.out.print("Enter Bonus: ");
+            float bonus = sc.nextFloat();
+            staffs.add(new Manager(username, password, phoneNumber, email,LocalDate.now().toString(),salary, bonus));
             System.out.println("New Manager Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Cashier")){
             staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),salary));
             System.out.println("New Cashier Add Sucessfully...!"); 
         }else if(position.equalsIgnoreCase("Stocker")){
-            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), salary));
+            System.out.print("Enter Shift (Morning/Evening/Night): ");
+            String shift = sc.next();
+            staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), salary, shift));
             System.out.println("New Stocker Add Sucessfully...!"); 
         }else {
             System.out.println("Invalid input.");
@@ -599,9 +603,9 @@ public class StockManagement {
     }
 
     private void setDefaultData(){
-        Staff manager1 = new Manager("admin", "admin123", "0123456789", "admin@gmail.com", LocalDate.now().toString());
+        Staff manager1 = new Manager("admin", "admin123", "0123456789", "admin@gmail.com", LocalDate.now().toString(), 1000, 200);
         staffs.add(manager1);
-        Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500);
+        Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500, "Morning");
         staffs.add(stocker1);
         Staff cashier1 = new Cashier("cashier1", "cash123", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
         staffs.add(cashier1);

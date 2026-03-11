@@ -2,11 +2,10 @@
 package user;
 
 import main.StockManagement;
-public class Cashier extends Manager {
-    private float salary;
+public class Cashier extends Staff {
+    
     @Override
     public boolean can(String action) {
-        // TODO Auto-generated method stub
         if (action.equals(StockManagement.SELL_PRODUCT)
         || action.equals(StockManagement.COMPLETE_ORDER)
         || action.equals(StockManagement.VIEW_RECIPT)) {
@@ -15,25 +14,13 @@ public class Cashier extends Manager {
         return false;
     }
     public Cashier(String username, String password, String phoneNumber, String email, String dateHired, float salary){ 
-        super(username, password, phoneNumber, email, dateHired);
-        this.setSalary(salary);
+        super(username, password, phoneNumber, email, dateHired, salary);
     }
 
-    public float getSalary() {
-        return salary;
-    }
-
-    public void setSalary(float salary) {
-        if (salary < 0) {
-            System.out.println("Salary cannot be negative.");
-        } else {
-            this.salary = salary;
-        }
-    }
+    
     @Override
     public String toString() {
-        return super.toString() +
-                " Cashier{salary=" + salary + "}";
+        return super.toString() + " Cashier";
     }
 
     @Override
@@ -42,6 +29,6 @@ public class Cashier extends Manager {
         if (obj == null || getClass() != obj.getClass()) return false;
         if (!super.equals(obj)) return false;
         Cashier other = (Cashier) obj;
-        return Float.floatToIntBits(salary)== Float.floatToIntBits(other.salary);
+        return Float.floatToIntBits(super.getSalary())== Float.floatToIntBits(other.getSalary());
         }    
     }

@@ -1,19 +1,26 @@
 package user;
 
+public class Manager extends Cashier{
+    private float bonus;
 
-public class Manager extends Staff{
+    public float getBonus() {
+        return bonus;
+    }
+    public void setBonus(float bonus) {
+        if (bonus < 0) {
+            this.bonus = 0;
+        } else {
+            this.bonus = bonus;
+        }
+    }
 
     @Override
     public boolean can(String action) {
-        // TODO Auto-generated method stub
-        // just test code
-        // if (action.equals(StockManagement.VIEW_PRODUCTS)) {
-        //     return false;
-        // }
         return true;
     }
-    public Manager(String username, String password, String phoneNumber,String email, String dateHired){ 
-        super(username, password, phoneNumber, email, dateHired);
+    public Manager(String username, String password, String phoneNumber,String email, String dateHired, float salary, float bonus){ 
+        super(username, password, phoneNumber, email, dateHired, salary);
+        this.setBonus(bonus);
     }
 
     @Override
