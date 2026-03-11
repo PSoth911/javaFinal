@@ -264,13 +264,14 @@ public class StockManagement {
 
     private void ShowStaffList() {
         System.out.println("------------------------------------Staff Dashbaord-------------------------------");
-        System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tPosition");
+        System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tActive");
         System.out.println("----------------------------------------------------------------------------------");
         for (int i=0;i<staffs.size();i++) {
             System.out.println(staffs.get(i).getId() + "\t" 
                                +staffs.get(i).getUsername() + "\t\t" 
                                +staffs.get(i).getPhoneNumber() + "\t\t" 
-                               +staffs.get(i).getEmail());
+                               +staffs.get(i).getEmail() + "\t\t" 
+                               +staffs.get(i).isActive());
         }
     }
 
