@@ -12,6 +12,7 @@ import user.IStaff;
 import user.Manager;
 import user.Staff;
 import user.Stocker;
+import user.StaffFilter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -60,6 +61,33 @@ public class StockManagement {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    // public void showActiveStaff(List<Staff> staffs){
+    //     //Anonymous Inner
+    // StaffFilter filter = new StaffFilter() {
+    //     @Override
+    //     public boolean test(Staff s) {
+    //             return s.isActive();
+    //         }
+    //     };
+
+    //     for(Staff s : staffs){
+    //         if(filter.test(s)){
+    //             System.out.println(s);
+    //         }
+    //     }
+    // }   
+
+    public void showActiveStaff(List<Staff> staffs){
+        // lambda Expression
+    StaffFilter filter = s -> s.isActive();
+
+        for(Staff s : staffs){
+            if(filter.test(s)){
+                System.out.println(s);
+            }
+        }
     }
 
 
