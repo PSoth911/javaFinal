@@ -79,7 +79,7 @@ public class StockManagement {
     //     }
     // }   
 
-    public void showActiveStaff(List<Staff> staffs){
+    public void showActiveStaff(ArrayList<Staff> staffs){
         // lambda Expression
     StaffFilter filter = s -> s.isActive();
 
