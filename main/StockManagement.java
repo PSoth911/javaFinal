@@ -12,14 +12,13 @@ import user.IStaff;
 import user.Manager;
 import user.Staff;
 import user.Stocker;
-import user.StaffFilter;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class StockManagement {
     Scanner sc = new Scanner(System.in);
-    
 
     public static final String VIEW_PRODUCTS = "View Products";
     public static final String SELL_PRODUCT = "Sell Product";
@@ -63,8 +62,14 @@ public class StockManagement {
         this.address = address;
     }
 
-    // public void showActiveStaff(List<Staff> staffs){
-    //     //Anonymous Inner
+ 
+    @FunctionalInterface
+    public interface StaffFilter {
+        boolean test(Staff s);
+    }
+  
+    public void showActiveStaff(ArrayList<Staff> staffs){
+    //Anonymous Inner
     // StaffFilter filter = new StaffFilter() {
     //     @Override
     //     public boolean test(Staff s) {
@@ -72,15 +77,7 @@ public class StockManagement {
     //         }
     //     };
 
-    //     for(Staff s : staffs){
-    //         if(filter.test(s)){
-    //             System.out.println(s);
-    //         }
-    //     }
-    // }   
-
-    public void showActiveStaff(ArrayList<Staff> staffs){
-        // lambda Expression
+    // lambda Expression
     StaffFilter filter = s -> s.isActive();
 
         for(Staff s : staffs){
@@ -159,6 +156,8 @@ public class StockManagement {
             System.out.println(item.getId() + "\t" +item.getCategory() + "\t\t" + item.getName() + "\t" + item.getQuantity()+ "\t\t" + item.getImportPrice()+ "\t\t" +item.getImportDate()+ "\t\t" + item.getExportPrice() + "\t\t" + item.getExpiredDate());
         }
     }
+
+    
 
     // Staff Management
     private void removeStaff(){
@@ -592,7 +591,7 @@ public class StockManagement {
                     expireDate = sc.next();
 
                     addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
-                    printItems(products);
+                    // printItems(products);
                     break;  
                 case 2:
                     System.out.println("\n Increase Item's Quantity");
@@ -632,6 +631,24 @@ public class StockManagement {
     }
 
     private void setDefaultData(){
+        // Anonymous Inner Class
+        Staff admin = new Manager(
+        "admin",
+        "admin123",
+        "0123456789",
+        "admin@gmail.com",
+        LocalDate.now().toString(),
+        1000,
+        200){
+            @Override
+            public boolean can(String action){
+                return true;
+            }
+        };
+        staffs.add(admin);
+
+        // Normal
+
         Staff manager1 = new Manager("admin", "admin123", "0123456789", "admin@gmail.com", LocalDate.now().toString(), 1000, 200);
         staffs.add(manager1);
         Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500, "Morning");
@@ -702,7 +719,7 @@ public class StockManagement {
                     String action = actionMap.get(choice);
                     switch (action) {
                         case VIEW_PRODUCTS:
-                            printItems(products);
+                            printItems(products);          
                             break;
                         case UPDATE_STOCK:
                             updateStock();
