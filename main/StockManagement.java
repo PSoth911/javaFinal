@@ -13,7 +13,6 @@ import user.Manager;
 import user.Staff;
 import user.Stocker;
 
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -200,9 +199,8 @@ public class StockManagement {
             String email = sc.nextLine();
 
             if (!validstaffinput(username,password, phone, email)) {
-                System.out.println("Update failed due to invalid input.");
-                return;
-             }
+                throw new IllegalArgumentException("Update failed due to invalid input.");
+            }
             s.setUsername(username,oldusername,password);
             s.setPhoneNumber(phone,password);
             s.setEmail(email,password);
@@ -321,8 +319,8 @@ public class StockManagement {
         String position = PostionChoice();
 
         if (!validstaffinput(username, password, phoneNumber, email)) {
-            System.out.println("Staff NOT added because invalid input.");
-            return;
+            throw new IllegalArgumentException("Staff NOT added because invalid input.");
+            
         }
         for(int i=0;i<staffs.size();i++){
             if(username.equalsIgnoreCase(staffs.get(i).getUsername())){
@@ -376,7 +374,7 @@ public class StockManagement {
                         currentOrder.addItem(orderitem);
                         System.out.println("Item added to current order.");
                     } else {
-                        System.out.println("Not enough stock! Current stock: " + item.getQuantity());
+                        throw new IllegalArgumentException("Not enough stock! Current stock: " + item.getQuantity());
                     }
                     break;
                 } catch (Exception e) {
@@ -515,13 +513,21 @@ public class StockManagement {
                 sc.nextLine(); 
                 switch (choice) {
                     case 1:
-                        createStaff();;
+                        try {
+                            createStaff();
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 2:
                         ShowStaffList();;
                         break;
                     case 3:
-                        updateStaff();
+                        try {
+                            updateStaff();
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 4:
                         SearchStaff();
@@ -760,7 +766,11 @@ public class StockManagement {
                                 completeOrder();
                                 break;
                             case SELL_PRODUCT:
-                                sellItem();
+                                try {
+                                    sellItem();
+                                } catch (IllegalArgumentException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 break;
                             case VIEW_RECIPT:
                                 viewRecipt();
