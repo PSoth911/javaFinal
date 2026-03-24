@@ -91,9 +91,13 @@ public class StockManagement {
     // Product Management
     public void addItem(String category,String name,int quantity,double importPrice,String importDateStr,double exportPrice,String expiredDateStr) {
         DateTimeFormatter convert = DateTimeFormatter.ofPattern("d/M/yyyy");
-        LocalDate importDate = LocalDate.parse(importDateStr,convert);
-        LocalDate expiredDate = LocalDate.parse(expiredDateStr,convert);
-        products.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
+        try {
+            LocalDate importDate = LocalDate.parse(importDateStr, convert);
+            LocalDate expiredDate = LocalDate.parse(expiredDateStr, convert);
+            products.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
+        } catch (Exception e) {
+            System.out.println("Invalid date format. Please use D/M/YYYY.");
+        }
     }
 
     public void deleteItem(int id){
@@ -128,28 +132,6 @@ public class StockManagement {
         }
     }
 
-    public void increaseItem(int id){
-       for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId()== id) {
-                products.get(i).setQuantity(products.get(i).getQuantity() + 1);
-                break;
-            }
-        }
-    }
-    public void decreaseItem(int id){
-       for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId()== id) {
-                if (products.get(i).getQuantity()>0){
-                    products.get(i).setQuantity(products.get(i).getQuantity() - 1);
-                    break;
-                }else{
-                    System.out.println("Item's quantity is 0");
-                    break;
-                }
-            }
-        }
-    }
-
     public static void printItems(ArrayList<Product> items){
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
         for (Product item : items){
@@ -162,6 +144,10 @@ public class StockManagement {
     // Staff Management
     private void removeStaff(){
             currentUser = login();
+            if(currentUser == null){
+                System.out.println("Login failed.");
+                return;
+            }
             ShowStaffList();
             System.out.println("Enter THe StaffID to Update:");
             int id=sc.nextInt();
@@ -372,26 +358,32 @@ public class StockManagement {
         boolean found = false;
         for (Product item : products) {
             if (item.getName().equalsIgnoreCase(name)) {
-                found = true;
-                System.out.print("Enter quantity to sell: ");
-                int qty = sc.nextInt();
+                try {
+                    found = true;
+                    System.out.print("Enter quantity to sell: ");
+                    int qty = sc.nextInt();
 
-                if (qty <= item.getQuantity()) {
-                    item.setQuantity(item.getQuantity() - qty);
-                    double afterDiscount = item.getExportPrice() - (item.getDiscount()*item.getExportPrice());
-                    double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
-                    System.out.println("Discount : " + item.getDiscount()*100 +"%");
-                    System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
-                    Order orderitem = new Order(item.getName(), qty, item.getExportPrice(), item.getDiscount());
-                    if (currentOrder == null) {
-                    currentOrder = new Order();
+                    if (qty <= item.getQuantity()) {
+                        item.setQuantity(item.getQuantity() - qty);
+                        double afterDiscount = item.getExportPrice() - (item.getDiscount()*item.getExportPrice());
+                        double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
+                        System.out.println("Discount : " + item.getDiscount()*100 +"%");
+                        System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
+                        Order orderitem = new Order(item.getName(), qty, item.getExportPrice(), item.getDiscount());
+                        if (currentOrder == null) {
+                        currentOrder = new Order();
+                        }
+                        currentOrder.addItem(orderitem);
+                        System.out.println("Item added to current order.");
+                    } else {
+                        System.out.println("Not enough stock! Current stock: " + item.getQuantity());
                     }
-                    currentOrder.addItem(orderitem);
-                    System.out.println("Item added to current order.");
-                } else {
-                    System.out.println("Not enough stock! Current stock: " + item.getQuantity());
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid input (NaN). Please try again.(message from sell item)");
+                    sc.nextLine(); // Clear the invalid input
                 }
-                break;
+
             }
         }
         if (!found) {
@@ -510,37 +502,43 @@ public class StockManagement {
     public void manageStaffMenu() {
         int choice;
         do {
-            System.out.println("\n=== Manage Staff Menu ===");
-            System.out.println("1. Add Staff");
-            System.out.println("2. View Staff List");
-            System.out.println("3. Update Staff");
-            System.out.println("4. Search Staff");
-            System.out.println("5. Remove Staff");
-            System.out.println("0. Back");
-            System.out.print("Enter choice: ");
-            choice = sc.nextInt();
-            sc.nextLine(); 
-            switch (choice) {
-                case 1:
-                    createStaff();;
-                    break;
-                case 2:
-                    ShowStaffList();;
-                    break;
-                case 3:
-                    updateStaff();
-                    break;
-                case 4:
-                    SearchStaff();
-                    break;
-                case 5:
-                    removeStaff();
-                    break;
-                case 0:
-                    System.out.println("Returning to main menu...");
-                    break;
-                default:
-                    System.out.println("Invalid choice....!");
+            try {
+                System.out.println("\n=== Manage Staff Menu ===");
+                System.out.println("1. Add Staff");
+                System.out.println("2. View Staff List");
+                System.out.println("3. Update Staff");
+                System.out.println("4. Search Staff");
+                System.out.println("5. Remove Staff");
+                System.out.println("0. Back");
+                System.out.print("Enter choice: ");
+                choice = sc.nextInt();
+                sc.nextLine(); 
+                switch (choice) {
+                    case 1:
+                        createStaff();;
+                        break;
+                    case 2:
+                        ShowStaffList();;
+                        break;
+                    case 3:
+                        updateStaff();
+                        break;
+                    case 4:
+                        SearchStaff();
+                        break;
+                    case 5:
+                        removeStaff();
+                        break;
+                    case 0:
+                        System.out.println("Returning to main menu...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice....!");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again with a number.(message from manage staff menu)");
+                sc.nextLine(); // Clear the buffer
+                choice = -1; // Reset choice to avoid accidental logout or exit
             }
         } while (choice != 0);
     }
@@ -548,85 +546,115 @@ public class StockManagement {
     private void updateStock(){
         int choice;
         do{
-            System.out.println(">>>");
-            System.out.println("1. Add New Item");
-            System.out.println("2. Increase Item's Quantity");
-            System.out.println("3. Decrease Item's Quantity");
-            System.out.println("4. Delete Item");
-            System.out.println("0. Back");
-            System.out.print("Enter option: ");
-            choice = sc.nextInt();
-            switch(choice){
-                case 1:
-                    System.out.println("\n Add New Item");
-                    System.out.println("Please input product information");
+            try{
+                System.out.println(">>>");
+                System.out.println("1. Add New Item");
+                System.out.println("2. Increase Item's Quantity");
+                System.out.println("3. Decrease Item's Quantity");
+                System.out.println("4. Delete Item");
+                System.out.println("0. Back");
+                System.out.print("Enter option: ");
+                choice = sc.nextInt();
+                switch(choice){
+                    case 1:
+                        try {
+                            System.out.println("\n Add New Item");
+                            System.out.println("Please input product information");
 
-                    String category;
-                    String name;
-                    int qty;
-                    double importPrice;
-                    String importDate;
-                    double exportPrice;
-                    String expireDate;
+                            String category;
+                            String name;
+                            int qty;
+                            double importPrice;
+                            String importDate;
+                            double exportPrice;
+                            String expireDate;
 
-                    System.out.print("Category >> ");
-                    category = sc.next();
+                            System.out.print("Category >> ");
+                            category = sc.next();
 
-                    System.out.print("Name >> ");
-                    name = sc.next();
+                            System.out.print("Name >> ");
+                            name = sc.next();
 
-                    System.out.print("Quantity >> ");
-                    qty = sc.nextInt();
+                            System.out.print("Quantity >> ");
+                            qty = sc.nextInt();
 
-                    System.out.print("Import Price $ >> ");
-                    importPrice = sc.nextDouble();
+                            System.out.print("Import Price $ >> ");
+                            importPrice = sc.nextDouble();
 
-                    System.out.print("Export Price $ >> ");
-                    exportPrice = sc.nextDouble();
-                    
-                    System.out.print("Import Date as (D/M/YYYY) >> ");
-                    importDate = sc.next();
+                            System.out.print("Export Price $ >> ");
+                            exportPrice = sc.nextDouble();
+                            
+                            System.out.print("Import Date as (D/M/YYYY) >> ");
+                            importDate = sc.next();
 
-                    System.out.print("Expire Date as (D/M/YYYY) >> ");
-                    expireDate = sc.next();
+                            System.out.print("Expire Date as (D/M/YYYY) >> ");
+                            expireDate = sc.next();
 
-                    addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
-                    // printItems(products);
-                    break;  
-                case 2:
-                    System.out.println("\n Increase Item's Quantity");
-                    System.out.println("Please Input the ID and Increase value");
-                    int id;
-                    int inc;
-                    System.out.print("ID >>");
-                    id = sc.nextInt();
-                    System.out.print("Increase value >>");
-                    inc = sc.nextInt();
-                    increaseItemByValue(inc, id);
-                    break;  
-                case 3:    
-                    System.out.println("\n Decrease Item's Quantity");
-                    System.out.println("Please Input the ID and Decrease value");
-                    int id2;
-                    int dec;
-                    System.out.print("ID >>");
-                    id2 = sc.nextInt();
-                    System.out.print("Decrease value >>");
-                    dec = sc.nextInt();
-                    decreaseItemByValue(id2, dec);
-                    break; 
-                case 4:
-                    System.out.println("\n Delete Item");
-                    System.out.println("Please Input the ID of product");
-                    int id3;
-                    System.out.print("ID >>");
-                    id3 = sc.nextInt();
-                    deleteItem(id3);
-                    break; 
-                default:
-                    System.out.println("Invalid option!");
+                            addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
+                            printItems(products);
+                            break;
+                        } catch (Exception e) {
+                            System.out.println("Invalid input. Please try again.(message from add item)");
+                            sc.nextLine(); // Clear the buffer
+                            break;
+                        }
+                    case 2:
+                    try{ 
+                            System.out.println("\n Increase Item's Quantity");
+                            System.out.println("Please Input the ID and Increase value");
+                            int id;
+                            int inc;
+                            System.out.print("ID >>");
+                            id = sc.nextInt();
+                            System.out.print("Increase value >>");
+                            inc = sc.nextInt();
+                            increaseItemByValue(inc, id);
+                            break; 
+                        }catch (Exception e) {
+                            System.out.println("Invalid input. Please try again.(message from increase item)");
+                            sc.nextLine(); // Clear the buffer
+                            break;
+                        }
+                    case 3:    
+                        try{
+                            System.out.println("\n Decrease Item's Quantity");
+                            System.out.println("Please Input the ID and Decrease value");
+                            int id2;
+                            int dec;
+                            System.out.print("ID >>");
+                            id2 = sc.nextInt();
+                            System.out.print("Decrease value >>");
+                            dec = sc.nextInt();
+                            decreaseItemByValue(id2, dec);
+                            break; 
+                        }catch (Exception e) {
+                            System.out.println("Invalid input. Please try again.(message from decrease item)");
+                            sc.nextLine(); // Clear the buffer
+                            break;
+                        }
+                    case 4:
+                        try{
+                            System.out.println("\n Delete Item");
+                            System.out.println("Please Input the ID of product");
+                            int id3;
+                            System.out.print("ID >>");
+                            id3 = sc.nextInt();
+                            deleteItem(id3);
+                            break; 
+                        }catch (Exception e) {
+                            System.out.println("Invalid input. Please try again.(message from delete item)");
+                            sc.nextLine(); // Clear the buffer
+                            break;
+                        }
+                    default:
+                        System.out.println("Invalid option!");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.(message from update stock)");
+                sc.nextLine(); // Clear the buffer
+                choice = -1; // Reset choice to avoid accidental logout or exit
             }
-        } while (choice!=0);
+        }while (choice!=0);
 
     }
 
@@ -675,75 +703,80 @@ public class StockManagement {
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;
             do{
-                int options=1;
-                Map <Integer, String> actionMap = new HashMap<>();
-                if(staff.can(VIEW_PRODUCTS)){
-                    System.out.println(options + ". View Products");
-                    actionMap.put(options++, VIEW_PRODUCTS);
-                }
-                if (staff.can(UPDATE_STOCK)){
-                    System.out.println(options + ". Update Stock");
-                    actionMap.put(options++, UPDATE_STOCK);               
-                }
-                if(staff.can(MANAGE_ACCOUNT)){
-                    System.out.println(options + ". Manage account");
-                    actionMap.put(options++, MANAGE_ACCOUNT);               
-                }
-                if(staff.can(COMPLETE_ORDER)){
-                    System.out.println(options + ". Complete Order");
-                    actionMap.put(options++, COMPLETE_ORDER);               
-                }
-                if(staff.can(SELL_PRODUCT)){
-                    System.out.println(options + ". Sell Product");
-                    actionMap.put(options++, SELL_PRODUCT);               
-                }
-                if(staff.can(VIEW_RECIPT)){
-                    System.out.println(options + ". View Receipt");
-                    actionMap.put(options++, VIEW_RECIPT);               
-                }
-                System.out.println(options + ". Logout");
-                int logoutOption = options;
-                System.out.println("0. Exit");
-
-                System.out.print("Your choice : ");
-                choice = sc.nextInt();
-                sc.nextLine();
-
-                if(choice == 0){
-                    System.out.println("Exit");
-                    return;
-                } else if (choice == logoutOption) {
-                    System.out.println("Logging out...");
-                    isLogin = false;
-                } else if (actionMap.containsKey(choice)) {
-                    String action = actionMap.get(choice);
-                    switch (action) {
-                        case VIEW_PRODUCTS:
-                            printItems(products);          
-                            break;
-                        case UPDATE_STOCK:
-                            updateStock();
-                            break;
-                        case MANAGE_ACCOUNT:
-                            manageStaffMenu();
-                            break;
-                        case COMPLETE_ORDER:
-                            completeOrder();
-                            break;
-                        case SELL_PRODUCT:
-                            sellItem();
-                            break;
-                        case VIEW_RECIPT:
-                            viewRecipt();
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
+                try{
+                    int options=1;
+                    Map <Integer, String> actionMap = new HashMap<>();
+                    if(staff.can(VIEW_PRODUCTS)){
+                        System.out.println(options + ". View Products");
+                        actionMap.put(options++, VIEW_PRODUCTS);
                     }
-                } else {
-                    System.out.println("Invalid choice. Please try again.");
+                    if (staff.can(UPDATE_STOCK)){
+                        System.out.println(options + ". Update Stock");
+                        actionMap.put(options++, UPDATE_STOCK);               
+                    }
+                    if(staff.can(MANAGE_ACCOUNT)){
+                        System.out.println(options + ". Manage account");
+                        actionMap.put(options++, MANAGE_ACCOUNT);               
+                    }
+                    if(staff.can(COMPLETE_ORDER)){
+                        System.out.println(options + ". Complete Order");
+                        actionMap.put(options++, COMPLETE_ORDER);               
+                    }
+                    if(staff.can(SELL_PRODUCT)){
+                        System.out.println(options + ". Sell Product");
+                        actionMap.put(options++, SELL_PRODUCT);               
+                    }
+                    if(staff.can(VIEW_RECIPT)){
+                        System.out.println(options + ". View Receipt");
+                        actionMap.put(options++, VIEW_RECIPT);               
+                    }
+                    System.out.println(options + ". Logout");
+                    int logoutOption = options;
+                    System.out.println("0. Exit");
+
+                    System.out.print("Your choice : ");
+                    choice = sc.nextInt();
+                    sc.nextLine();
+
+                    if(choice == 0){
+                        System.out.println("Exit");
+                        return;
+                    } else if (choice == logoutOption) {
+                        System.out.println("Logging out...");
+                        isLogin = false;
+                    } else if (actionMap.containsKey(choice)) {
+                        String action = actionMap.get(choice);
+                        switch (action) {
+                            case VIEW_PRODUCTS:
+                                printItems(products);          
+                                break;
+                            case UPDATE_STOCK:
+                                updateStock();
+                                break;
+                            case MANAGE_ACCOUNT:
+                                manageStaffMenu();
+                                break;
+                            case COMPLETE_ORDER:
+                                completeOrder();
+                                break;
+                            case SELL_PRODUCT:
+                                sellItem();
+                                break;
+                            case VIEW_RECIPT:
+                                viewRecipt();
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+                    } else {
+                        System.out.println("Invalid choice. Please try again.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again with a number.(message from main menu)");
+                    sc.nextLine(); // Clear the buffer
+                    choice = -1; // Reset choice to avoid accidental logout or exit
                 }
             }while (choice!=0 && isLogin);
-                
             
         }while (choice!=0);
     }
