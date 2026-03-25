@@ -701,10 +701,19 @@ public class StockManagement {
     void run(){
         int choice=1;
         do{
-            IStaff staff = login();
-            if (staff == null) {
-                System.out.println("Login failed.");
-                return;
+            IStaff staff = null;
+            while (staff == null) {
+                staff = login();
+                if(staff == null) {
+                    System.out.println("Login failed.");
+                    System.out.print("Do you want to try again? (Y to continue): ");
+                    String retry = sc.nextLine();
+                    if (!retry.equalsIgnoreCase("Y")) {
+                        System.out.println("Exiting the system. Goodbye!");
+                        return;
+                    }
+
+                }
             }
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;
