@@ -483,23 +483,21 @@ public class StockManagement {
             if (staff.getUsername().equals(name)) {
 
                 if (!staff.getPhoneNumber().equals(pnum)) {
-                    System.out.println("Incorrect.");
+                    System.out.println("input incorrect or staff not found.");
                     return null;
                 }
 
                 if (!staff.checkPassword(pwnum)) {
-                    System.out.println("Incorrect.");
+                    System.out.println("Input incorrect or staff not found.");
                     return null;
                 }
 
                 return staff; // success
             }else {
-                System.out.println("Incorrect.");
+                System.out.println("Input incorrect or staff not found.");
                 return null;
             }
         }
-
-        System.out.println("Incorrect.");
         return null;
     }
 
@@ -742,6 +740,8 @@ public class StockManagement {
             System.out.print("ID >>");
             id3 = sc.nextInt();
             deleteItem(id3);
+            System.out.println("Item deleted successfully!");
+            printItems(products);
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.(message from delete item)");
             sc.nextLine(); // Clear the buffer
