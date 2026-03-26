@@ -13,6 +13,7 @@ import user.Manager;
 import user.Staff;
 import user.Stocker;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -91,7 +92,7 @@ public class StockManagement {
     public void addItem(String category,String name,int quantity,double importPrice,String importDateStr,double exportPrice,String expiredDateStr) {
         DateTimeFormatter convert = DateTimeFormatter.ofPattern("d/M/yyyy");
         try {
-            LocalDate importDate = LocalDate.parse(importDateStr, convert);
+            LocalDate importDate = LocalDate.now();
             LocalDate expiredDate = LocalDate.parse(expiredDateStr, convert);
             products.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
         } catch (Exception e) {
@@ -141,18 +142,14 @@ public class StockManagement {
     
 
     // Staff Management
-    private void removeStaff(){
-            currentUser = login();
-            if(currentUser == null){
-                System.out.println("Login failed.");
-                return;
-            }
+    private void removeStaff(IStaff staff){
+            
             ShowStaffList();
             System.out.println("Enter THe StaffID to Update:");
             int id=sc.nextInt();
             sc.nextLine();
             Staff s = findStaffById(id);
-            if (s == currentUser) {
+            if (s == staff) {
                 System.out.println("You cannot remove your own account!");
                 return;
             }
@@ -488,16 +485,38 @@ public class StockManagement {
         String name = sc.nextLine();
         System.out.print("Phone Number : ");
         String pnum = sc.nextLine();
-        System.out.print("Password : ");
-        String pwnum = sc.nextLine();
-        for (IStaff staff : staffs){
-            if(staff.getUsername().equals(name) && staff.getPhoneNumber().equals(pnum) && staff.checkPassword(pwnum)){
-                return staff;
+        Console console = System.console();
+        String pwnum;
+        if (console != null) {
+            char[] passwordChars = console.readPassword("Password : ");
+            pwnum = new String(passwordChars);
+        } else {
+            // Fallback if Console is not available (e.g., in IDEs)
+            System.out.print("Password : ");
+            pwnum = sc.nextLine();
+        }
+
+        for (IStaff staff : staffs) {
+            if (staff.getUsername().equals(name)) {
+
+                if (!staff.getPhoneNumber().equals(pnum)) {
+                    System.out.println("Incorrect.");
+                    return null;
+                }
+
+                if (!staff.checkPassword(pwnum)) {
+                    System.out.println("Incorrect.");
+                    return null;
+                }
+
+                return staff; // success
             }
         }
+
+        System.out.println("Incorrect.");
         return null;
     }
-    public void manageStaffMenu() {
+    public void manageStaffMenu(IStaff staff) {
         int choice;
         do {
             try {
@@ -533,7 +552,7 @@ public class StockManagement {
                         SearchStaff();
                         break;
                     case 5:
-                        removeStaff();
+                        removeStaff(staff);
                         break;
                     case 0:
                         System.out.println("Returning to main menu...");
@@ -590,8 +609,8 @@ public class StockManagement {
                             System.out.print("Export Price $ >> ");
                             exportPrice = sc.nextDouble();
                             
-                            System.out.print("Import Date as (D/M/YYYY) >> ");
-                            importDate = sc.next();
+                            
+                            importDate = LocalDate.now().toString();
 
                             System.out.print("Expire Date as (D/M/YYYY) >> ");
                             expireDate = sc.next();
@@ -663,7 +682,7 @@ public class StockManagement {
         }while (choice!=0);
 
     }
-
+    
     private void setDefaultData(){
         // Anonymous Inner Class
         Staff admin = new Manager(
@@ -682,9 +701,6 @@ public class StockManagement {
         staffs.add(admin);
 
         // Normal
-
-        Staff manager1 = new Manager("admin", "admin123", "0123456789", "admin@gmail.com", LocalDate.now().toString(), 1000, 200);
-        staffs.add(manager1);
         Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500, "Morning");
         staffs.add(stocker1);
         Staff cashier1 = new Cashier("cashier1", "cash123", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
@@ -694,27 +710,19 @@ public class StockManagement {
         products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
         products.add(new Product("Drink","Water",200,0.2,LocalDate.now(),0.5,LocalDate.now().plusDays(30)));
         products.add(new Product("Food","Cake",50,1.0,LocalDate.now(),2.0,LocalDate.now().plusDays(3)));
-        products.add(new Product("Food","Milk",80,0.8,LocalDate.now(),1.5,LocalDate.now().plusDays(5)));
+        products.add(new Product("Food","Milk",80,   0.8,LocalDate.now(),1.5,LocalDate.now().plusDays(5)));
         products.add(new Product("Drink","Juice",120,0.3,LocalDate.now(),0.8,LocalDate.now().plusDays(20)));
     }
 
     void run(){
         int choice=1;
         do{
-            IStaff staff = null;
-            while (staff == null) {
-                staff = login();
-                if(staff == null) {
-                    System.out.println("Login failed.");
-                    System.out.print("Do you want to try again? (Y to continue): ");
-                    String retry = sc.nextLine();
-                    if (!retry.equalsIgnoreCase("Y")) {
-                        System.out.println("Exiting the system. Goodbye!");
-                        return;
-                    }
-
-                }
+            IStaff staff = login();
+            if (staff == null) {
+                System.out.println("Login failed.");
+                continue;
             }
+
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;
             do{
@@ -769,7 +777,7 @@ public class StockManagement {
                                 updateStock();
                                 break;
                             case MANAGE_ACCOUNT:
-                                manageStaffMenu();
+                                manageStaffMenu(staff);
                                 break;
                             case COMPLETE_ORDER:
                                 completeOrder();
@@ -799,6 +807,53 @@ public class StockManagement {
             
         }while (choice!=0);
     }
+
+    // void test(){
+    //         int choice;
+    //         do{
+    //             System.out.println("1. View Products");
+    //             System.out.println("2. Update Stock");
+    //             System.out.println("3. Manage account");
+    //             System.out.println("4. Complete Order");
+    //             System.out.println("5. Sell Product");
+    //             System.out.println("6. View Receipt");
+    //             System.out.println("0. Exit");
+    
+    //             System.out.print("Your choice : ");
+    //             choice = sc.nextInt();
+    //             sc.nextLine();
+    
+    //             switch(choice){
+    //                 case 1:
+    //                     printItems(products);          
+    //                     break;
+    //                 case 2:
+    //                     updateStock();
+    //                     break;
+    //                 case 3:
+    //                     manageStaffMenu();
+    //                     break;
+    //                 case 4:
+    //                     completeOrder();
+    //                     break;
+    //                 case 5:
+    //                     try {
+    //                         sellItem();
+    //                     } catch (IllegalArgumentException e) {
+    //                         System.out.println(e.getMessage());
+    //                     }
+    //                     break;
+    //                 case 6:
+    //                     viewRecipt();
+    //                     break;
+    //                 case 0:
+    //                     System.out.println("Exit");
+    //                     break;
+    //                 default:
+    //                     System.out.println("Invalid choice. Please try again.");
+    //             }
+    //         }while (choice!=0);
+    // }
 
     
 }
