@@ -16,9 +16,11 @@ import user.Stocker;
 import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class StockManagement {
     Scanner sc = new Scanner(System.in);
+    DateTimeFormatter convert = DateTimeFormatter.ofPattern("d/M/yyyy");
 
     public static final String VIEW_PRODUCTS = "View Products";
     public static final String SELL_PRODUCT = "Sell Product";
@@ -89,11 +91,13 @@ public class StockManagement {
 
 
     // Product Management
-    public void addItem(String category,String name,int quantity,double importPrice,String importDateStr,double exportPrice,String expiredDateStr) {
-        DateTimeFormatter convert = DateTimeFormatter.ofPattern("d/M/yyyy");
+    public void addItem(String category,String name,int quantity,double importPrice,double exportPrice,LocalDate expiredDate) {
         try {
             LocalDate importDate = LocalDate.now();
-            LocalDate expiredDate = LocalDate.parse(expiredDateStr, convert);
+            if(expiredDate.isBefore(importDate)){
+                System.out.println("Expired date must be after import date. Please try again.");
+                return;
+            }
             products.add(new Product(category, name, quantity, importPrice, importDate, exportPrice, expiredDate));
         } catch (Exception e) {
             System.out.println("Invalid date format. Please use D/M/YYYY.");
@@ -568,6 +572,37 @@ public class StockManagement {
         } while (choice != 0);
     }
 
+    private String setCategory(){
+        int choice;
+        System.out.println("1. Food");
+        System.out.println("2. Drink");
+        System.out.println("3. Household");
+        System.out.println("4. Personal Care");
+        System.out.println("5. Snacks");
+        System.out.println("6. Frozen Food");
+        System.out.print("Enter category that you want to create from 1 to 6 : ");
+        choice=sc.nextInt();
+        sc.nextLine(); // Clear the buffer
+
+        switch(choice){
+            case 1:
+                return "Food";
+            case 2:
+                return "Drink";
+            case 3:
+                return "Household";
+            case 4:
+                return "Personal Care";
+            case 5:
+                return "Snacks";
+            case 6:
+                return "Frozen Food";
+            default:
+                System.out.println("Invalid choice. Default category set to 'Food'.");
+                return null;
+        }
+    }
+
     private void updateStock(){
         int choice;
         do{
@@ -582,49 +617,91 @@ public class StockManagement {
                 choice = sc.nextInt();
                 switch(choice){
                     case 1:
-                        try {
-                            System.out.println("\n Add New Item");
-                            System.out.println("Please input product information");
+                        System.out.println("\n Add New Item");
+                        System.out.println("Please input product information");
+                        
+                        String category;
+                        String name;
+                        int qty;
+                        double importPrice;
+                        double exportPrice;
+                        LocalDate expireDate = null;
+                        
+                        while (true) {
+                            try {
+                                boolean validCategory = false;
+                                boolean validQty = false;
+                                boolean validImportPrice = false;
+                                boolean validExportPrice = false;
+                                boolean validExpireDate = false;
 
-                            String category;
-                            String name;
-                            int qty;
-                            double importPrice;
-                            String importDate;
-                            double exportPrice;
-                            String expireDate;
+                                do {
+                                    System.out.println("Category >> ");
+                                    category = setCategory();
+                                    if (category != null) {
+                                        validCategory = true;
+                                    } else {
+                                        System.out.println("Invalid category. Please try again.");
+                                    }
+                                } while (!validCategory);
+                                
+                                System.out.print("Name >> ");
+                                name = sc.next();
 
-                            System.out.print("Category >> ");
-                            category = sc.next();
+                                do {
+                                    System.out.print("Quantity >> ");
+                                    qty = sc.nextInt();
+                                    if (qty > 0) {
+                                        validQty = true;
+                                    } else {
+                                        System.out.println("Invalid quantity. Please enter a positive integer.");
+                                    }
+                                }while (!validQty);
 
-                            System.out.print("Name >> ");
-                            name = sc.next();
+                                do {
+                                    System.out.print("Import Price $ >> ");
+                                    importPrice = sc.nextDouble();
+                                    if(importPrice <= 0){
+                                        System.out.println("Invalid Import Price. Please try again.");
+                                    }else{
+                                        validImportPrice = true;
+                                    }
+                                } while (!validImportPrice);
 
-                            System.out.print("Quantity >> ");
-                            qty = sc.nextInt();
+                                do {
+                                    System.out.print("Export Price $ >> ");
+                                    exportPrice = sc.nextDouble();
+                                    if(exportPrice <= 0){
+                                        System.out.println("Invalid Export Price. Please try again.");                               
+                                        continue;
+                                    }
+                                    validExportPrice = true;
+                                } while (!validExportPrice);
+                                
+                                do {
+                                    System.out.print("Expire Date as (D/M/YYYY) >> ");
+                                    String expireDateStr = sc.next();
+                                    try {
+                                        expireDate = LocalDate.parse(expireDateStr, convert);
+                                        validExpireDate = true;
+                                    } catch (DateTimeParseException e) {
+                                        System.out.println("Invalid date format. Please try again.");
+                                    }
+                                } while (!validExpireDate);
 
-                            System.out.print("Import Price $ >> ");
-                            importPrice = sc.nextDouble();
-
-                            System.out.print("Export Price $ >> ");
-                            exportPrice = sc.nextDouble();
-                            
-                            
-                            importDate = LocalDate.now().toString();
-
-                            System.out.print("Expire Date as (D/M/YYYY) >> ");
-                            expireDate = sc.next();
-
-                            addItem(category, name, qty, importPrice, importDate, exportPrice, expireDate);
-                            printItems(products);
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Invalid input. Please try again.(message from add item)");
-                            sc.nextLine(); // Clear the buffer
-                            break;
+                                break; // Exit the loop if all inputs are valid
+                            } catch (Exception e) {
+                                System.out.println("Invalid input. Please try again.(message from add item)");
+                                sc.nextLine(); // Clear the buffer
+                            }
                         }
+
+                        addItem(category, name, qty, importPrice, exportPrice, expireDate);
+                        printItems(products);
+                        break;
                     case 2:
-                    try{ 
+                        try{ 
+                            printItems(products);
                             System.out.println("\n Increase Item's Quantity");
                             System.out.println("Please Input the ID and Increase value");
                             int id;
@@ -642,6 +719,7 @@ public class StockManagement {
                         }
                     case 3:    
                         try{
+                            printItems(products);
                             System.out.println("\n Decrease Item's Quantity");
                             System.out.println("Please Input the ID and Decrease value");
                             int id2;
@@ -659,6 +737,7 @@ public class StockManagement {
                         }
                     case 4:
                         try{
+                            printItems(products);
                             System.out.println("\n Delete Item");
                             System.out.println("Please Input the ID of product");
                             int id3;
@@ -671,6 +750,9 @@ public class StockManagement {
                             sc.nextLine(); // Clear the buffer
                             break;
                         }
+                    case 0:
+                        System.out.println("Returning to main menu...");
+                        break;
                     default:
                         System.out.println("Invalid option!");
                 }
@@ -703,7 +785,7 @@ public class StockManagement {
         // Normal
         Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500, "Morning");
         staffs.add(stocker1);
-        Staff cashier1 = new Cashier("cashier1", "cash123", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
+        Staff cashier1 = new Cashier("cashier1", "cash1234", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
         staffs.add(cashier1);
 
 
@@ -808,52 +890,52 @@ public class StockManagement {
         }while (choice!=0);
     }
 
-    // void test(){
-    //         int choice;
-    //         do{
-    //             System.out.println("1. View Products");
-    //             System.out.println("2. Update Stock");
-    //             System.out.println("3. Manage account");
-    //             System.out.println("4. Complete Order");
-    //             System.out.println("5. Sell Product");
-    //             System.out.println("6. View Receipt");
-    //             System.out.println("0. Exit");
+    void test(){
+            int choice;
+            do{
+                System.out.println("1. View Products");
+                System.out.println("2. Update Stock");
+                System.out.println("3. Manage account");
+                System.out.println("4. Complete Order");
+                System.out.println("5. Sell Product");
+                System.out.println("6. View Receipt");
+                System.out.println("0. Exit");
     
-    //             System.out.print("Your choice : ");
-    //             choice = sc.nextInt();
-    //             sc.nextLine();
+                System.out.print("Your choice : ");
+                choice = sc.nextInt();
+                sc.nextLine();
     
-    //             switch(choice){
-    //                 case 1:
-    //                     printItems(products);          
-    //                     break;
-    //                 case 2:
-    //                     updateStock();
-    //                     break;
-    //                 case 3:
-    //                     manageStaffMenu();
-    //                     break;
-    //                 case 4:
-    //                     completeOrder();
-    //                     break;
-    //                 case 5:
-    //                     try {
-    //                         sellItem();
-    //                     } catch (IllegalArgumentException e) {
-    //                         System.out.println(e.getMessage());
-    //                     }
-    //                     break;
-    //                 case 6:
-    //                     viewRecipt();
-    //                     break;
-    //                 case 0:
-    //                     System.out.println("Exit");
-    //                     break;
-    //                 default:
-    //                     System.out.println("Invalid choice. Please try again.");
-    //             }
-    //         }while (choice!=0);
-    // }
+                switch(choice){
+                    case 1:
+                        printItems(products);          
+                        break;
+                    case 2:
+                        updateStock();
+                        break;
+                    case 3:
+                        manageStaffMenu(staffs.get(0));
+                        break;
+                    case 4:
+                        completeOrder();
+                        break;
+                    case 5:
+                        try {
+                            sellItem();
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    case 6:
+                        viewRecipt();
+                        break;
+                    case 0:
+                        System.out.println("Exit");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }while (choice!=0);
+    }
 
     
 }
