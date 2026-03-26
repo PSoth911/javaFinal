@@ -5,7 +5,7 @@ public class Stocker extends Staff {
     private String shift;
     @Override
     public boolean can(String action) {
-        if (action.equals(StockManagement.VIEW_PRODUCTS) || action.equals(StockManagement.UPDATE_STOCK)) {
+        if (action.equals(StockManagement.VIEW_PRODUCTS) || action.equals(StockManagement.UPDATE_STOCK) || action.equals(StockManagement.ADD_ITEM) || action.equals(StockManagement.DELETE_ITEM)) {
             return true;
         }
         return false;

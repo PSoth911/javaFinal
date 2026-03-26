@@ -28,6 +28,8 @@ public class StockManagement {
     public static final String VIEW_RECIPT = "View Receipt";
     public static final String MANAGE_ACCOUNT = "Manage account";
     public static final String COMPLETE_ORDER = "Complete order";
+    public static final String ADD_ITEM = "Add Item";
+    public static final String DELETE_ITEM = "Delete Item"; 
 
     private String shopName;
     private String address;
@@ -35,7 +37,6 @@ public class StockManagement {
     ArrayList<Staff> staffs;
     ArrayList<Order> orders;
     private Order currentOrder = null;
-    private IStaff currentUser;
 
     public StockManagement(String shopName, String address) {
         this.setShopName(shopName);
@@ -45,14 +46,13 @@ public class StockManagement {
         staffs = new ArrayList<>();
         orders = new ArrayList<>();
 
-        
         setDefaultData();
     }
-    
 
     public String getShopName() {
         return shopName;
     }
+
     public String getAddress() {
         return address;
     }
@@ -60,41 +60,41 @@ public class StockManagement {
     public void setShopName(String shopName) {
         this.shopName = shopName;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
 
- 
     @FunctionalInterface
     public interface StaffFilter {
         boolean test(Staff s);
     }
-  
-    public void showActiveStaff(ArrayList<Staff> staffs){
-    //Anonymous Inner
-    // StaffFilter filter = new StaffFilter() {
-    //     @Override
-    //     public boolean test(Staff s) {
-    //             return s.isActive();
-    //         }
-    //     };
 
-    // lambda Expression
-    StaffFilter filter = s -> s.isActive();
+    public void showActiveStaff(ArrayList<Staff> staffs) {
+        // Anonymous Inner
+        // StaffFilter filter = new StaffFilter() {
+        // @Override
+        // public boolean test(Staff s) {
+        // return s.isActive();
+        // }
+        // };
 
-        for(Staff s : staffs){
-            if(filter.test(s)){
+        // lambda Expression
+        StaffFilter filter = s -> s.isActive();
+
+        for (Staff s : staffs) {
+            if (filter.test(s)) {
                 System.out.println(s);
             }
         }
     }
 
-
     // Product Management
-    public void addItem(String category,String name,int quantity,double importPrice,double exportPrice,LocalDate expiredDate) {
+    public void addItem(String category, String name, int quantity, double importPrice, double exportPrice,
+            LocalDate expiredDate) {
         try {
             LocalDate importDate = LocalDate.now();
-            if(expiredDate.isBefore(importDate)){
+            if (expiredDate.isBefore(importDate)) {
                 System.out.println("Expired date must be after import date. Please try again.");
                 return;
             }
@@ -104,81 +104,80 @@ public class StockManagement {
         }
     }
 
-    public void deleteItem(int id){
-       for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId()== id) {
+    public void deleteItem(int id) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId() == id) {
                 products.remove(i);
                 break;
             }
         }
     }
 
-    public void increaseItemByValue(int id,int value){
-       for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId()== id) {
+    public void increaseItemByValue(int id, int value) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId() == id) {
                 products.get(i).setQuantity(products.get(i).getQuantity() + value);
                 break;
             }
         }
     }
-    public void decreaseItemByValue(int id,int value){
-       for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId()== id) {
-                if (products.get(i).getQuantity()>=value){
+
+    public void decreaseItemByValue(int id, int value) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId() == id) {
+                if (products.get(i).getQuantity() >= value) {
                     products.get(i).setQuantity(products.get(i).getQuantity() - value);
                     break;
-                }else if(products.get(i).getQuantity()==0){
+                } else if (products.get(i).getQuantity() == 0) {
                     System.out.println("Item is zero");
-                }else{
+                } else {
                     System.out.println("Item's quantity < Decrease");
                 }
             }
         }
     }
 
-    public static void printItems(ArrayList<Product> items){
+    public static void printItems(ArrayList<Product> items) {
         System.out.println("ID\tCategory\tName\tQuantity\tImport Price\tImport Date\tExport Price\t\tExpired Date");
-        for (Product item : items){
-            System.out.println(item.getId() + "\t" +item.getCategory() + "\t\t" + item.getName() + "\t" + item.getQuantity()+ "\t\t" + item.getImportPrice()+ "\t\t" +item.getImportDate()+ "\t\t" + item.getExportPrice() + "\t\t" + item.getExpiredDate());
+        for (Product item : items) {
+            System.out.println(item.getId() + "\t" + item.getCategory() + "\t\t" + item.getName() + "\t"
+                    + item.getQuantity() + "\t\t" + item.getImportPrice() + "\t\t" + item.getImportDate() + "\t\t"
+                    + item.getExportPrice() + "\t\t" + item.getExpiredDate());
         }
     }
 
-    
-
     // Staff Management
-    private void removeStaff(IStaff staff){
-            
-            ShowStaffList();
-            System.out.println("Enter THe StaffID to Update:");
-            int id=sc.nextInt();
-            sc.nextLine();
-            Staff s = findStaffById(id);
-            if (s == staff) {
-                System.out.println("You cannot remove your own account!");
-                return;
-            }
-            if (s != null) {
-                System.out.println("Are you sure you want to remove " + s.getUsername()
-                + "? (Y/N)");
-                String confirm = sc.nextLine();
-                    if (confirm.equalsIgnoreCase("Y")) {
-                        s.setActive(false);
-                        System.out.println("Staff removed successfully!");
-                    } else {
-                        System.out.println("Remove cancelled.");
-                    }
-            }else{
-                System.out.println("Staff is not FOund....!");
-            }
+    private void removeStaff(IStaff staff) {
 
-        
-    }
-
-
-    private void updateStaff(){
         ShowStaffList();
         System.out.println("Enter THe StaffID to Update:");
-        int id=sc.nextInt();
+        int id = sc.nextInt();
+        sc.nextLine();
+        Staff s = findStaffById(id);
+        if (s == staff) {
+            System.out.println("You cannot remove your own account!");
+            return;
+        }
+        if (s != null) {
+            System.out.println("Are you sure you want to remove " + s.getUsername()
+                    + "? (Y/N)");
+            String confirm = sc.nextLine();
+            if (confirm.equalsIgnoreCase("Y")) {
+                s.setActive(false);
+                System.out.println("Staff removed successfully!");
+            } else {
+                System.out.println("Remove cancelled.");
+            }
+        } else {
+            System.out.println("Staff is not FOund....!");
+        }
+
+    }
+
+    private void updateStaff() {
+        ShowStaffList();
+        System.out.println("Enter THe StaffID to Update:");
+        int id = sc.nextInt();
         sc.nextLine();
         Staff s = findStaffById(id);
 
@@ -187,11 +186,10 @@ public class StockManagement {
             String username = sc.nextLine();
 
             System.out.print("Enter oldUsername");
-            String oldusername=sc.nextLine();
+            String oldusername = sc.nextLine();
 
             System.out.print("Enter password of this staff");
-            String password= sc.nextLine();
-
+            String password = sc.nextLine();
 
             System.out.print("New phone number: ");
             String phone = sc.nextLine();
@@ -199,60 +197,56 @@ public class StockManagement {
             System.out.print("New email: ");
             String email = sc.nextLine();
 
-            if (!validstaffinput(username,password, phone, email)) {
+            if (!validstaffinput(username, password, phone, email)) {
                 throw new IllegalArgumentException("Update failed due to invalid input.");
             }
-            s.setUsername(username,oldusername,password);
-            s.setPhoneNumber(phone,password);
-            s.setEmail(email,password);
+            s.setUsername(username, oldusername, password);
+            s.setPhoneNumber(phone, password);
+            s.setEmail(email, password);
             System.out.print("Enter new password: ");
             String newPass = sc.nextLine();
 
             s.setpassword(password, newPass);
             System.out.println("staff updated successfully!");
         } else {
-        System.out.println("staff not found!");
+            System.out.println("staff not found!");
         }
     }
 
-
-
-    private Staff findStaffById(int id){
-        for(int i=0; i<staffs.size(); i++){
-        if(staffs.get(i).getId() == id){
-            return staffs.get(i);
+    private Staff findStaffById(int id) {
+        for (int i = 0; i < staffs.size(); i++) {
+            if (staffs.get(i).getId() == id) {
+                return staffs.get(i);
+            }
         }
-     }
         return null;
     }
 
-
-    private void SearchStaff(){
-        boolean check=false;
+    private void SearchStaff() {
+        boolean check = false;
         System.out.println("Enter UserName staff That you Want to search:");
-        String name=sc.nextLine();
+        String name = sc.nextLine();
         System.out.println("Enter Phone Number staff That you Want to search:");
-        String phone=sc.nextLine();
-        for(int i=0;i<staffs.size();i++){
-            if(staffs.get(i).getUsername().equalsIgnoreCase(name)&&staffs.get(i).getPhoneNumber().equals(phone)){
-                System.out.println("----------------------------------------------------------------------------------");
+        String phone = sc.nextLine();
+        for (int i = 0; i < staffs.size(); i++) {
+            if (staffs.get(i).getUsername().equalsIgnoreCase(name) && staffs.get(i).getPhoneNumber().equals(phone)) {
+                System.out
+                        .println("----------------------------------------------------------------------------------");
                 System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL");
-                System.out.println(staffs.get(i).getId() + "\t" 
-                               +staffs.get(i).getUsername() + "\t\t" 
-                               +staffs.get(i).getPhoneNumber() + "\t\t" 
-                               +staffs.get(i).getEmail());
-                               check=true;
+                System.out.println(staffs.get(i).getId() + "\t"
+                        + staffs.get(i).getUsername() + "\t\t"
+                        + staffs.get(i).getPhoneNumber() + "\t\t"
+                        + staffs.get(i).getEmail());
+                check = true;
             }
-            if(check!=true){
+            if (check != true) {
                 System.out.println("Staff not found...!");
             }
         }
-        
+
     }
 
-
-
-    private boolean validstaffinput(String username, String password,String phoneNumber ,String email){
+    private boolean validstaffinput(String username, String password, String phoneNumber, String email) {
         if (!username.matches("^[A-Za-z0-9]{5,}$")) {
             System.out.println("ERROR: Username must be at least 5 characters (letters and numbers only).");
             return false;
@@ -272,41 +266,38 @@ public class StockManagement {
         return true;
     }
 
-
-
     private void ShowStaffList() {
         System.out.println("------------------------------------Staff Dashbaord-------------------------------");
         System.out.println("ID\tUsername\t\tPhone\t\t\tEMAIL\t\t\tActive");
         System.out.println("----------------------------------------------------------------------------------");
-        for (int i=0;i<staffs.size();i++) {
-            System.out.println(staffs.get(i).getId() + "\t" 
-                               +staffs.get(i).getUsername() + "\t\t" 
-                               +staffs.get(i).getPhoneNumber() + "\t\t" 
-                               +staffs.get(i).getEmail() + "\t\t" 
-                               +staffs.get(i).isActive());
+        for (int i = 0; i < staffs.size(); i++) {
+            System.out.println(staffs.get(i).getId() + "\t"
+                    + staffs.get(i).getUsername() + "\t\t"
+                    + staffs.get(i).getPhoneNumber() + "\t\t"
+                    + staffs.get(i).getEmail() + "\t\t"
+                    + staffs.get(i).isActive());
         }
     }
 
-    
-    public String PostionChoice(){
+    public String PostionChoice() {
         int choice;
         System.out.println("1. Manager");
         System.out.println("2. Cashier");
         System.out.println("3. Stocker");
         System.out.print("Enter position that you want to create ");
-        choice=sc.nextInt();
-        if(choice==1){
+        choice = sc.nextInt();
+        if (choice == 1) {
             return "Manager";
-        }else if(choice==2){
+        } else if (choice == 2) {
             return "Cashier";
-        }else if(choice==3){
+        } else if (choice == 3) {
             return "Stocker";
-        }else{
+        } else {
             return "UNKNOW";
         }
     }
 
-    public void createStaff (){
+    public void createStaff() {
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
         System.out.print("Enter Password: ");
@@ -314,17 +305,17 @@ public class StockManagement {
         System.out.print("Enter Phone Number: ");
         String phoneNumber = sc.nextLine();
         System.out.print("Enter Email: ");
-        String email= sc.nextLine();    
+        String email = sc.nextLine();
         System.out.print("Enter Salary");
-        float salary=sc.nextFloat();
+        float salary = sc.nextFloat();
         String position = PostionChoice();
 
         if (!validstaffinput(username, password, phoneNumber, email)) {
             throw new IllegalArgumentException("Staff NOT added because invalid input.");
-            
+
         }
-        for(int i=0;i<staffs.size();i++){
-            if(username.equalsIgnoreCase(staffs.get(i).getUsername())){
+        for (int i = 0; i < staffs.size(); i++) {
+            if (username.equalsIgnoreCase(staffs.get(i).getUsername())) {
                 System.out.println("This staff already exits...!");
                 return;
             }
@@ -332,22 +323,21 @@ public class StockManagement {
         if (position.equalsIgnoreCase("Manager")) {
             System.out.print("Enter Bonus: ");
             float bonus = sc.nextFloat();
-            staffs.add(new Manager(username, password, phoneNumber, email,LocalDate.now().toString(),salary, bonus));
-            System.out.println("New Manager Add Sucessfully...!"); 
-        }else if(position.equalsIgnoreCase("Cashier")){
-            staffs.add(new Cashier(username, password, phoneNumber,email,LocalDate.now().toString(),salary));
-            System.out.println("New Cashier Add Sucessfully...!"); 
-        }else if(position.equalsIgnoreCase("Stocker")){
+            staffs.add(new Manager(username, password, phoneNumber, email, LocalDate.now().toString(), salary, bonus));
+            System.out.println("New Manager Add Sucessfully...!");
+        } else if (position.equalsIgnoreCase("Cashier")) {
+            staffs.add(new Cashier(username, password, phoneNumber, email, LocalDate.now().toString(), salary));
+            System.out.println("New Cashier Add Sucessfully...!");
+        } else if (position.equalsIgnoreCase("Stocker")) {
             System.out.print("Enter Shift (Morning/Evening/Night): ");
             String shift = sc.next();
             staffs.add(new Stocker(username, password, phoneNumber, email, LocalDate.now().toString(), salary, shift));
-            System.out.println("New Stocker Add Sucessfully...!"); 
-        }else {
+            System.out.println("New Stocker Add Sucessfully...!");
+        } else {
             System.out.println("Invalid input.");
         }
-        
-    }
 
+    }
 
     // Order Management
 
@@ -364,13 +354,13 @@ public class StockManagement {
 
                     if (qty <= item.getQuantity()) {
                         item.setQuantity(item.getQuantity() - qty);
-                        double afterDiscount = item.getExportPrice() - (item.getDiscount()*item.getExportPrice());
-                        double totalPrice = Math.round(qty * afterDiscount*100.0)/100.0;
-                        System.out.println("Discount : " + item.getDiscount()*100 +"%");
+                        double afterDiscount = item.getExportPrice() - (item.getDiscount() * item.getExportPrice());
+                        double totalPrice = Math.round(qty * afterDiscount * 100.0) / 100.0;
+                        System.out.println("Discount : " + item.getDiscount() * 100 + "%");
                         System.out.println("Sold " + qty + " " + item.getName() + "(s). Total: $" + totalPrice);
                         Order orderitem = new Order(item.getName(), qty, item.getExportPrice(), item.getDiscount());
                         if (currentOrder == null) {
-                        currentOrder = new Order();
+                            currentOrder = new Order();
                         }
                         currentOrder.addItem(orderitem);
                         System.out.println("Item added to current order.");
@@ -389,7 +379,6 @@ public class StockManagement {
             System.out.println("Item not found!");
         }
     }
-    
 
     public void completeOrder() {
         if (currentOrder != null && !currentOrder.getItems().isEmpty()) {
@@ -401,31 +390,31 @@ public class StockManagement {
             System.out.println("No items sold in this order.");
         }
     }
-    
+
     public void printReceipt(Order order) {
         if (order == null) {
             System.out.println("No active order.");
-        return;
+            return;
         }
 
-    System.out.println("\n=========== RECEIPT ==========");
-    System.out.println("Order ID: " + order.getOrderId());
-    System.out.println("--------------------------------");
-    System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
+        System.out.println("\n=========== RECEIPT ==========");
+        System.out.println("Order ID: " + order.getOrderId());
+        System.out.println("--------------------------------");
+        System.out.println("Product\tQty\tPrice\tDiscount\tTotal");
 
-    for (Order item : order.getItems()) {
-        System.out.println(
-            item.getProductName() + "\t" +
-            item.getQuantity() + "\t" +
-            item.getPrice() + "\t" +
-            item.getDiscount() + "\t\t" +
-            item.getTotal()
-        );
+        for (Order item : order.getItems()) {
+            System.out.println(
+                    item.getProductName() + "\t" +
+                            item.getQuantity() + "\t" +
+                            item.getPrice() + "\t" +
+                            item.getDiscount() + "\t\t" +
+                            item.getTotal());
+        }
+
+        System.out.println("|==============================|");
+        System.out.println("Grand Total: $" + order.getGrandTotal());
+        System.out.println("|==============================|");
     }
-
-    System.out.println("|==============================|");
-    System.out.println("Grand Total: $" + order.getGrandTotal());
-    System.out.println("|==============================|");}
 
     public void viewReceiptById() {
 
@@ -439,15 +428,16 @@ public class StockManagement {
         sc.nextLine();
 
         for (Order order : orders) {
-        if (order.getOrderId() == id) {
-            printReceipt(order);
-            return;
+            if (order.getOrderId() == id) {
+                printReceipt(order);
+                return;
+            }
         }
+
+        System.out.println("Order not found.");
     }
 
-    System.out.println("Order not found.");
-    }
-    public void viewallrecipts(){
+    public void viewallrecipts() {
         if (orders.isEmpty()) {
             System.out.println("No completed orders yet.");
             return;
@@ -457,10 +447,9 @@ public class StockManagement {
             printReceipt(order);
         }
 
-
     }
 
-    public void viewRecipt(){
+    public void viewRecipt() {
         System.out.println("Do you want to view all receipts or a specific one?");
         System.out.println("1. View All Receipts");
         System.out.println("2. View Specific Receipt");
@@ -479,11 +468,8 @@ public class StockManagement {
         }
     }
 
-
-
-
     // Login
-    private IStaff login(){
+    private IStaff login() {
         System.out.println("Please input your \"User Name\" \"Phone Number\" and \"Password\"");
         System.out.print("User Name : ");
         String name = sc.nextLine();
@@ -520,6 +506,7 @@ public class StockManagement {
         System.out.println("Incorrect.");
         return null;
     }
+
     public void manageStaffMenu(IStaff staff) {
         int choice;
         do {
@@ -533,7 +520,7 @@ public class StockManagement {
                 System.out.println("0. Back");
                 System.out.print("Enter choice: ");
                 choice = sc.nextInt();
-                sc.nextLine(); 
+                sc.nextLine();
                 switch (choice) {
                     case 1:
                         try {
@@ -543,7 +530,8 @@ public class StockManagement {
                         }
                         break;
                     case 2:
-                        ShowStaffList();;
+                        ShowStaffList();
+                        ;
                         break;
                     case 3:
                         try {
@@ -572,7 +560,7 @@ public class StockManagement {
         } while (choice != 0);
     }
 
-    private String setCategory(){
+    private String setCategory() {
         int choice;
         System.out.println("1. Food");
         System.out.println("2. Drink");
@@ -581,10 +569,10 @@ public class StockManagement {
         System.out.println("5. Snacks");
         System.out.println("6. Frozen Food");
         System.out.print("Enter category that you want to create from 1 to 6 : ");
-        choice=sc.nextInt();
+        choice = sc.nextInt();
         sc.nextLine(); // Clear the buffer
 
-        switch(choice){
+        switch (choice) {
             case 1:
                 return "Food";
             case 2:
@@ -603,104 +591,19 @@ public class StockManagement {
         }
     }
 
-    private void updateStock(){
+    private void updateStock() {
         int choice;
-        do{
-            try{
+        do {
+            try {
                 System.out.println(">>>");
-                System.out.println("1. Add New Item");
-                System.out.println("2. Increase Item's Quantity");
-                System.out.println("3. Decrease Item's Quantity");
-                System.out.println("4. Delete Item");
+                System.out.println("1. Increase Item's Quantity");
+                System.out.println("2. Decrease Item's Quantity");
                 System.out.println("0. Back");
                 System.out.print("Enter option: ");
                 choice = sc.nextInt();
-                switch(choice){
+                switch (choice) {
                     case 1:
-                        System.out.println("\n Add New Item");
-                        System.out.println("Please input product information");
-                        
-                        String category;
-                        String name;
-                        int qty;
-                        double importPrice;
-                        double exportPrice;
-                        LocalDate expireDate = null;
-                        
-                        while (true) {
-                            try {
-                                boolean validCategory = false;
-                                boolean validQty = false;
-                                boolean validImportPrice = false;
-                                boolean validExportPrice = false;
-                                boolean validExpireDate = false;
-
-                                do {
-                                    System.out.println("Category >> ");
-                                    category = setCategory();
-                                    if (category != null) {
-                                        validCategory = true;
-                                    } else {
-                                        System.out.println("Invalid category. Please try again.");
-                                    }
-                                } while (!validCategory);
-                                
-                                System.out.print("Name >> ");
-                                name = sc.next();
-
-                                do {
-                                    System.out.print("Quantity >> ");
-                                    qty = sc.nextInt();
-                                    if (qty > 0) {
-                                        validQty = true;
-                                    } else {
-                                        System.out.println("Invalid quantity. Please enter a positive integer.");
-                                    }
-                                }while (!validQty);
-
-                                do {
-                                    System.out.print("Import Price $ >> ");
-                                    importPrice = sc.nextDouble();
-                                    if(importPrice <= 0){
-                                        System.out.println("Invalid Import Price. Please try again.");
-                                    }else{
-                                        validImportPrice = true;
-                                    }
-                                } while (!validImportPrice);
-
-                                do {
-                                    System.out.print("Export Price $ >> ");
-                                    exportPrice = sc.nextDouble();
-                                    if(exportPrice <= 0){
-                                        System.out.println("Invalid Export Price. Please try again.");                               
-                                        continue;
-                                    }
-                                    validExportPrice = true;
-                                } while (!validExportPrice);
-                                
-                                do {
-                                    System.out.print("Expire Date as (D/M/YYYY) >> ");
-                                    String expireDateStr = sc.next();
-                                    try {
-                                        expireDate = LocalDate.parse(expireDateStr, convert);
-                                        validExpireDate = true;
-                                    } catch (DateTimeParseException e) {
-                                        System.out.println("Invalid date format. Please try again.");
-                                    }
-                                } while (!validExpireDate);
-
-                                break; // Exit the loop if all inputs are valid
-                            } catch (Exception e) {
-                                System.out.println("Invalid input. Please try again.(message from add item)");
-                                sc.nextLine(); // Clear the buffer
-                            }
-                        }
-
-                        addItem(category, name, qty, importPrice, exportPrice, expireDate);
-                        printItems(products);
-                        break;
-                    case 2:
-                        try{ 
+                        try {
                             printItems(products);
                             System.out.println("\n Increase Item's Quantity");
                             System.out.println("Please Input the ID and Increase value");
@@ -711,14 +614,14 @@ public class StockManagement {
                             System.out.print("Increase value >>");
                             inc = sc.nextInt();
                             increaseItemByValue(inc, id);
-                            break; 
-                        }catch (Exception e) {
+                            break;
+                        } catch (Exception e) {
                             System.out.println("Invalid input. Please try again.(message from increase item)");
                             sc.nextLine(); // Clear the buffer
                             break;
                         }
-                    case 3:    
-                        try{
+                    case 2:
+                        try {
                             printItems(products);
                             System.out.println("\n Decrease Item's Quantity");
                             System.out.println("Please Input the ID and Decrease value");
@@ -729,24 +632,9 @@ public class StockManagement {
                             System.out.print("Decrease value >>");
                             dec = sc.nextInt();
                             decreaseItemByValue(id2, dec);
-                            break; 
-                        }catch (Exception e) {
-                            System.out.println("Invalid input. Please try again.(message from decrease item)");
-                            sc.nextLine(); // Clear the buffer
                             break;
-                        }
-                    case 4:
-                        try{
-                            printItems(products);
-                            System.out.println("\n Delete Item");
-                            System.out.println("Please Input the ID of product");
-                            int id3;
-                            System.out.print("ID >>");
-                            id3 = sc.nextInt();
-                            deleteItem(id3);
-                            break; 
-                        }catch (Exception e) {
-                            System.out.println("Invalid input. Please try again.(message from delete item)");
+                        } catch (Exception e) {
+                            System.out.println("Invalid input. Please try again.(message from decrease item)");
                             sc.nextLine(); // Clear the buffer
                             break;
                         }
@@ -761,44 +649,144 @@ public class StockManagement {
                 sc.nextLine(); // Clear the buffer
                 choice = -1; // Reset choice to avoid accidental logout or exit
             }
-        }while (choice!=0);
+        } while (choice != 0);
 
     }
-    
-    private void setDefaultData(){
+
+    private void additem() {
+        System.out.println("\n Add New Item");
+        System.out.println("Please input product information");
+
+        String category;
+        String name;
+        int qty;
+        double importPrice;
+        double exportPrice;
+        LocalDate expireDate = null;
+
+        while (true) {
+            try {
+                boolean validCategory = false;
+                boolean validQty = false;
+                boolean validImportPrice = false;
+                boolean validExportPrice = false;
+                boolean validExpireDate = false;
+
+                do {
+                    System.out.println("Category >> ");
+                    category = setCategory();
+                    if (category != null) {
+                        validCategory = true;
+                    } else {
+                        System.out.println("Invalid category. Please try again.");
+                    }
+                } while (!validCategory);
+
+                System.out.print("Name >> ");
+                name = sc.next();
+
+                do {
+                    System.out.print("Quantity >> ");
+                    qty = sc.nextInt();
+                    if (qty > 0) {
+                        validQty = true;
+                    } else {
+                        System.out.println("Invalid quantity. Please enter a positive integer.");
+                    }
+                } while (!validQty);
+
+                do {
+                    System.out.print("Import Price $ >> ");
+                    importPrice = sc.nextDouble();
+                    if (importPrice <= 0) {
+                        System.out.println("Invalid Import Price. Please try again.");
+                    } else {
+                        validImportPrice = true;
+                    }
+                } while (!validImportPrice);
+
+                do {
+                    System.out.print("Export Price $ >> ");
+                    exportPrice = sc.nextDouble();
+                    if (exportPrice <= 0) {
+                        System.out.println("Invalid Export Price. Please try again.");
+                        continue;
+                    }
+                    validExportPrice = true;
+                } while (!validExportPrice);
+
+                do {
+                    System.out.print("Expire Date as (D/M/YYYY) >> ");
+                    String expireDateStr = sc.next();
+                    try {
+                        expireDate = LocalDate.parse(expireDateStr, convert);
+                        validExpireDate = true;
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Please try again.");
+                    }
+                } while (!validExpireDate);
+
+                break; // Exit the loop if all inputs are valid
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.(message from add item)");
+                sc.nextLine(); // Clear the buffer
+            }
+        }
+
+        addItem(category, name, qty, importPrice, exportPrice, expireDate);
+        printItems(products);
+    }
+
+    private void deleteitem() {
+        try {
+            printItems(products);
+            System.out.println("\n Delete Item");
+            System.out.println("Please Input the ID of product");
+            int id3;
+            System.out.print("ID >>");
+            id3 = sc.nextInt();
+            deleteItem(id3);
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please try again.(message from delete item)");
+            sc.nextLine(); // Clear the buffer
+        }
+    }
+
+    private void setDefaultData() {
         // Anonymous Inner Class
         Staff admin = new Manager(
-        "admin",
-        "admin123",
-        "0123456789",
-        "admin@gmail.com",
-        LocalDate.now().toString(),
-        1000,
-        200){
+                "admin",
+                "admin123",
+                "0123456789",
+                "admin@gmail.com",
+                LocalDate.now().toString(),
+                1000,
+                200) {
             @Override
-            public boolean can(String action){
+            public boolean can(String action) {
                 return true;
             }
         };
         staffs.add(admin);
 
         // Normal
-        Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com", LocalDate.now().toString(), 500, "Morning");
+        Staff stocker1 = new Stocker("stocker1", "stock123", "0987654321", "stocker@gmail.com",
+                LocalDate.now().toString(), 500, "Morning");
         staffs.add(stocker1);
-        Staff cashier1 = new Cashier("cashier1", "cash1234", "0112233445", "cashier@gmail.com", LocalDate.now().toString(), 400);
+        Staff cashier1 = new Cashier("cashier1", "cash1234", "0112233445", "cashier@gmail.com",
+                LocalDate.now().toString(), 400);
         staffs.add(cashier1);
 
-
-        products.add(new Product("Food","Bread",100,0.5,LocalDate.now(),1.0,LocalDate.now().plusDays(7)));
-        products.add(new Product("Drink","Water",200,0.2,LocalDate.now(),0.5,LocalDate.now().plusDays(30)));
-        products.add(new Product("Food","Cake",50,1.0,LocalDate.now(),2.0,LocalDate.now().plusDays(3)));
-        products.add(new Product("Food","Milk",80,   0.8,LocalDate.now(),1.5,LocalDate.now().plusDays(5)));
-        products.add(new Product("Drink","Juice",120,0.3,LocalDate.now(),0.8,LocalDate.now().plusDays(20)));
+        products.add(new Product("Food", "Bread", 100, 0.5, LocalDate.now(), 1.0, LocalDate.now().plusDays(7)));
+        products.add(new Product("Drink", "Water", 200, 0.2, LocalDate.now(), 0.5, LocalDate.now().plusDays(30)));
+        products.add(new Product("Food", "Cake", 50, 1.0, LocalDate.now(), 2.0, LocalDate.now().plusDays(3)));
+        products.add(new Product("Food", "Milk", 80, 0.8, LocalDate.now(), 1.5, LocalDate.now().plusDays(5)));
+        products.add(new Product("Drink", "Juice", 120, 0.3, LocalDate.now(), 0.8, LocalDate.now().plusDays(20)));
     }
 
-    void run(){
-        int choice=1;
-        do{
+    void run() {
+        int choice = 1;
+        do {
             IStaff staff = login();
             if (staff == null) {
                 System.out.println("Login failed.");
@@ -807,33 +795,41 @@ public class StockManagement {
 
             System.out.println("Login successful. Welcome, " + staff.getUsername() + "!");
             boolean isLogin = true;
-            do{
-                try{
-                    int options=1;
-                    Map <Integer, String> actionMap = new HashMap<>();
-                    if(staff.can(VIEW_PRODUCTS)){
+            do {
+                try {
+                    int options = 1;
+                    Map<Integer, String> actionMap = new HashMap<>();
+                    if (staff.can(VIEW_PRODUCTS)) {
                         System.out.println(options + ". View Products");
                         actionMap.put(options++, VIEW_PRODUCTS);
                     }
-                    if (staff.can(UPDATE_STOCK)){
+                    if (staff.can(UPDATE_STOCK)) {
                         System.out.println(options + ". Update Stock");
-                        actionMap.put(options++, UPDATE_STOCK);               
+                        actionMap.put(options++, UPDATE_STOCK);
                     }
-                    if(staff.can(MANAGE_ACCOUNT)){
+                    if (staff.can(MANAGE_ACCOUNT)) {
                         System.out.println(options + ". Manage account");
-                        actionMap.put(options++, MANAGE_ACCOUNT);               
+                        actionMap.put(options++, MANAGE_ACCOUNT);
                     }
-                    if(staff.can(COMPLETE_ORDER)){
+                    if (staff.can(COMPLETE_ORDER)) {
                         System.out.println(options + ". Complete Order");
-                        actionMap.put(options++, COMPLETE_ORDER);               
+                        actionMap.put(options++, COMPLETE_ORDER);
                     }
-                    if(staff.can(SELL_PRODUCT)){
+                    if (staff.can(SELL_PRODUCT)) {
                         System.out.println(options + ". Sell Product");
-                        actionMap.put(options++, SELL_PRODUCT);               
+                        actionMap.put(options++, SELL_PRODUCT);
                     }
-                    if(staff.can(VIEW_RECIPT)){
+                    if (staff.can(VIEW_RECIPT)) {
                         System.out.println(options + ". View Receipt");
-                        actionMap.put(options++, VIEW_RECIPT);               
+                        actionMap.put(options++, VIEW_RECIPT);
+                    }
+                    if (staff.can(ADD_ITEM)) {
+                        System.out.println(options + ". Add Item");
+                        actionMap.put(options++, ADD_ITEM);
+                    }
+                    if (staff.can(DELETE_ITEM)) {
+                        System.out.println(options + ". Delete Item");
+                        actionMap.put(options++, DELETE_ITEM);
                     }
                     System.out.println(options + ". Logout");
                     int logoutOption = options;
@@ -843,7 +839,7 @@ public class StockManagement {
                     choice = sc.nextInt();
                     sc.nextLine();
 
-                    if(choice == 0){
+                    if (choice == 0) {
                         System.out.println("Exit");
                         return;
                     } else if (choice == logoutOption) {
@@ -853,7 +849,7 @@ public class StockManagement {
                         String action = actionMap.get(choice);
                         switch (action) {
                             case VIEW_PRODUCTS:
-                                printItems(products);          
+                                printItems(products);
                                 break;
                             case UPDATE_STOCK:
                                 updateStock();
@@ -874,6 +870,12 @@ public class StockManagement {
                             case VIEW_RECIPT:
                                 viewRecipt();
                                 break;
+                            case ADD_ITEM:
+                                additem();  
+                                break;
+                            case DELETE_ITEM:   
+                                deleteitem();
+                                break;
                             default:
                                 System.out.println("Invalid choice. Please try again.");
                         }
@@ -885,59 +887,56 @@ public class StockManagement {
                     sc.nextLine(); // Clear the buffer
                     choice = -1; // Reset choice to avoid accidental logout or exit
                 }
-            }while (choice!=0 && isLogin);
-            
-        }while (choice!=0);
+            } while (choice != 0 && isLogin);
+
+        } while (choice != 0);
     }
 
-    void test(){
-            int choice;
-            do{
-                System.out.println("1. View Products");
-                System.out.println("2. Update Stock");
-                System.out.println("3. Manage account");
-                System.out.println("4. Complete Order");
-                System.out.println("5. Sell Product");
-                System.out.println("6. View Receipt");
-                System.out.println("0. Exit");
-    
-                System.out.print("Your choice : ");
-                choice = sc.nextInt();
-                sc.nextLine();
-    
-                switch(choice){
-                    case 1:
-                        printItems(products);          
-                        break;
-                    case 2:
-                        updateStock();
-                        break;
-                    case 3:
-                        manageStaffMenu(staffs.get(0));
-                        break;
-                    case 4:
-                        completeOrder();
-                        break;
-                    case 5:
-                        try {
-                            sellItem();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println(e.getMessage());
-                        }
-                        break;
-                    case 6:
-                        viewRecipt();
-                        break;
-                    case 0:
-                        System.out.println("Exit");
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
-            }while (choice!=0);
+    void test() {
+        int choice;
+        do {
+            System.out.println("1. View Products");
+            System.out.println("2. Update Stock");
+            System.out.println("3. Manage account");
+            System.out.println("4. Complete Order");
+            System.out.println("5. Sell Product");
+            System.out.println("6. View Receipt");
+            System.out.println("0. Exit");
+
+            System.out.print("Your choice : ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    printItems(products);
+                    break;
+                case 2:
+                    updateStock();
+                    break;
+                case 3:
+                    manageStaffMenu(staffs.get(0));
+                    break;
+                case 4:
+                    completeOrder();
+                    break;
+                case 5:
+                    try {
+                        sellItem();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 6:
+                    viewRecipt();
+                    break;
+                case 0:
+                    System.out.println("Exit");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 0);
     }
 
-    
 }
-
-
