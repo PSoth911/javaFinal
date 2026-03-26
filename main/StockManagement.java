@@ -493,6 +493,9 @@ public class StockManagement {
                 }
 
                 return staff; // success
+            }else {
+                System.out.println("Incorrect.");
+                return null;
             }
         }
 
