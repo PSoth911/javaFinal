@@ -71,14 +71,6 @@ public class StockManagement {
     }
 
     public void showActiveStaff(ArrayList<Staff> staffs) {
-        // Anonymous Inner
-        // StaffFilter filter = new StaffFilter() {
-        // @Override
-        // public boolean test(Staff s) {
-        // return s.isActive();
-        // }
-        // };
-
         // lambda Expression
         StaffFilter filter = s -> s.isActive();
 
@@ -470,10 +462,11 @@ public class StockManagement {
 
     // Login
     private IStaff login() {
-        System.out.println("Please input your \"User Name\" \"Phone Number\" and \"Password\"");
-        System.out.print("User Name : ");
+        System.out.println("==================Login==================");
+        System.out.println("Welcome to " + shopName + " Stock Management System");
+        System.out.print("Enter User Name : ");
         String name = sc.nextLine();
-        System.out.print("Phone Number : ");
+        System.out.print("Enter Phone Number : ");
         String pnum = sc.nextLine();
         Console console = System.console();
         String pwnum;
@@ -482,7 +475,7 @@ public class StockManagement {
             pwnum = new String(passwordChars);
         } else {
             // Fallback if Console is not available (e.g., in IDEs)
-            System.out.print("Password : ");
+            System.out.print("Enter Password : ");
             pwnum = sc.nextLine();
         }
 
